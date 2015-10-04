@@ -2,9 +2,6 @@ package com.consultica.techapalooza;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,9 +15,6 @@ import com.consultica.techapalooza.fragment.NewsFeedFragment;
 import com.consultica.techapalooza.fragment.ScheduleFragment;
 import com.consultica.techapalooza.fragment.TicketsFragment;
 import com.consultica.techapalooza.fragment.VenueFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
@@ -37,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             R.mipmap.ic_action_line_up,
             R.mipmap.ic_action_venue,
     };
-    
+
     private int[] tabIconsActive = {
             R.mipmap.ic_action_news_feed_active,
             R.mipmap.ic_action_schedule_active,

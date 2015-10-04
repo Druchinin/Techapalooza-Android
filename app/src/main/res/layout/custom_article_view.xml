@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/windowBackground"
+    android:layout_marginBottom="2dp">
+
+    <TextView
+        android:id="@+id/art_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_margin="8dp" />
+
+    <TextView
+        android:id="@+id/art_tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="March 5, 2015"
+        android:textColor="@color/textDateColor"
+        android:layout_marginLeft="8dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/art_iv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dummy_art_image"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/art_tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada, libero sodales malesuada scelerisque, purus elit luctus orci, sed consequat erat nisi efficitur purus. Sed pretium semper magna. Sed ac est non turpis condimentum scelerisque. Duis tincidunt lectus ut augue laoreet porttitor ut quis nisi. Maecenas vestibulum velit non elit rhoncus, at rutrum quam tincidunt. Suspendisse potenti. Nam egestas lacus in porttitor sagittis. Proin cursus pulvinar libero, vitae elementum urna eleifend consectetur. Donec pharetra nisl sem, sed ornare arcu faucibus id. Nullam ac est auctor, imperdiet tellus in, congue felis. In efficitur molestie ex, ut tempor ipsum viverra et."
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+</LinearLayout>
