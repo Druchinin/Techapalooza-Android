@@ -1,5 +1,6 @@
 package com.consultica.techapalooza;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private ViewPager viewPager;
     private TextView tv_tabOne, tv_tabTwo, tv_tabThree, tv_tabFour, tv_tabFive;
     private TabsPagerFragmentAdapter adapter;
+    private Typeface myTypeface;
 
     private int[] tabIcons = {
             R.mipmap.ic_action_news_feed,
@@ -44,15 +46,21 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/tradegothicltstd-cn18.otf");
 
         initTabs();
     }
 
     private void initTabs() {
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        TextView toolbar_title = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbar_title.setTypeface(myTypeface);
+
+        setupBackBtn(false);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
 
@@ -68,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     }
 
+    public void setupBackBtn(boolean state) {
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         adapter = new TabsPagerFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(new NewsFeedFragment(), "News");
@@ -76,31 +87,38 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         adapter.addFragment(new LineUpFragment(), "Line-up");
         adapter.addFragment(new VenueFragment(), "Venue");
         viewPager.setAdapter(adapter);
+
+
     }
 
     private void setupTabIcons() {
         tv_tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabOne.setText("NEWS FEED");
+        tv_tabOne.setTypeface(myTypeface);
+        tv_tabOne.setText("News Feed");
         tv_tabOne.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[0], 0, 0);
         tabLayout.getTabAt(0).setCustomView(tv_tabOne);
 
         tv_tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabTwo.setText("SCHEDULE");
+        tv_tabTwo.setTypeface(myTypeface);
+        tv_tabTwo.setText("Schedule");
         tv_tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[1], 0, 0);
         tabLayout.getTabAt(1).setCustomView(tv_tabTwo);
 
         tv_tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabThree.setText("TICKETS");
+        tv_tabThree.setTypeface(myTypeface);
+        tv_tabThree.setText("Tickets");
         tv_tabThree.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[2], 0, 0);
         tabLayout.getTabAt(2).setCustomView(tv_tabThree);
 
         tv_tabFour = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabFour.setText("LINE-UP");
+        tv_tabFour.setTypeface(myTypeface);
+        tv_tabFour.setText("Line-up");
         tv_tabFour.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[3], 0, 0);
         tabLayout.getTabAt(3).setCustomView(tv_tabFour);
 
         tv_tabFive = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabFive.setText("VENUE");
+        tv_tabFive.setTypeface(myTypeface);
+        tv_tabFive.setText("Venue");
         tv_tabFive.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[4], 0, 0);
         tabLayout.getTabAt(4).setCustomView(tv_tabFive);
     }
@@ -117,7 +135,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     private void setCurrentTabSelected(TabLayout.Tab tab) {
         View view = tab.getCustomView();
+
+
         TextView textView = (TextView) view.findViewById(R.id.tab);
+        textView.setTypeface(myTypeface);
 
         textView.setTextColor(getResources().getColor(R.color.textColorActive));
         textView.setCompoundDrawablesWithIntrinsicBounds(0, tabIconsActive[tab.getPosition()], 0, 0);
@@ -131,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public void onTabUnselected(TabLayout.Tab tab) {
         View view = tab.getCustomView();
         TextView textView = (TextView) view.findViewById(R.id.tab);
+        textView.setTypeface(myTypeface);
 
         textView.setTextColor(getResources().getColor(R.color.textColorPrimary));
         textView.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[tab.getPosition()], 0, 0);
@@ -142,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        getSupportFragmentManager().popBackStack();
+        return super.onSupportNavigateUp();
+    }
 }
 
 
