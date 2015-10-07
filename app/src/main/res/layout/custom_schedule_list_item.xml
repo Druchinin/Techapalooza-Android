@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="98dp"
+    android:background="@color/windowBackground">
+
+    <TextView
+        android:id="@+id/sched_list_item_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:text="6"
+        android:textColor="@color/colorWhite"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/sched_list_item_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/sched_list_item_hour"
+        android:layout_toEndOf="@+id/sched_list_item_hour"
+        android:layout_toRightOf="@+id/sched_list_item_hour"
+        android:text="00"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/sched_list_item_moon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sched_list_item_hour"
+        android:layout_marginLeft="4dp"
+        android:layout_toEndOf="@+id/sched_list_item_min"
+        android:layout_toRightOf="@+id/sched_list_item_min"
+        android:text="pm"
+        android:textColor="@color/colorWhite"
+        android:textSize="28dp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:id="@+id/sched_list_vert_line"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_toEndOf="@+id/sched_list_item_moon"
+        android:layout_toRightOf="@+id/sched_list_item_moon"
+        android:background="@color/vertLineIndicatorNormal"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/sched_list_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Doors Open"
+        android:textSize="28dp"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        android:gravity="center|left"
+        android:layout_toRightOf="@id/sched_list_vert_line"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>

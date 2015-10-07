@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#0B304B</color>
-    <color name="colorPrimaryDark">#102636</color>
-    <color name="windowBackground">#102636</color>
+    <color name="colorPrimary">#102636</color>
+    <color name="colorPrimaryDark">#0F222F</color>
+    <color name="windowBackground">#0B304B</color>
     <color name="textColorPrimary">#FFFFFE</color>
     <color name="textColorActive">#FFF880</color>
     <color name="textDateColor">#3C6786</color>
     <color name="colorAccent">#c8e8ff</color>
+    <color name="vertLineIndicatorNormal">#3B4D5B</color>
+    <color name="vertLineIndicatorActive">#D0021B</color>
+    <color name="colorWhite">#FFFFFF</color>
 
 </resources>

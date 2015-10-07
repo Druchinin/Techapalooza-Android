@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Techapalooza Beta</string>
+    <string name="app_name">Techapalooza</string>
 
     <string name="view_nav_open">Open</string>
     <string name="view_nav_close">Close</string>

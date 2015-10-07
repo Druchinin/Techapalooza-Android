@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/windowBackground"
-    android:layout_marginBottom="2dp">
+    android:layout_marginBottom="1dp">
 
     <TextView
         android:id="@+id/art_tv_title"
@@ -14,7 +14,7 @@
         android:textColor="@android:color/white"
         android:layout_marginBottom="16dp"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="@dimen/news_feed_item_title_size"
         android:layout_margin="8dp" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:text="March 5, 2015"
         android:textColor="@color/textDateColor"
         android:layout_marginLeft="8dp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/news_feed_item_date_size" />
 
     <ImageView
         android:id="@+id/art_iv_image"
@@ -42,7 +42,7 @@
         android:textColor="@android:color/white"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="16sp"
+        android:textSize="@dimen/news_feed_item_text_size"
         android:layout_marginBottom="16dp"/>
 
 </LinearLayout>
