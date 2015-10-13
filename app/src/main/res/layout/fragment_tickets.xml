@@ -4,11 +4,9 @@
     android:layout_height="match_parent"
     android:background="@color/windowBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tickets Fragment"
-        android:layout_gravity="center"
-        android:textColor="@android:color/white"/>
+    <FrameLayout
+        android:id="@+id/fragment_tickets_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

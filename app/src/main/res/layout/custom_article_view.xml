@@ -15,6 +15,7 @@
         android:layout_marginBottom="16dp"
         android:textStyle="bold"
         android:textSize="@dimen/news_feed_item_title_size"
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
         android:layout_margin="8dp" />
 
     <TextView
@@ -24,12 +25,13 @@
         android:text="March 5, 2015"
         android:textColor="@color/textDateColor"
         android:layout_marginLeft="8dp"
+        fontPath="fonts/tradegothicltstd-cn18.otf"
         android:textSize="@dimen/news_feed_item_date_size" />
 
     <ImageView
         android:id="@+id/art_iv_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         android:src="@drawable/dummy_art_image"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp" />

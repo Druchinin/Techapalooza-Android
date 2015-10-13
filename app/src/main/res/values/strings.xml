@@ -1,7 +1,23 @@
 <resources>
-    <string name="app_name">Techapalooza</string>
+    <string name="app_name">Techapalooza 2016</string>
 
     <string name="view_nav_open">Open</string>
     <string name="view_nav_close">Close</string>
+    <string name="tickets_tv_login_info">Log in to purchase\nor view your tickets.</string>
+    <string name="tickets_tv_account_question">Don\'t have an account?</string>
+    <string name="tickets_btn_signup_lable">Sign up</string>
+    <string name="six_pm_icon_tag">Six pm</string>
+    <string name="seven_pm_icon_tag">Seven pm</string>
+    <string name="tv_bands_at_7_text">Bands at 7</string>
+    <string name="tv_00_text">00</string>
+    <string name="tv_pm_bands_text">pm</string>
+    <string name="tv_open_pm_text">pm</string>
+    <string name="tv_00_open_text">00</string>
+    <string name="tv_open_at_6_text">Open at 6</string>
+    <string name="tv_marker_lable">Fort Garry Hotel</string>
+    <string name="marker_descr_tag">marker_description_tag</string>
+    <string name="tv_broadway_text">222 Broadway</string>
+    <string name="tv_winnipeg_text">Winnipeg</string>
+    <string name="tv_MB_R3C_0R3_text">MB R3C 0R3</string>
 
 </resources>

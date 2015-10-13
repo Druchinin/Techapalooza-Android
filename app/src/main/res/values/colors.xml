@@ -11,5 +11,6 @@
     <color name="vertLineIndicatorNormal">#3B4D5B</color>
     <color name="vertLineIndicatorActive">#D0021B</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorControlNormal">#FFF</color>
 
 </resources>

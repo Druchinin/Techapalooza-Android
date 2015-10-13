@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="18dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/dummy_art_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/tickets_tv_login_info"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/tickets_main_text_size"
+        android:layout_marginTop="36dp"
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tickets_tv_account_question"
+        android:textSize="@dimen/tickets_main_text_size"
+        android:textColor="@color/textColorPrimary"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="36dp"
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+        <!--TODO setup background with radius in drawable-->
+
+    <Button
+        android:text="@string/tickets_btn_signup_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="#FFF681"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        />
+
+</LinearLayout>

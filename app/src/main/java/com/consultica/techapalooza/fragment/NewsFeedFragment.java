@@ -40,10 +40,11 @@ public class NewsFeedFragment extends Fragment {
 
     public static List<Article> getData(){
         List<Article> data = new ArrayList<>();
-        String title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+        String title = "Bill and Davey-O’s Rockabilly Boys Win Judges Choice";
         String date = "March 5, 2015";
-        int image = R.drawable.dummy_art_image;
-        String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada, libero sodales malesuada scelerisque, purus elit luctus orci, sed consequat erat nisi efficitur purus. Sed pretium semper magna. Sed ac est non turpis condimentum scelerisque. Duis tincidunt lectus ut augue laoreet porttitor ut quis nisi. Maecenas vestibulum velit non elit rhoncus, at rutrum quam tincidunt. Suspendisse potenti. Nam egestas lacus in porttitor sagittis. Proin cursus pulvinar libero, vitae elementum urna eleifend consectetur. Donec pharetra nisl sem, sed ornare arcu faucibus id. Nullam ac est auctor, imperdiet tellus in, congue felis. In efficitur molestie ex, ut tempor ipsum viverra et.";
+        String image = "";
+        String text = "Bill and Davey-O’s Rockabilly Boys won the Judge’s Choice award for 2015. It was presented by Alf Dyck of Price Industries (Alf is behind Tom McGouran).\n" +
+                "L to R – Alf Dyck (hidden), Price Industries, Tom Gouran, MC, Neil Sinnott, CompuGen, Napoleon Sansregret, HP, Brad Enns, CompuGen, Thomas Wolstencroft, CompuGen (not appearing from the band, Erik and Tom Sinnott)";
 
         for (int i = 0; i<5; i++){
             Article article = new Article();

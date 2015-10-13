@@ -21,6 +21,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
     private LayoutInflater inflater;
     private List<Band> data = Collections.emptyList();
+    private static ClickListener clickListener;
 
     public ScheduleListAdapter(Context context, List<Band> data) {
         inflater = LayoutInflater.from(context);
@@ -61,7 +62,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView hour;
         private TextView minutes;
         private TextView moon;
@@ -71,19 +72,36 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             Typeface myTypeface = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/PT_Sans-Narrow-Web-Regular.ttf");
 
             hour = (TextView) itemView.findViewById(R.id.sched_list_item_hour);
             hour.setTypeface(myTypeface);
+
             minutes = (TextView) itemView.findViewById(R.id.sched_list_item_min);
             minutes.setTypeface(myTypeface);
+
             moon = (TextView) itemView.findViewById(R.id.sched_list_item_moon);
             moon.setTypeface(myTypeface);
+
             line = (FrameLayout) itemView.findViewById(R.id.sched_list_vert_line);
+
             title = (TextView) itemView.findViewById(R.id.sched_list_item_title);
             title.setTypeface(myTypeface);
         }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
     }
 
+    public void setOnItemClickListener(ClickListener clickListener) {
+        ScheduleListAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+    }
 }

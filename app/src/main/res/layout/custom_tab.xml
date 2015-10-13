@@ -4,4 +4,6 @@
     android:layout_height="wrap_content"
     android:id="@+id/tab"
     android:textColor="@color/colorWhite"
-    android:textSize="@dimen/tab_label" />
+    android:textSize="@dimen/tab_label"
+    fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+    />

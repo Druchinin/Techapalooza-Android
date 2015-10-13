@@ -1,14 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground">
+    android:background="@color/windowBackground"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Venue Fragment"
-        android:layout_gravity="center"
-        android:textColor="@android:color/white"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp">
+
+
+        <ImageView
+            android:id="@+id/iv_open_time"
+            android:layout_width="@dimen/venue_time_icon_size"
+            android:layout_height="@dimen/venue_time_icon_size"
+            android:contentDescription="@string/six_pm_icon_tag"
+            android:src="@mipmap/ic_action_6pm_icon_white" />
+
+        <TextView
+            android:id="@+id/tv_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/iv_open_time"
+            android:layout_toRightOf="@+id/iv_open_time"
+            android:text="@string/tv_open_at_6_text"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tv_open"
+            android:layout_toRightOf="@+id/tv_open"
+            android:gravity="top"
+            android:paddingBottom="5dp"
+            android:text="@string/tv_00_open_text"
+            android:textColor="@color/textColorPrimary"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_open_pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tv_00"
+            android:layout_toRightOf="@+id/tv_00"
+            android:text="@string/tv_open_pm_text"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_bands_pm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="@string/tv_pm_bands_text"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_bands_00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_bands_pm"
+            android:layout_toStartOf="@+id/tv_bands_pm"
+            android:gravity="top"
+            android:paddingBottom="5dp"
+            android:text="@string/tv_00_text"
+            android:textColor="@color/textColorPrimary"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_bands"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_bands_00"
+            android:layout_toStartOf="@+id/tv_bands_00"
+            android:text="@string/tv_bands_at_7_text"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/venue_time_icon_size"
+            android:layout_height="@dimen/venue_time_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_bands"
+            android:layout_toStartOf="@+id/tv_bands"
+            android:contentDescription="@string/seven_pm_icon_tag"
+            android:src="@mipmap/ic_action_7pm_icon_white" />
+    </RelativeLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="@dimen/venue_time_icon_size"
+            android:layout_height="@dimen/venue_time_icon_size"
+            android:contentDescription="@string/marker_descr_tag"
+            android:src="@mipmap/ic_action_geo_loc_icon" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView2"
+            android:layout_toEndOf="@+id/imageView2"
+            android:layout_toRightOf="@+id/imageView2"
+            android:text="@string/tv_marker_lable"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_broadway_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/tv_broadway_text"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_winnipeg_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_broadway_text"
+            android:layout_alignRight="@+id/tv_broadway_text"
+            android:layout_below="@+id/tv_broadway_text"
+            android:text="@string/tv_winnipeg_text"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <TextView
+            android:id="@+id/tv_MB_R3C_0R3_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_broadway_text"
+            android:layout_alignRight="@+id/tv_broadway_text"
+            android:layout_below="@+id/tv_winnipeg_text"
+            android:text="@string/tv_MB_R3C_0R3_text"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/venue_main_text_size"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/windowBackground"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="16dp"
+        android:text="About Techapalooza"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/venue_main_text_size"
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+    <Button
+        android:id="@+id/btn_cancer_care"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/windowBackground"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="16dp"
+        android:text="About CancerCare MB"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/venue_main_text_size"
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
 
 </LinearLayout>

@@ -19,6 +19,8 @@ import java.util.List;
 
 public class ScheduleListFragment extends Fragment {
 
+    public static final String TAG = "com.consultica.techapalooza.fragment.ScheduleListFragment";
+
     private View view;
     private FragmentTransaction transaction;
 
@@ -40,6 +42,16 @@ public class ScheduleListFragment extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.schedule_recycle_view);
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), data);
+        adapter.setOnItemClickListener(new ScheduleListAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
+                tr.replace(R.id.schedule_container, new BandDetailsFragment(), BandDetailsFragment.TAG);
+                tr.addToBackStack(null);
+                tr.commit();
+            }
+        });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
