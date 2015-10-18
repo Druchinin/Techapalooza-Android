@@ -7,11 +7,10 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="18dp"
-        android:layout_marginTop="36dp"
-        android:src="@drawable/dummy_art_image" />
+        android:src="@drawable/tickets_outline_icon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,8 +19,22 @@
         android:text="@string/tickets_tv_login_info"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/tickets_main_text_size"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="18dp"
         fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+    <Button
+        android:id="@+id/btn_tickets_sign_in"
+        android:text="@string/tickets_btn_signIn_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_btn_style"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/tickets_btn_text_size"
+        fontPath="fonts/Roboto-Light.ttf" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,20 +43,22 @@
         android:textSize="@dimen/tickets_main_text_size"
         android:textColor="@color/textColorPrimary"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="18dp"
         fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
-        <!--TODO setup background with radius in drawable-->
 
     <Button
+        android:id="@+id/btn_tickets_sign_up"
         android:text="@string/tickets_btn_signup_lable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:background="#FFF681"
-        android:paddingLeft="100dp"
-        android:paddingRight="100dp"
-        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_btn_style"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/tickets_btn_text_size"
+        fontPath="fonts/Roboto-Light.ttf"
         />
 
 </LinearLayout>

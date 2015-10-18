@@ -11,10 +11,12 @@
     <dimen name="news_feed_item_date_size">15sp</dimen>
     <dimen name="custom_tab_layout_height">60dp</dimen>
     <dimen name="grid_image_item_size">200dp</dimen>
-    <dimen name="tickets_main_text_size">22sp</dimen>
-    <dimen name="venue_main_text_size">22sp</dimen>
-    <dimen name="venue_small_text_size">16sp</dimen>
-    <dimen name="venue_time_icon_size">34dp</dimen>
+    <dimen name="tickets_main_text_size">20sp</dimen>
+    <dimen name="tickets_btn_text_size">20sp</dimen>
+    <dimen name="venue_main_text_size">20sp</dimen>
+    <dimen name="venue_small_text_size">14sp</dimen>
+    <dimen name="venue_time_icon_size">30dp</dimen>
     <dimen name="schedule_main_text_size">20sp</dimen>
     <dimen name="schedule_small_text_size">14sp</dimen>
+    <dimen name="btn_radius">3dp</dimen>
 </resources>

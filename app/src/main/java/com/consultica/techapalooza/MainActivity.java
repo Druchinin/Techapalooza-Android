@@ -14,7 +14,7 @@ import com.consultica.techapalooza.adapter.TabsPagerFragmentAdapter;
 import com.consultica.techapalooza.fragment.LineUpFragment;
 import com.consultica.techapalooza.fragment.NewsFeedFragment;
 import com.consultica.techapalooza.fragment.ScheduleFragment;
-import com.consultica.techapalooza.fragment.TicketsFragment;
+import com.consultica.techapalooza.fragment.TicketsFragmentContainer;
 import com.consultica.techapalooza.fragment.VenueFragment;
 import com.nestlean.sdk.Nestlean;
 
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private ViewPager viewPager;
     private TextView tv_tabOne, tv_tabTwo, tv_tabThree, tv_tabFour, tv_tabFive;
     private TabsPagerFragmentAdapter adapter;
+    private Toolbar toolbar;
 
     private int[] tabIcons = {
             R.mipmap.ic_action_news_feed,
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         adapter = new TabsPagerFragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(new NewsFeedFragment(), "News");
         adapter.addFragment(new ScheduleFragment(), "Shedule");
-        adapter.addFragment(new TicketsFragment(), "Tickets");
+        adapter.addFragment(new TicketsFragmentContainer(), "Tickets");
         adapter.addFragment(new LineUpFragment(), "Line-up");
         adapter.addFragment(new VenueFragment(), VenueFragment.TAG);
         viewPager.setAdapter(adapter);

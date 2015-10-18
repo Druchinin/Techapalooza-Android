@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.consultica.techapalooza.R;
 
-public class TicketsFragment extends Fragment {
+public class TicketsFragmentContainer extends Fragment {
 
     private View view;
 
@@ -18,7 +18,7 @@ public class TicketsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_tickets, container, false);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_tickets_container, new TicketsSignUpFragment(), TicketsSignUpFragment.TAG);
+        transaction.add(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
         transaction.commit();
 
         return view;

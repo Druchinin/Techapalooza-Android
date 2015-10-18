@@ -6,11 +6,17 @@
     <color name="windowBackground">#0B304B</color>
     <color name="textColorPrimary">#FFFFFE</color>
     <color name="textColorActive">#FFF880</color>
+    <color name="textColorBlack">#000</color>
     <color name="textDateColor">#3C6786</color>
     <color name="colorAccent">#c8e8ff</color>
     <color name="vertLineIndicatorNormal">#3B4D5B</color>
     <color name="vertLineIndicatorActive">#D0021B</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorControlNormal">#FFF</color>
+    <color name="tickets_btn_state_normal">#FFF880</color>
+    <color name="tickets_btn_state_pressed">#cfc963</color>
+    <color name="transparent">#00ffffff</color>
+
+
 
 </resources>
