@@ -33,10 +33,7 @@
             android:layout_toRightOf="@+id/tv_tickets_login_email"
             android:layout_toEndOf="@+id/tv_tickets_login_email"
             android:layout_centerVertical="true"
-            android:textColor="#0B304B"
-            android:text=""
             android:textStyle="bold"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
             android:inputType="textEmailAddress" />
 
     </RelativeLayout>
@@ -69,23 +66,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/tv_tickets_login_password"
-            android:layout_toEndOf="@+id/tv_tickets_login_password"
+            android:layout_toStartOf="@+id/tv_hide_psw"
             android:layout_centerVertical="true"
-            android:textColor="#0B304B"
             android:inputType="textVisiblePassword"
-            android:text=""/>
+            />
+
+        <TextView
+            android:id="@+id/tv_hide_psw"
+            android:text="HIDE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf" />
 
     </RelativeLayout>
-
-    <CheckBox
-        android:id="@+id/cb_tickets_login_show_psw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show password"
-        android:textColor="@color/textColorPrimary"
-        android:layout_margin="8dp"
-        fontPath="fonts/Roboto-Light.ttf"
-        android:checked="true"/>
 
     <Button
         android:id="@+id/btn_tickets_login_sign_in"
@@ -99,6 +98,7 @@
         android:textAllCaps="false"
         android:textStyle="bold"
         android:textSize="@dimen/tickets_btn_text_size"
+        android:layout_marginTop="16dp"
         fontPath="fonts/Roboto-Light.ttf"
         />
 

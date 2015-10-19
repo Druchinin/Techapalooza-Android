@@ -50,11 +50,14 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Nestlean.init(MainActivity.this, "842d9562aaf24200372231e36c22e64a");
 
-        Nestlean.init(MainActivity.this, "9a2113954f0f7069cfd9b8795405d2ee");
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         initTabs();
     }
@@ -91,27 +94,27 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     private void setupTabIcons() {
         tv_tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabOne.setText("News Feed");
+        tv_tabOne.setText(R.string.tab_lable_news_feed);
         tv_tabOne.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[0], 0, 0);
         tabLayout.getTabAt(0).setCustomView(tv_tabOne);
 
         tv_tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabTwo.setText("Schedule");
+        tv_tabTwo.setText(R.string.tab_lable_schedule);
         tv_tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[1], 0, 0);
         tabLayout.getTabAt(1).setCustomView(tv_tabTwo);
 
         tv_tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabThree.setText("Tickets");
+        tv_tabThree.setText(R.string.tab_lable_tickets);
         tv_tabThree.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[2], 0, 0);
         tabLayout.getTabAt(2).setCustomView(tv_tabThree);
 
         tv_tabFour = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabFour.setText("Line-up");
+        tv_tabFour.setText(R.string.tab_lable_line_up);
         tv_tabFour.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[3], 0, 0);
         tabLayout.getTabAt(3).setCustomView(tv_tabFour);
 
         tv_tabFive = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
-        tv_tabFive.setText("Venue");
+        tv_tabFive.setText(R.string.tab_lable_venue);
         tv_tabFive.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[4], 0, 0);
         tabLayout.getTabAt(4).setCustomView(tv_tabFive);
     }

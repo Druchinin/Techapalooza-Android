@@ -20,5 +20,10 @@
     <string name="tv_broadway_text">222 Broadway</string>
     <string name="tv_winnipeg_text">Winnipeg</string>
     <string name="tv_MB_R3C_0R3_text">MB R3C 0R3</string>
+    <string name="tab_lable_news_feed">News Feed</string>
+    <string name="tab_lable_schedule">Schedule</string>
+    <string name="tab_lable_tickets">Tickets</string>
+    <string name="tab_lable_line_up">Line-up</string>
+    <string name="tab_lable_venue">Venue</string>
 
 </resources>

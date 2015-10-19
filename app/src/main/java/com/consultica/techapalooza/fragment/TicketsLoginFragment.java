@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,6 +22,7 @@ public class TicketsLoginFragment extends Fragment {
     private View view;
     private EditText mEtPassword;
     private TextView mHidePass;
+    private boolean isShownPsw = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,24 +34,17 @@ public class TicketsLoginFragment extends Fragment {
         mEtPassword = (EditText) view.findViewById(R.id.et_tickets_login_password);
         mEtPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
-//        mHidePass = (TextView) view.findViewById(R.id.tv_hide_psw);
-//        mHidePass.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mEtPassword.getInputType() != InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
-//                    mEtPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-//                else
-//                    mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//
-//                mEtPassword.setSelection(mEtPassword.getText().length());
-//            }
-//        });
-
-        CheckBox mCbShowPsw = (CheckBox) view.findViewById(R.id.cb_tickets_login_show_psw);
-        mCbShowPsw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mHidePass = (TextView) view.findViewById(R.id.tv_hide_psw);
+        mHidePass.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mEtPassword.setInputType(isChecked ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            public void onClick(View v) {
+                if (isShownPsw) {
+                    mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    isShownPsw = false;
+                } else {
+                    mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    isShownPsw = true;
+                }
                 mEtPassword.setSelection(mEtPassword.getText().length());
             }
         });
