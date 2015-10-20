@@ -10,35 +10,38 @@
         android:id="@+id/art_tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        android:text="@string/dummy_title"
         android:textColor="@android:color/white"
         android:layout_marginBottom="16dp"
         android:textStyle="bold"
         android:textSize="@dimen/news_feed_item_title_size"
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
         android:layout_margin="8dp" />
 
     <TextView
         android:id="@+id/art_tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="March 5, 2015"
+        android:text="@string/dummy_date"
         android:textColor="@color/textDateColor"
         android:layout_marginLeft="8dp"
+        fontPath="fonts/tradegothicltstd-cn18.otf"
         android:textSize="@dimen/news_feed_item_date_size" />
 
     <ImageView
         android:id="@+id/art_iv_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         android:src="@drawable/dummy_art_image"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="8dp"
+        android:contentDescription="@string/dummy_image" />
 
     <TextView
         android:id="@+id/art_tv_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada, libero sodales malesuada scelerisque, purus elit luctus orci, sed consequat erat nisi efficitur purus. Sed pretium semper magna. Sed ac est non turpis condimentum scelerisque. Duis tincidunt lectus ut augue laoreet porttitor ut quis nisi. Maecenas vestibulum velit non elit rhoncus, at rutrum quam tincidunt. Suspendisse potenti. Nam egestas lacus in porttitor sagittis. Proin cursus pulvinar libero, vitae elementum urna eleifend consectetur. Donec pharetra nisl sem, sed ornare arcu faucibus id. Nullam ac est auctor, imperdiet tellus in, congue felis. In efficitur molestie ex, ut tempor ipsum viverra et."
+        android:text="@string/dummy_text"
         android:textColor="@android:color/white"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"

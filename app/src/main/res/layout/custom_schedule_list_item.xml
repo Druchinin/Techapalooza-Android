@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="98dp"
+    android:layout_height="64dp"
     android:background="@color/windowBackground">
 
     <TextView
         android:id="@+id/sched_list_item_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
         android:text="6"
         android:textColor="@color/colorWhite"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/schedule_main_text_size"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"/>
 
     <TextView
         android:id="@+id/sched_list_item_min"
@@ -27,7 +26,7 @@
         android:layout_toRightOf="@+id/sched_list_item_hour"
         android:text="00"
         android:textColor="@color/colorWhite"
-        android:textSize="18dp"
+        android:textSize="@dimen/schedule_small_text_size"
         android:textStyle="bold" />
 
     <TextView
@@ -40,7 +39,7 @@
         android:layout_toRightOf="@+id/sched_list_item_min"
         android:text="pm"
         android:textColor="@color/colorWhite"
-        android:textSize="28dp"
+        android:textSize="@dimen/schedule_main_text_size"
         android:textStyle="bold" />
 
     <FrameLayout
@@ -59,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="Doors Open"
-        android:textSize="28dp"
+        android:textSize="@dimen/schedule_main_text_size"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:gravity="center|left"

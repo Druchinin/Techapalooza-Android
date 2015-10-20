@@ -9,19 +9,16 @@ import android.view.ViewGroup;
 
 import com.consultica.techapalooza.R;
 
-
-public class LineUpFragment extends Fragment{
-
-    public static final String TAG = "com.consultica.techapalooza.fragment.LineUpFragment";
+public class TicketsFragmentContainer extends Fragment {
 
     private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_line_up, container, false);
+        view = inflater.inflate(R.layout.fragment_tickets, container, false);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.line_up_fragment_container, new LineUpGalleryFragment(), LineUpGalleryFragment.TAG);
+        transaction.add(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
         transaction.commit();
 
         return view;

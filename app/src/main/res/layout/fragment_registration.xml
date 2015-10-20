@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/windowBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#3F6C95"
+            android:textSize="@dimen/tickets_main_text_size"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:id="@+id/reg_tv_name"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <EditText
+            android:id="@+id/reg_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/reg_tv_name"
+            android:layout_toEndOf="@+id/reg_tv_name"
+            android:layout_centerVertical="true"
+            android:textColor="#0B304B"
+            android:text="" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="#3F6C95"
+            android:textSize="@dimen/tickets_main_text_size"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:id="@+id/reg_tv_email"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <EditText
+            android:id="@+id/reg_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/reg_tv_email"
+            android:layout_toEndOf="@+id/reg_tv_email"
+            android:layout_centerVertical="true"
+            android:textColor="#0B304B"
+            android:text="" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="#3F6C95"
+            android:textSize="@dimen/tickets_main_text_size"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:id="@+id/reg_tv_psw"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <EditText
+            android:id="@+id/reg_et_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/reg_tv_psw"
+            android:layout_toEndOf="@+id/reg_tv_psw"
+            android:layout_centerVertical="true"
+            android:textColor="#0B304B"
+            android:text="" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="#3F6C95"
+            android:textSize="@dimen/tickets_main_text_size"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:id="@+id/reg_tv_name"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+
+        <EditText
+            android:id="@+id/reg_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/reg_tv_name"
+            android:layout_toEndOf="@+id/reg_tv_name"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:inputType="textEmailAddress" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="#3F6C95"
+            android:textSize="@dimen/tickets_main_text_size"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="8dp"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+            android:id="@+id/tv_tickets_login_password" />
+
+        <EditText
+            android:id="@+id/et_tickets_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/tv_tickets_login_password"
+            android:layout_toStartOf="@+id/tv_hide_psw"
+            android:layout_centerVertical="true"
+            android:inputType="textVisiblePassword"
+            />
+
+        <TextView
+            android:id="@+id/tv_hide_psw"
+            android:text="HIDE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_tickets_login_sign_in"
+        android:text="@string/tickets_btn_signIn_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_btn_style"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textSize="@dimen/tickets_btn_text_size"
+        android:layout_marginTop="16dp"
+        fontPath="fonts/Roboto-Light.ttf"
+        />
+
+    <TextView
+        android:id="@+id/tv_tickets_forgot_psw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forgot password?"
+        android:textColor="@color/textColorActive"
+        android:clickable="true"
+        android:textSize="20sp"
+        fontPath="fonts/Roboto-Light.ttf"
+        android:gravity="center"
+        android:layout_margin="24dp"/>
+
+</LinearLayout>

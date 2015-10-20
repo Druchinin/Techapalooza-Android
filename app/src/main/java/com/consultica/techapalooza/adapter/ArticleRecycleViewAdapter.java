@@ -1,7 +1,6 @@
 package com.consultica.techapalooza.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Article;
 
@@ -38,8 +36,8 @@ public class ArticleRecycleViewAdapter extends RecyclerView.Adapter<ArticleRecyc
         Article current = data.get(position);
         holder.title.setText(current.title);
         holder.date.setText(current.date);
-        holder.image.setImageResource(current.imageId);
         holder.text.setText(current.text);
+//        Picasso.with(App.getInstance()).load(current.imageId).resize(800, 533).into(holder.image);
     }
 
     @Override
@@ -56,16 +54,10 @@ public class ArticleRecycleViewAdapter extends RecyclerView.Adapter<ArticleRecyc
         public ViewHolder(View itemView) {
             super(itemView);
 
-            Typeface titleTypeface = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/PT_Sans-Narrow-Web-Regular.ttf");
-            Typeface textTypeface = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/Roboto-Light.ttf");
-
             title = (TextView) itemView.findViewById(R.id.art_tv_title);
-            title.setTypeface(titleTypeface);
             date = (TextView) itemView.findViewById(R.id.art_tv_date);
-            date.setTypeface(titleTypeface);
             image = (ImageView) itemView.findViewById(R.id.art_iv_image);
             text = (TextView) itemView.findViewById(R.id.art_tv_text);
-            text.setTypeface(textTypeface);
         }
     }
 }
