@@ -3,7 +3,6 @@ package com.consultica.techapalooza.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ public class TicketsLoginFragment extends Fragment {
     public static final String TAG = "com.consultica.techapalooza.fragment.TicketsLoginFragment";
 
     private View view;
-    private EditText mEtPassword;
+    private EditText mEmail, mEtPassword;
     private TextView mHidePass;
     private boolean isShownPsw = true;
 
@@ -29,7 +28,7 @@ public class TicketsLoginFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_tickets_login, container, false);
         Log.d("Fragment Tickets:", "onCreateView()");
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mEmail = (EditText) view.findViewById(R.id.reg_et_name);
 
         mEtPassword = (EditText) view.findViewById(R.id.et_tickets_login_password);
         mEtPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
@@ -53,9 +52,12 @@ public class TicketsLoginFragment extends Fragment {
         mForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ResetPasswordFragment resetFragment = new ResetPasswordFragment();
+                if (mEmail.getText().toString() != null)
+                resetFragment.setEmailForRestore(mEmail.getText().toString());
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_tickets_container, new ResetPasswordFragment(), ResetPasswordFragment.TAG);
-                ft.addToBackStack(null);
+                ft.replace(R.id.fragment_tickets_container, resetFragment, ResetPasswordFragment.TAG);
+                ft.addToBackStack(ResetPasswordFragment.TAG);
                 ft.commit();
             }
         });

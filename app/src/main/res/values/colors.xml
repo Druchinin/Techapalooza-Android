@@ -16,7 +16,7 @@
     <color name="tickets_btn_state_normal">#FFF880</color>
     <color name="tickets_btn_state_pressed">#cfc963</color>
     <color name="transparent">#00ffffff</color>
-
+    <color name="btn_reset_not_active">#9c984b</color>
 
 
 </resources>

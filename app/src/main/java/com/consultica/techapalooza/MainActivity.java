@@ -12,9 +12,12 @@ import android.widget.TextView;
 
 import com.consultica.techapalooza.adapter.TabsPagerFragmentAdapter;
 import com.consultica.techapalooza.fragment.LineUpFragment;
+import com.consultica.techapalooza.fragment.LineUpGalleryFragment;
 import com.consultica.techapalooza.fragment.NewsFeedFragment;
 import com.consultica.techapalooza.fragment.ScheduleFragment;
+import com.consultica.techapalooza.fragment.ScheduleListFragment;
 import com.consultica.techapalooza.fragment.TicketsFragmentContainer;
+import com.consultica.techapalooza.fragment.TicketsMainFragment;
 import com.consultica.techapalooza.fragment.VenueFragment;
 import com.nestlean.sdk.Nestlean;
 
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private TextView tv_tabOne, tv_tabTwo, tv_tabThree, tv_tabFour, tv_tabFive;
     private TabsPagerFragmentAdapter adapter;
     private Toolbar toolbar;
+    private android.support.v4.app.FragmentManager manager;
+
+    private String currentTab;
 
     private int[] tabIcons = {
             R.mipmap.ic_action_news_feed,
@@ -49,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         setTheme(R.style.AppThemeDefault);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        manager = getSupportFragmentManager();
 
         Nestlean.init(MainActivity.this, "842d9562aaf24200372231e36c22e64a");
 
@@ -83,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new TabsPagerFragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(new NewsFeedFragment(), "News");
-        adapter.addFragment(new ScheduleFragment(), "Shedule");
-        adapter.addFragment(new TicketsFragmentContainer(), "Tickets");
-        adapter.addFragment(new LineUpFragment(), "Line-up");
-        adapter.addFragment(new VenueFragment(), VenueFragment.TAG);
+        adapter.addFragment(new NewsFeedFragment(), Constants.TAB_NEWS_FEED_LABLE);
+        adapter.addFragment(new ScheduleFragment(), Constants.TAB_SCHEDULE_LABLE);
+        adapter.addFragment(new TicketsFragmentContainer(), Constants.TAB_TICKETS_LABLE);
+        adapter.addFragment(new LineUpFragment(), Constants.TAB_LINE_UP_LABLE);
+        adapter.addFragment(new VenueFragment(), Constants.TAB_VENUE_LABLE);
         viewPager.setAdapter(adapter);
 
     }
@@ -127,6 +135,13 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         setCurrentTabSelected(tab);
+        
+        int count = manager.getBackStackEntryCount();
+        for(int i = 0; i < count; ++i) {
+            manager.popBackStackImmediate();
+        }
+
+        setupDisplayHomeAsUpEnabled(tab);
     }
 
     private void setCurrentTabSelected(TabLayout.Tab tab) {
@@ -166,6 +181,56 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    private void setupDisplayHomeAsUpEnabled(TabLayout.Tab tab){
+
+        if (tab != null) {
+            switch (tab.getText().toString()) {
+                case Constants.TAB_NEWS_FEED_LABLE:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    break;
+                case Constants.TAB_SCHEDULE_LABLE:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    setupBackStackChangeListener(ScheduleListFragment.TAG);
+                    break;
+                case Constants.TAB_TICKETS_LABLE:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    setupBackStackChangeListener(TicketsMainFragment.TAG);
+                    break;
+                case Constants.TAB_LINE_UP_LABLE:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    setupBackStackChangeListener(LineUpGalleryFragment.TAG);
+                    break;
+                case Constants.TAB_VENUE_LABLE:
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    break;
+
+
+            }
+        }
+
+    }
+
+    private void setupBackStackChangeListener(String tag) {
+        currentTab = tag;
+        manager = getSupportFragmentManager();
+        manager.addOnBackStackChangedListener(new android.support.v4.app.FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                int count = manager.getBackStackEntryCount();
+                if (count != 0) {
+                    String currentFragmentTag = manager.getBackStackEntryAt(count - 1).getName();
+                    if (currentFragmentTag.equals(currentTab)) {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    } else {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    }
+                } else {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
+            }
+        });
     }
 }
 

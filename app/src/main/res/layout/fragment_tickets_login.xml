@@ -22,16 +22,16 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_margin="16dp"
-            android:id="@+id/tv_tickets_login_email"
+            android:id="@+id/reg_tv_name"
             fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
 
         <EditText
-            android:id="@+id/et_tickets_login_email"
+            android:id="@+id/reg_et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/tv_tickets_login_email"
-            android:layout_toEndOf="@+id/tv_tickets_login_email"
+            android:layout_toRightOf="@+id/reg_tv_name"
+            android:layout_toEndOf="@+id/reg_tv_name"
             android:layout_centerVertical="true"
             android:textStyle="bold"
             android:inputType="textEmailAddress" />

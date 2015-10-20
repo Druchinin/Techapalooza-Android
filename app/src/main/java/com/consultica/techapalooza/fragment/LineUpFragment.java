@@ -12,6 +12,8 @@ import com.consultica.techapalooza.R;
 
 public class LineUpFragment extends Fragment{
 
+    public static final String TAG = "com.consultica.techapalooza.fragment.LineUpFragment";
+
     private View view;
 
     @Override
