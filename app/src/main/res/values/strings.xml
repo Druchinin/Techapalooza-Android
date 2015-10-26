@@ -4,9 +4,12 @@
     <string name="view_nav_open">Open</string>
     <string name="view_nav_close">Close</string>
     <string name="tickets_tv_login_info">Log in to purchase\nor view your tickets.</string>
+    <string name="tickets_tv_logged_info">Your tickets will appear here.</string>
     <string name="tickets_tv_account_question">Don\'t have an account?</string>
     <string name="tickets_btn_signup_lable">Sign up</string>
     <string name="tickets_btn_signIn_lable">Sign in</string>
+    <string name="tickets_btn_purchase_lable">Purchase tickets</string>
+    <string name="tickets_redeem_coupon">Redeem coupon</string>
     <string name="six_pm_icon_tag">Six pm</string>
     <string name="seven_pm_icon_tag">Seven pm</string>
     <string name="tv_bands_at_7_text">Bands at 7</string>

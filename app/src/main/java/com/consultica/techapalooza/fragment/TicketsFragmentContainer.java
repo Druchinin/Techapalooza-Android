@@ -18,7 +18,7 @@ public class TicketsFragmentContainer extends Fragment {
         view = inflater.inflate(R.layout.fragment_tickets, container, false);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
+        transaction.add(R.id.fragment_tickets_container, new TicketsLoggedInFragment(), TicketsLoggedInFragment.TAG);
         transaction.commit();
 
         return view;

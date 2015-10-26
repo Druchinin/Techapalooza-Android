@@ -20,6 +20,7 @@ public class App extends Application{
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+
         instance = this;
     }
 }

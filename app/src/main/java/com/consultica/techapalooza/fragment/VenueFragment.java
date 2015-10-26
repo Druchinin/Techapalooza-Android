@@ -43,19 +43,19 @@ public class VenueFragment extends Fragment {
 
     @Override
     public void onResume() {
-        mapView.onResume();
         super.onResume();
+        mapView.onResume();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mapView.onDestroy();
+        super.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
-        super.onLowMemory();
         mapView.onLowMemory();
+        super.onLowMemory();
     }
 }

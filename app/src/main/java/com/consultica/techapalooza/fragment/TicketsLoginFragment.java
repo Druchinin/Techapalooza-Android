@@ -31,7 +31,6 @@ public class TicketsLoginFragment extends Fragment {
         mEmail = (EditText) view.findViewById(R.id.reg_et_name);
 
         mEtPassword = (EditText) view.findViewById(R.id.et_tickets_login_password);
-        mEtPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
         mHidePass = (TextView) view.findViewById(R.id.tv_hide_psw);
         mHidePass.setOnClickListener(new View.OnClickListener() {
@@ -40,9 +39,11 @@ public class TicketsLoginFragment extends Fragment {
                 if (isShownPsw) {
                     mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     isShownPsw = false;
+                    mHidePass.setText("SHOW");
                 } else {
                     mEtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     isShownPsw = true;
+                    mHidePass.setText("HIDE");
                 }
                 mEtPassword.setSelection(mEtPassword.getText().length());
             }
@@ -53,14 +54,17 @@ public class TicketsLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ResetPasswordFragment resetFragment = new ResetPasswordFragment();
+
                 if (mEmail.getText().toString() != null)
-                resetFragment.setEmailForRestore(mEmail.getText().toString());
+                    resetFragment.setEmailForRestore(mEmail.getText().toString());
+
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_tickets_container, resetFragment, ResetPasswordFragment.TAG);
                 ft.addToBackStack(ResetPasswordFragment.TAG);
                 ft.commit();
             }
         });
+
         return view;
     }
 
@@ -68,13 +72,11 @@ public class TicketsLoginFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("Fragment Tickets:", "onResume()");
-
     }
 
     @Override
     public void onPause() {
         Log.d("Fragment Tickets:", "onPause()");
-
         super.onPause();
     }
 

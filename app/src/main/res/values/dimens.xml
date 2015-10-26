@@ -19,4 +19,5 @@
     <dimen name="schedule_main_text_size">20sp</dimen>
     <dimen name="schedule_small_text_size">14sp</dimen>
     <dimen name="btn_radius">3dp</dimen>
+    <dimen name="reg_lable_text_size">18sp</dimen>
 </resources>
