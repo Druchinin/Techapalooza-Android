@@ -10,7 +10,7 @@ import retrofit.http.Query;
 
 public class Client {
 
-    private String url = "http://restcountries.eu/";
+    private String url = "";
 
     private static Client instance;
     private API api;
@@ -40,6 +40,7 @@ public class Client {
         //USER
         @POST("/api/users/signup")
         void signUp(
+                @Query("name") String name,
                 @Query("email") String email,
                 @Query("password") String password,
                 Callback cb);
@@ -49,6 +50,9 @@ public class Client {
                 @Query("email") String email,
                 @Query("password") String password,
                 Callback cb);
+
+        @GET("/api/users/me")
+        void getCurrentUser(Callback cb);
 
         @POST("/api/users/logout")
         void logOut(Callback cb);
