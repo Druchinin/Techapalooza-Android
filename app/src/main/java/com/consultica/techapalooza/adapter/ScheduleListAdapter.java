@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
-import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.model.Schedule;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,10 +20,11 @@ import java.util.List;
 public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private List<Band> data = Collections.emptyList();
+    private List<Schedule> data = Collections.emptyList();
     private static ClickListener clickListener;
+    private int currItemIndicator = -1;
 
-    public ScheduleListAdapter(Context context, List<Band> data) {
+    public ScheduleListAdapter(Context context, List<Schedule> data) {
         inflater = LayoutInflater.from(context);
         this.data = data;
     }
@@ -37,12 +38,19 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Band current = data.get(position);
-        holder.hour.setText(current.hour);
-        holder.minutes.setText(current.minutes);
-        holder.moon.setText(current.moon);
-        holder.line.setBackgroundResource(R.color.vertLineIndicatorNormal);
-        holder.title.setText(current.name);
+        Schedule current = data.get(position);
+        String min = String.valueOf(current.getMinutes());
+        if (min.length() == 1) min = "0" + min;
+
+        holder.hour.setText(String.valueOf(current.getHours()));
+        holder.minutes.setText(min);
+        if (current.getHours() < 12)
+            holder.moon.setText("am");
+        else holder.moon.setText("pm");
+        holder.line.setBackgroundResource(current.getLineColor());
+        if (!current.getBand_name().equals(""))
+            holder.title.setText(current.getBand_name());
+        else holder.title.setText(current.getName());
     }
 
     @Override
@@ -50,16 +58,19 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
         return data.size();
     }
 
-    public Band getItem(int postition){
+    public Schedule getItem(int postition) {
         return data.get(postition);
     }
 
-    public void changeVerticalIndicatorState(int position, boolean state){
-        if (state) {
-            data.get(position).vertLineIndicator.setBackgroundResource(R.color.vertLineIndicatorActive);
+    public void changeVerticalIndicatorState(int position) {
+        if (currItemIndicator >= 0) {
+            data.get(position).setLineColor(R.color.vertLineIndicatorActive);
+            data.get(currItemIndicator).setLineColor(R.color.vertLineIndicatorNormal);
         } else {
-            data.get(position).vertLineIndicator.setBackgroundResource(R.color.vertLineIndicatorNormal);
+            data.get(position).setLineColor(R.color.vertLineIndicatorActive);
+            currItemIndicator = position;
         }
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

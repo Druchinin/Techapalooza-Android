@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.network.Client;
+import com.consultica.techapalooza.network.Interceptor;
+import com.consultica.techapalooza.network.SignInResponse;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class RegistrationFragment extends Fragment {
 
@@ -134,7 +142,42 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (isNameValid && isEmailValid && isPswVaild)
-                    Toast.makeText(getActivity(), "Registration successful", Toast.LENGTH_LONG).show();
+                    Client.getAPI().signUp(
+                            mEtName.getText().toString(),
+                            mEtEmail.getText().toString(),
+                            mEtPsw.getText().toString(),
+                            new Callback<SignInResponse>() {
+
+                                @Override
+                                public void success(SignInResponse signInResponse, Response response) {
+                                    Client.getAPI().signIn(mEtEmail.getText().toString(), mEtPsw.getText().toString(), new Callback<SignInResponse>() {
+                                        @Override
+                                        public void success(SignInResponse signInResponse, Response response) {
+                                            Log.d("LogIn", "Status: " + response.getStatus());
+
+                                            if (Interceptor.getInstance().getCookie() == null) {
+                                                Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
+                                            }
+
+                                            Toast.makeText(getActivity(), "Registration & Login successful", Toast.LENGTH_LONG).show();
+                                        }
+
+                                        @Override
+                                        public void failure(RetrofitError error) {
+                                            Log.d("LogIn error", "Status: " + error.getMessage());
+                                        }
+                                    });
+                                    Log.d("SignInResponse", "Status: " + response.getStatus());
+
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    Log.d("SignInResponse", "Error: "+error.getMessage());
+                                    Toast.makeText(getActivity(), "Registration failed: "+error.getBody(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+
             }
         });
     }
@@ -159,7 +202,7 @@ public class RegistrationFragment extends Fragment {
     }
 
     private boolean isNameValid(String s) {
-        return s.equals("Dima");
+        return s.length()>4 && s.length() < 32;
     }
 
     private boolean isEmailValid(String s) {

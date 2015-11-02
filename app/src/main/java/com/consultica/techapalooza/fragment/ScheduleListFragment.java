@@ -11,10 +11,16 @@ import android.view.ViewGroup;
 
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapter.ScheduleListAdapter;
-import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.database.DBMaster;
+import com.consultica.techapalooza.model.Schedule;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class ScheduleListFragment extends Fragment {
 
@@ -22,21 +28,15 @@ public class ScheduleListFragment extends Fragment {
 
     private View view;
     private FragmentTransaction transaction;
+    int count;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_schedule_list, container, false);
 
-        List<Band> data = new ArrayList<>();
-        for (int i = 0; i<10; i++){
-            Band band = new Band();
-            band.hour = "6";
-            band.minutes = "30";
-            band.moon = "am";
-            band.name = "Doors open";
+        DBMaster dbMaster = DBMaster.getInstance(getActivity());
 
-            data.add(band);
-        }
+        List<Schedule> data = dbMaster.getAllSchedule();
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.schedule_recycle_view);
         ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), data);
@@ -52,6 +52,10 @@ public class ScheduleListFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+
+        adapter.changeVerticalIndicatorState(2);
+        adapter.notifyDataSetChanged();
+
 
         return view;
     }

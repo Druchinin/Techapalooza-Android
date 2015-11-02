@@ -8,10 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.network.Client;
+import com.consultica.techapalooza.network.Interceptor;
+import com.consultica.techapalooza.network.SignInResponse;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class TicketsLoginFragment extends Fragment {
@@ -22,6 +31,7 @@ public class TicketsLoginFragment extends Fragment {
     private EditText mEmail, mEtPassword;
     private TextView mHidePass;
     private boolean isShownPsw = true;
+    private Button btnSignIn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +72,34 @@ public class TicketsLoginFragment extends Fragment {
                 ft.replace(R.id.fragment_tickets_container, resetFragment, ResetPasswordFragment.TAG);
                 ft.addToBackStack(ResetPasswordFragment.TAG);
                 ft.commit();
+            }
+        });
+
+        btnSignIn = (Button) view.findViewById(R.id.btn_tickets_login_sign_in);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Client.getAPI().signIn(mEmail.getText().toString(), mEtPassword.getText().toString(), new Callback<SignInResponse>() {
+                    @Override
+                    public void success(SignInResponse signInResponse, Response response) {
+                        Log.d("LogIn", "Status: " + response.getStatus());
+
+                        if (Interceptor.getInstance().getCookie() == null) {
+                            Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
+                        }
+
+                        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG).show();
+
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
+                        ft.commit();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("LogIn error", "Status: " + error.getMessage());
+                    }
+                });
             }
         });
 

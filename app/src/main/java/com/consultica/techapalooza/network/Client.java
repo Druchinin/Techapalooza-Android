@@ -1,16 +1,18 @@
-package com.consultica.techapalooza.net;
+package com.consultica.techapalooza.network;
 
 import com.consultica.techapalooza.BuildConfig;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Query;
 
 public class Client {
 
-    private String url = "";
+    private String url = "https://techapalooza/";
 
     private static Client instance;
     private API api;
@@ -28,6 +30,7 @@ public class Client {
 
     private Client() {
         RestAdapter restAdapter = new RestAdapter.Builder()
+                .setRequestInterceptor(Interceptor.getInstance())
                 .setEndpoint(url)
                 .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
                 .build();
@@ -38,28 +41,30 @@ public class Client {
     public interface API {
 
         //USER
+        @FormUrlEncoded
         @POST("/api/users/signup")
         void signUp(
-                @Query("name") String name,
-                @Query("email") String email,
-                @Query("password") String password,
-                Callback cb);
+                @Field ("name") String name,
+                @Field ("email") String email,
+                @Field ("password") String password,
+                Callback<SignInResponse> cb);
 
+        @FormUrlEncoded
         @POST("/api/users/signin")
         void signIn(
-                @Query("email") String email,
-                @Query("password") String password,
-                Callback cb);
+                @Field ("email") String email,
+                @Field ("password") String password,
+                Callback<SignInResponse> cb);
 
         @GET("/api/users/me")
-        void getCurrentUser(Callback cb);
+        void getCurrentUser(Callback<SignInResponse> cb);
 
         @POST("/api/users/logout")
         void logOut(Callback cb);
 
         // SCHEDULE
         @GET("/api/schedule")
-        void getSchedule(Callback cb);
+        void getSchedule(ScheduleCallback<ScheduleResponse> cb);
 
         // BANDS
         @GET("/api/bands")

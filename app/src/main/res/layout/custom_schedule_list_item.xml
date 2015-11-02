@@ -4,51 +4,23 @@
     android:layout_height="64dp"
     android:background="@color/windowBackground">
 
-    <TextView
-        android:id="@+id/sched_list_item_hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="6"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/schedule_main_text_size"
-        android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="16dp"/>
 
-    <TextView
-        android:id="@+id/sched_list_item_min"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/sched_list_item_hour"
-        android:layout_toEndOf="@+id/sched_list_item_hour"
-        android:layout_toRightOf="@+id/sched_list_item_hour"
-        android:text="00"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/schedule_small_text_size"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:id="@+id/sched_list_item_time_cont1"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/sched_list_item_moon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/sched_list_item_hour"
-        android:layout_marginLeft="4dp"
-        android:layout_toEndOf="@+id/sched_list_item_min"
-        android:layout_toRightOf="@+id/sched_list_item_min"
-        android:text="pm"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/schedule_main_text_size"
-        android:textStyle="bold" />
+
+    </RelativeLayout>
+
 
     <FrameLayout
         android:id="@+id/sched_list_vert_line"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@+id/sched_list_item_moon"
-        android:layout_toRightOf="@+id/sched_list_item_moon"
+        android:layout_toEndOf="@+id/sched_list_item_time_cont1"
+        android:layout_toRightOf="@+id/sched_list_item_time_cont1"
         android:background="@color/vertLineIndicatorNormal"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"/>
@@ -67,6 +39,42 @@
         android:layout_marginRight="16dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/sched_list_item_moon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pm"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/schedule_main_text_size"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/sched_list_vert_line"
+        android:layout_toStartOf="@+id/sched_list_vert_line" />
+
+    <TextView
+        android:id="@+id/sched_list_item_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/schedule_small_text_size"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/sched_list_item_moon"
+        android:layout_toLeftOf="@+id/sched_list_item_moon"
+        android:layout_toStartOf="@+id/sched_list_item_moon" />
+
+    <TextView
+        android:id="@+id/sched_list_item_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/schedule_main_text_size"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/sched_list_item_min"
+        android:layout_toLeftOf="@+id/sched_list_item_min"
+        android:layout_toStartOf="@+id/sched_list_item_min" />
 
 
 </RelativeLayout>
