@@ -159,6 +159,7 @@ public class RegistrationFragment extends Fragment {
                                                 Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
                                             }
 
+
                                             Toast.makeText(getActivity(), "Registration & Login successful", Toast.LENGTH_LONG).show();
                                         }
 
@@ -174,7 +175,7 @@ public class RegistrationFragment extends Fragment {
                                 @Override
                                 public void failure(RetrofitError error) {
                                     Log.d("SignInResponse", "Error: "+error.getMessage());
-                                    Toast.makeText(getActivity(), "Registration failed: "+error.getBody(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), "Registration failed: "+error.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             });
 

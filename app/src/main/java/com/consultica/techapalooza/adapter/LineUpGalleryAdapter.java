@@ -17,8 +17,12 @@ import java.util.List;
 
 public class LineUpGalleryAdapter extends RecyclerView.Adapter<LineUpGalleryAdapter.ViewHolder> {
 
+    public static final String URL = "https://techapalooza";
+
     private LayoutInflater inflater;
     private List<Band> data = Collections.emptyList();
+
+    private static ClickListener clickListener;
 
     public LineUpGalleryAdapter(Context context, List<Band> data) {
         inflater = LayoutInflater.from(context);
@@ -38,7 +42,7 @@ public class LineUpGalleryAdapter extends RecyclerView.Adapter<LineUpGalleryAdap
 
         Picasso picasso = Picasso.with(App.getInstance());
         picasso.setDebugging(true);
-        picasso.load(current.imagePath)
+        picasso.load(URL + current.getLogo())
                 .resizeDimen(R.dimen.grid_image_item_size, R.dimen.grid_image_item_size)
                 .centerInside()
                 .into(holder.imageView);
@@ -49,13 +53,33 @@ public class LineUpGalleryAdapter extends RecyclerView.Adapter<LineUpGalleryAdap
         return data.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public Band getItem(int position){
+        return data.get(position);
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+
             imageView = (ImageView) itemView.findViewById(R.id.line_up_item_image_view);
         }
+
+        @Override
+        public void onClick(View v) {
+            clickListener.onItemClick(getAdapterPosition(), v);
+        }
     }
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        LineUpGalleryAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+    }
+
 }

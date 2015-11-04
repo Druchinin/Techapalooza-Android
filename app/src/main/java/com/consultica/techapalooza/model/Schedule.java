@@ -4,19 +4,21 @@ import com.consultica.techapalooza.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class Schedule {
-    String id;
-    String starts_at;
-    String name;
-    int amountOfBand = 0;
-    String band_Id;
-    String band_name;
-    int lineColor = R.color.vertLineIndicatorNormal;
+    private String id;
+    private String starts_at;
+    private String name;
+    private int amountOfBand = 0;
+    private String band_Id;
+    private String band_name;
+    private int lineColor = R.color.vertLineIndicatorNormal;
 
     public String getId() {
         return id;
@@ -86,6 +88,14 @@ public class Schedule {
         return cal.get(Calendar.MINUTE);
     }
 
+    public String getAM_PM(){
+        Calendar cal = getCalendarFromISO(starts_at);
+        if (cal.get(Calendar.AM_PM) == 1){
+            return "pm";
+        }
+        return "am";
+    }
+
     public static Calendar getCalendarFromISO(String datestring) {
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
@@ -100,4 +110,54 @@ public class Schedule {
 
         return calendar;
     }
+
+    public class ScheduleResponse {
+
+        public Data data;
+
+        class Data {
+            List<Item> schedule;
+        }
+
+        class Item {
+            String id;
+            String starts_at;
+            String name;
+            ResponseBand band;
+        }
+
+        class ResponseBand {
+            String id;
+            String name;
+
+            public String getBandName(){
+                return name;
+            }
+        }
+
+
+
+        public List<Schedule> getAllSchedule() {
+            List<Schedule> list = new ArrayList<>();
+
+            for (Item item : data.schedule) {
+                Schedule schedule = new Schedule();
+                schedule.setId(item.id);
+                schedule.setStarts_at(item.starts_at);
+                schedule.setName(item.name);
+                if (item.band != null) {
+                    schedule.setAmountOfBand(1);
+                    schedule.setBand_Id(item.band.id);
+                    schedule.setBand_name(item.band.name);
+                }
+
+                list.add(schedule);
+            }
+
+            return list;
+        }
+
+
+    }
+
 }

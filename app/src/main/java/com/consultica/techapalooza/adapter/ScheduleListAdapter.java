@@ -44,9 +44,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
         holder.hour.setText(String.valueOf(current.getHours()));
         holder.minutes.setText(min);
-        if (current.getHours() < 12)
-            holder.moon.setText("am");
-        else holder.moon.setText("pm");
+        holder.moon.setText(current.getAM_PM());
         holder.line.setBackgroundResource(current.getLineColor());
         if (!current.getBand_name().equals(""))
             holder.title.setText(current.getBand_name());

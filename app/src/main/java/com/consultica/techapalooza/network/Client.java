@@ -1,6 +1,8 @@
 package com.consultica.techapalooza.network;
 
 import com.consultica.techapalooza.BuildConfig;
+import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.model.Schedule;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -12,7 +14,7 @@ import retrofit.http.Query;
 
 public class Client {
 
-    private String url = "https://techapalooza/";
+    private static final String URL = "https://techapalooza/";
 
     private static Client instance;
     private API api;
@@ -31,7 +33,7 @@ public class Client {
     private Client() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setRequestInterceptor(Interceptor.getInstance())
-                .setEndpoint(url)
+                .setEndpoint(URL)
                 .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
                 .build();
 
@@ -64,11 +66,11 @@ public class Client {
 
         // SCHEDULE
         @GET("/api/schedule")
-        void getSchedule(ScheduleCallback<ScheduleResponse> cb);
+        void getSchedule(ServerCallback<Schedule.ScheduleResponse> cb);
 
         // BANDS
         @GET("/api/bands")
-        void getBandList(Callback cb);
+        void getBandList(Callback<Band.BandResponse> cb);
 
         //TICKETS
         @GET("/api/tickets/price")

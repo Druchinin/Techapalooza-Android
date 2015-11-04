@@ -8,7 +8,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public abstract class ScheduleCallback<T> implements Callback<T> {
+public abstract class ServerCallback<T> implements Callback<T> {
     @Override
     public void success(T o, Response response) {
         if (response.getStatus() / 10 == 20) {

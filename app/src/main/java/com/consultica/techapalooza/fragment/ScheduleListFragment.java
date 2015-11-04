@@ -8,19 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapter.ScheduleListAdapter;
 import com.consultica.techapalooza.database.DBMaster;
+import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.Schedule;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class ScheduleListFragment extends Fragment {
 
@@ -30,23 +26,36 @@ public class ScheduleListFragment extends Fragment {
     private FragmentTransaction transaction;
     int count;
 
+    private DBMaster dbMaster;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_schedule_list, container, false);
 
-        DBMaster dbMaster = DBMaster.getInstance(getActivity());
+        dbMaster = DBMaster.getInstance(getActivity());
 
         List<Schedule> data = dbMaster.getAllSchedule();
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.schedule_recycle_view);
-        ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), data);
+        final ScheduleListAdapter adapter = new ScheduleListAdapter(getActivity(), data);
         adapter.setOnItemClickListener(new ScheduleListAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-                tr.replace(R.id.schedule_container, new BandDetailsFragment(), BandDetailsFragment.TAG);
-                tr.addToBackStack(BandDetailsFragment.TAG);
-                tr.commit();
+                Schedule schedule = adapter.getItem(position);
+
+                if (schedule.getBand_Id() != null) {
+                    Band band = dbMaster.getBand(schedule.getBand_Id());
+
+                    BandDetailsFragment fragment = new BandDetailsFragment();
+                    fragment.setBand(band);
+
+                    FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
+                    tr.replace(R.id.schedule_container, fragment, BandDetailsFragment.TAG);
+                    tr.addToBackStack(BandDetailsFragment.TAG);
+                    tr.commit();
+                } else {
+                    Toast.makeText(getActivity(), "Can't get description", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

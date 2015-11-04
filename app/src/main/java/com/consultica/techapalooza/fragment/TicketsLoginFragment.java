@@ -1,5 +1,7 @@
 package com.consultica.techapalooza.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.consultica.techapalooza.App;
+import com.consultica.techapalooza.MainActivity;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.Interceptor;
@@ -88,6 +92,11 @@ public class TicketsLoginFragment extends Fragment {
                             Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
                         }
 
+
+                        SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
+                        pref.edit().clear().commit();
+
+                        pref.edit().putString("email", signInResponse.getUserEmail()).putString("id", signInResponse.getUserId()).apply();
                         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG).show();
 
                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

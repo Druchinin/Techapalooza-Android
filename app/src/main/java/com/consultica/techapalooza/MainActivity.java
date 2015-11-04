@@ -25,6 +25,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
+    public static final String USER_PREF = "CurrentUser";
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TextView tv_tabOne, tv_tabTwo, tv_tabThree, tv_tabFour, tv_tabFive;
