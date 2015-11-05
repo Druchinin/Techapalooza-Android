@@ -6,11 +6,12 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/fragment_tickets_main_logo"
         android:layout_width="wrap_content"
         android:layout_height="180dp"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/tickets_outline_icon" />
+        />
 
     <TextView
         android:layout_width="wrap_content"

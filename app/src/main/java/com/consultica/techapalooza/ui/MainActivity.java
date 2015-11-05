@@ -1,4 +1,4 @@
-package com.consultica.techapalooza;
+package com.consultica.techapalooza.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,15 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.consultica.techapalooza.adapter.TabsPagerFragmentAdapter;
-import com.consultica.techapalooza.fragment.LineUpFragment;
-import com.consultica.techapalooza.fragment.LineUpGalleryFragment;
-import com.consultica.techapalooza.fragment.NewsFeedFragment;
-import com.consultica.techapalooza.fragment.ScheduleFragment;
-import com.consultica.techapalooza.fragment.ScheduleListFragment;
-import com.consultica.techapalooza.fragment.TicketsFragmentContainer;
-import com.consultica.techapalooza.fragment.TicketsMainFragment;
-import com.consultica.techapalooza.fragment.VenueFragment;
+import com.consultica.techapalooza.utils.Constants;
+import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.adapters.TabsPagerFragmentAdapter;
+import com.consultica.techapalooza.ui.fragments.lineup.LineUpFragment;
+import com.consultica.techapalooza.ui.fragments.lineup.LineUpGalleryFragment;
+import com.consultica.techapalooza.ui.fragments.news.NewsFeedFragment;
+import com.consultica.techapalooza.ui.fragments.schedule.ScheduleFragment;
+import com.consultica.techapalooza.ui.fragments.schedule.ScheduleListFragment;
+import com.consultica.techapalooza.ui.fragments.tickets.TicketsFragmentContainer;
+import com.consultica.techapalooza.ui.fragments.tickets.TicketsMainFragment;
+import com.consultica.techapalooza.ui.fragments.venue.VenueFragment;
 import com.nestlean.sdk.Nestlean;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;

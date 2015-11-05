@@ -6,11 +6,11 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/no_tickets_logo"
         android:layout_width="wrap_content"
         android:layout_height="180dp"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/tickets_outline_icon" />
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
         fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
 
     <Button
-        android:id="@+id/btn_tickets_sign_in"
+        android:id="@+id/no_tickets_purchase"
         android:text="@string/tickets_btn_purchase_lable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,6 +37,7 @@
         fontPath="fonts/Roboto-Light.ttf" />
 
     <TextView
+        android:id="@+id/no_tickets_redeem_coupon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tickets_redeem_coupon"
@@ -47,7 +48,8 @@
         android:textStyle="bold"
         fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
         android:layout_marginBottom="24dp"
-        android:gravity="bottom" />
+        android:gravity="bottom"
+        android:clickable="true"/>
 
 
 </LinearLayout>

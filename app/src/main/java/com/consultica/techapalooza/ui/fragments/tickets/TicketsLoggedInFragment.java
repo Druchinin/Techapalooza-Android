@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.fragment;
+package com.consultica.techapalooza.ui.fragments.tickets;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -24,6 +24,7 @@ public class TicketsLoggedInFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_tickets_logged_in, container, false);
+
 
 
         return view;

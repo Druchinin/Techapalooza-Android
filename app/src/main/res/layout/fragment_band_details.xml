@@ -14,8 +14,7 @@
             android:id="@+id/band_det_logo_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/dummy_art_image" />
+            android:layout_marginTop="24dp" />
 
         <TextView
             android:id="@+id/band_det_name_tv"

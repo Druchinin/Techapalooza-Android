@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.fragment;
+package com.consultica.techapalooza.ui.fragments.tickets;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.consultica.techapalooza.App;
-import com.consultica.techapalooza.MainActivity;
+import com.consultica.techapalooza.ui.MainActivity;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.SignInResponse;

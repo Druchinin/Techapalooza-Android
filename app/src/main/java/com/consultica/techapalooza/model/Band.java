@@ -83,7 +83,6 @@ public class Band {
         public Data data;
 
         class Data {
-
             List<Item> bands;
         }
 

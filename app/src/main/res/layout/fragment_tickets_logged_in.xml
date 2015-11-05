@@ -5,61 +5,12 @@
     android:background="@color/windowBackground"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ticket_recycle_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="8dp">
-
-        <ImageView
-            android:id="@+id/ticket_background_image"
-            android:layout_width="wrap_content"
-            android:layout_height="400dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:src="@drawable/individual_ticket" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="46dp"
-            android:layout_centerHorizontal="true"
-            >
-
-            <TextView
-                android:id="@+id/ticket_lable"
-                fontPath="fonts/Capture_it.ttf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="TECHAPALOOZA"
-                android:textSize="28sp"
-                android:textColor="#0C1301"/>
-
-            <TextView
-                fontPath="fonts/Capture_it.ttf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="2016"
-                android:textSize="28sp"
-                android:textColor="#426C90"/>
-
-        </LinearLayout>
-
-
-        <ImageView
-            android:id="@+id/ticket_qr_code"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_alignBottom="@+id/ticket_background_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="36dp"
-            android:src="@drawable/qrcode"/>
-
-    </RelativeLayout>
-
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_weight="1"/>
 
     <TextView
         fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
@@ -78,12 +29,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
         android:gravity="bottom"
         android:text="@string/tickets_redeem_coupon"
         android:textColor="@color/textColorActive"
         android:textSize="@dimen/tickets_main_text_size"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="60dp"/>
 
 
 </LinearLayout>

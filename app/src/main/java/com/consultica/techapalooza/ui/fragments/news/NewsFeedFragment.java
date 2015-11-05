@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.fragment;
+package com.consultica.techapalooza.ui.fragments.news;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.consultica.techapalooza.R;
-import com.consultica.techapalooza.adapter.ArticleRecycleViewAdapter;
+import com.consultica.techapalooza.adapters.ArticleRecycleViewAdapter;
 import com.consultica.techapalooza.model.Article;
 
 import java.util.ArrayList;

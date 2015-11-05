@@ -1,4 +1,4 @@
-package com.consultica.techapalooza;
+package com.consultica.techapalooza.utils;
 
 
 public class Constants {

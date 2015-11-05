@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.fragment;
+package com.consultica.techapalooza.ui.fragments.schedule;
 
 
 import android.os.Bundle;

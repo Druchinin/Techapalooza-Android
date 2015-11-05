@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.fragment;
+package com.consultica.techapalooza.ui.fragments.lineup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.consultica.techapalooza.R;
-import com.consultica.techapalooza.adapter.LineUpGalleryAdapter;
+import com.consultica.techapalooza.adapters.LineUpGalleryAdapter;
 import com.consultica.techapalooza.model.Band;
 import com.squareup.picasso.Picasso;
 

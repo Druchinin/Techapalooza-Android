@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.adapter;
+package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;

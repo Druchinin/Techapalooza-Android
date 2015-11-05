@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.adapter;
+package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +41,6 @@ public class LineUpGalleryAdapter extends RecyclerView.Adapter<LineUpGalleryAdap
         Band current = data.get(position);
 
         Picasso picasso = Picasso.with(App.getInstance());
-        picasso.setDebugging(true);
         picasso.load(URL + current.getLogo())
                 .resizeDimen(R.dimen.grid_image_item_size, R.dimen.grid_image_item_size)
                 .centerInside()

@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.fragment;
+package com.consultica.techapalooza.ui.fragments.tickets;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

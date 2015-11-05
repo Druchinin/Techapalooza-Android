@@ -1,4 +1,4 @@
-package com.consultica.techapalooza.fragment;
+package com.consultica.techapalooza.ui.fragments.schedule;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.consultica.techapalooza.R;
-import com.consultica.techapalooza.adapter.ScheduleListAdapter;
+import com.consultica.techapalooza.adapters.ScheduleListAdapter;
 import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.Schedule;
+import com.consultica.techapalooza.ui.fragments.lineup.BandDetailsFragment;
 
 import java.util.List;
 
