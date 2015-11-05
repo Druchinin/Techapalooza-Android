@@ -5,20 +5,20 @@
     android:orientation="vertical"
     android:background="@color/windowBackground">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/colorWhite"
-        android:layout_marginTop="1dp">
+        android:layout_marginTop="1dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
             android:textColor="#3F6C95"
-            android:textSize="@dimen/tickets_main_text_size"
-            android:layout_centerVertical="true"
+            android:textSize="@dimen/reg_lable_text_size"
+            android:layout_gravity="center_vertical"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_margin="16dp"
@@ -29,15 +29,26 @@
             android:id="@+id/reg_et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/reg_tv_name"
-            android:layout_toEndOf="@+id/reg_tv_name"
+            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:textColor="#0B304B"
-            android:text="" />
+            android:text=""
+            android:inputType="textPersonName"
+            android:background="@color/colorWhite"
+            android:layout_weight="1"/>
 
-    </RelativeLayout>
-    <RelativeLayout
+        <ImageView
+            android:id="@+id/reg_name_image_check"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/ic_action_pass"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -47,13 +58,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="center_vertical"
             android:text="Email"
             android:textColor="#3F6C95"
-            android:textSize="@dimen/tickets_main_text_size"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="16dp"
+            android:textSize="@dimen/reg_lable_text_size"
             android:id="@+id/reg_tv_email"
             fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
 
@@ -61,15 +70,26 @@
             android:id="@+id/reg_et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/reg_tv_email"
-            android:layout_toEndOf="@+id/reg_tv_email"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:background="@color/colorWhite"
+            android:layout_weight="1"
             android:textColor="#0B304B"
-            android:text="" />
+            android:text=""
+            android:textSize="@dimen/reg_lable_text_size"
+            android:inputType="textEmailAddress"/>
 
-    </RelativeLayout>
-    <RelativeLayout
+        <ImageView
+            android:id="@+id/reg_email_image_check"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/ic_action_pass"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -79,27 +99,58 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Password"
             android:textColor="#3F6C95"
-            android:textSize="@dimen/tickets_main_text_size"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:textSize="@dimen/reg_lable_text_size"
             android:layout_margin="16dp"
-            android:id="@+id/reg_tv_psw"
             fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
 
         <EditText
             android:id="@+id/reg_et_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/reg_tv_psw"
-            android:layout_toEndOf="@+id/reg_tv_psw"
-            android:layout_centerVertical="true"
+            android:background="@color/colorWhite"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:textColor="#0B304B"
-            android:text="" />
+            android:text=""
+            android:textSize="@dimen/reg_lable_text_size"
+            android:inputType="textVisiblePassword"/>
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/reg_tv_hide_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="HIDE"
+            android:textSize="16sp"
+            android:clickable="true"
+            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf" />
+
+        <ImageView
+            android:id="@+id/reg_psw_image_check"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/ic_action_pass"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_reg_sign_up"
+        android:text="@string/tickets_btn_signup_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_btn_style"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/tickets_btn_text_size"
+        fontPath="fonts/Roboto-Light.ttf"
+        android:layout_margin="16dp"/>
 
 </LinearLayout>

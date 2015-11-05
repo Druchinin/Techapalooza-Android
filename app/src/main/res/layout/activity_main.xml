@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimaryDark"
-                android:minHeight="?attr/actionBarSize">
+                android:minHeight="?attr/actionBarSize" >
 
                 <TextView
                     android:id="@+id/toolbar_title"

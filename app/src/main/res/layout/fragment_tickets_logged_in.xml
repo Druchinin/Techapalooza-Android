@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ticket_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_weight="1"/>
+
+    <TextView
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="8dp"
+        android:text="1/1"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/tickets_main_text_size" />
+
+
+    <TextView
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="bottom"
+        android:text="@string/tickets_redeem_coupon"
+        android:textColor="@color/textColorActive"
+        android:textSize="@dimen/tickets_main_text_size"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="60dp"/>
+
+
+</LinearLayout>

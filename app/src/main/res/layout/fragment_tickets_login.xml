@@ -5,7 +5,7 @@
     android:background="@color/windowBackground"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -13,61 +13,54 @@
         android:layout_marginTop="1dp">
 
         <TextView
+            android:id="@+id/reg_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Email"
             android:textColor="#3F6C95"
-            android:textSize="@dimen/tickets_main_text_size"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:textSize="@dimen/reg_lable_text_size"
             android:layout_margin="16dp"
-            android:id="@+id/reg_tv_name"
             fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
 
         <EditText
             android:id="@+id/reg_et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/reg_tv_name"
-            android:layout_toEndOf="@+id/reg_tv_name"
-            android:layout_centerVertical="true"
-            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:background="@color/colorWhite"
             android:inputType="textEmailAddress" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:layout_marginTop="1dp">
 
         <TextView
+            android:id="@+id/tv_tickets_login_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Password"
             android:textColor="#3F6C95"
-            android:textSize="@dimen/tickets_main_text_size"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="8dp"
+            android:textSize="@dimen/reg_lable_text_size"
+            android:layout_margin="16dp"
             fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
-            android:id="@+id/tv_tickets_login_password" />
+            />
 
         <EditText
             android:id="@+id/et_tickets_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/tv_tickets_login_password"
-            android:layout_toStartOf="@+id/tv_hide_psw"
-            android:layout_centerVertical="true"
+            android:background="@color/colorWhite"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textColor="#0B304B"
+            android:text=""
             android:inputType="textVisiblePassword"
             />
 
@@ -76,15 +69,13 @@
             android:text="HIDE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_vertical"
             android:textSize="16sp"
             android:layout_marginRight="16dp"
             android:clickable="true"
             fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_tickets_login_sign_in"

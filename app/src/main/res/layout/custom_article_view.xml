@@ -32,7 +32,6 @@
         android:id="@+id/art_iv_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/dummy_art_image"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:contentDescription="@string/dummy_image" />
