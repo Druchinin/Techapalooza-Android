@@ -1,8 +1,14 @@
 package com.consultica.techapalooza.network;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+
+import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.BuildConfig;
 import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.model.News;
 import com.consultica.techapalooza.model.Schedule;
+import com.consultica.techapalooza.model.Ticket;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -10,7 +16,6 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Query;
 
 public class Client {
 
@@ -62,7 +67,7 @@ public class Client {
         void getCurrentUser(Callback<SignInResponse> cb);
 
         @POST("/api/users/logout")
-        void logOut(Callback cb);
+        void logOut(Callback<SignInResponse> cb);
 
         // SCHEDULE
         @GET("/api/schedule")
@@ -74,21 +79,32 @@ public class Client {
 
         //TICKETS
         @GET("/api/tickets/price")
-        void getTicketPrice(Callback cb);
+        void getTicketPrice(Callback<Ticket.TicketPriceResponse> cb);
 
         @GET("/api/tickets")
-        void getTicketsList(Callback cb);
+        void getTicketsList(Callback<Ticket.TicketResponse> cb);
 
+        @FormUrlEncoded
         @POST("/api/tickets/purchase")
         void purchaseTicket(
-                @Query("band") String band,
-                @Query("numberOfTickets") int number,
-                @Query("token") String stripeToken,
-                Callback cb);
+                @Field("band") String band,
+                @Field("numberOfTickets") int number,
+                @Field("token") String stripeToken,
+                Callback<Ticket.TicketResponse> cb);
 
+        @FormUrlEncoded
         @POST("/api/tickets/redeem")
         void redeemPromoCode(
-                @Query("code") String code,
-                Callback cb);
+                @Field("band") String band,
+                @Field("code") String code,
+                Callback<Ticket.TicketResponse> cb);
+
+        @GET("/api/news")
+        void getNews(Callback<News.NewsResponse> cb);
+    }
+
+    public static boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 }

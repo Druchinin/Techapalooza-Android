@@ -1,7 +1,5 @@
 package com.consultica.techapalooza.model;
 
-import com.consultica.techapalooza.R;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,11 +12,12 @@ import java.util.TimeZone;
 public class Schedule {
     private String id;
     private String starts_at;
+    private String ends_at;
     private String name;
     private int amountOfBand = 0;
     private String band_Id;
     private String band_name;
-    private int lineColor = R.color.vertLineIndicatorNormal;
+    private boolean isNow = false;
 
     public String getId() {
         return id;
@@ -34,6 +33,14 @@ public class Schedule {
 
     public void setStarts_at(String starts_at) {
         this.starts_at = starts_at;
+    }
+
+    public String getEnds_at() {
+        return ends_at;
+    }
+
+    public void setEnds_at(String ends_at) {
+        this.ends_at = ends_at;
     }
 
     public String getName() {
@@ -66,16 +73,16 @@ public class Schedule {
         else return "";
     }
 
+    public boolean isNow() {
+        return isNow;
+    }
+
+    public void setNow(boolean isNow) {
+        this.isNow = isNow;
+    }
+
     public void setBand_name(String band_name) {
         this.band_name = band_name;
-    }
-
-    public int getLineColor() {
-        return lineColor;
-    }
-
-    public void setLineColor(int lineColor) {
-        this.lineColor = lineColor;
     }
 
     public int getHours() {
@@ -122,19 +129,15 @@ public class Schedule {
         class Item {
             String id;
             String starts_at;
+            String ends_at;
             String name;
-            ResponseBand band;
+            ThisBand band;
         }
 
-        class ResponseBand {
+        class ThisBand {
             String id;
             String name;
-
-            public String getBandName(){
-                return name;
-            }
         }
-
 
 
         public List<Schedule> getAllSchedule() {
@@ -144,6 +147,7 @@ public class Schedule {
                 Schedule schedule = new Schedule();
                 schedule.setId(item.id);
                 schedule.setStarts_at(item.starts_at);
+                schedule.setEnds_at(item.ends_at);
                 schedule.setName(item.name);
                 if (item.band != null) {
                     schedule.setAmountOfBand(1);

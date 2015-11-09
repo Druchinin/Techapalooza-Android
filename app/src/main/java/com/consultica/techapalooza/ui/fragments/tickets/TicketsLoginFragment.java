@@ -10,17 +10,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.consultica.techapalooza.App;
+import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.ui.MainActivity;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.Interceptor;
 import com.consultica.techapalooza.network.SignInResponse;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -35,13 +39,17 @@ public class TicketsLoginFragment extends Fragment {
     private EditText mEmail, mEtPassword;
     private TextView mHidePass;
     private boolean isShownPsw = true;
-    private Button btnSignIn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_tickets_login, container, false);
-        Log.d("Fragment Tickets:", "onCreateView()");
 
+        init();
+
+        return view;
+    }
+
+    private void init() {
         mEmail = (EditText) view.findViewById(R.id.reg_et_name);
 
         mEtPassword = (EditText) view.findViewById(R.id.et_tickets_login_password);
@@ -79,29 +87,27 @@ public class TicketsLoginFragment extends Fragment {
             }
         });
 
-        btnSignIn = (Button) view.findViewById(R.id.btn_tickets_login_sign_in);
+        Button btnSignIn = (Button) view.findViewById(R.id.btn_tickets_login_sign_in);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                hideSoftKeyboard();
+
                 Client.getAPI().signIn(mEmail.getText().toString(), mEtPassword.getText().toString(), new Callback<SignInResponse>() {
                     @Override
                     public void success(SignInResponse signInResponse, Response response) {
                         Log.d("LogIn", "Status: " + response.getStatus());
 
-                        if (Interceptor.getInstance().getCookie() == null) {
-                            Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
-                        }
-
+                        saveCookie(response);
 
                         SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
                         pref.edit().clear().commit();
-
                         pref.edit().putString("email", signInResponse.getUserEmail()).putString("id", signInResponse.getUserId()).apply();
+
                         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG).show();
 
-                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
-                        ft.commit();
+                        checkTickets();
                     }
 
                     @Override
@@ -111,31 +117,48 @@ public class TicketsLoginFragment extends Fragment {
                 });
             }
         });
-
-        return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("Fragment Tickets:", "onResume()");
+    private void checkTickets() {
+        Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
+            @Override
+            public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                if (ticketResponse.getTickets().size() > 0)
+                    startTicketsLoggedFragment(ticketResponse.getTickets());
+                else startNoTicketsFragment();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                startNoTicketsFragment();
+            }
+        });
     }
 
-    @Override
-    public void onPause() {
-        Log.d("Fragment Tickets:", "onPause()");
-        super.onPause();
+    private void startTicketsLoggedFragment(List<Ticket> list) {
+        TicketsLoggedInFragment fragment = new TicketsLoggedInFragment();
+        fragment.setTickets(list);
+
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_tickets_container, fragment, TicketsLoggedInFragment.TAG);
+        ft.commit();
     }
 
-    @Override
-    public void onDestroyView() {
-        Log.d("Fragment Tickets:", "onDestroyView()");
-        super.onDestroyView();
+    private void saveCookie(Response response) {
+        if (Interceptor.getInstance().getCookie() == null) {
+            Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
+        }
     }
 
-    @Override
-    public void onDestroy() {
-        Log.d("Fragment Tickets:", "onDestroy()");
-        super.onDestroyView();
+    private void startNoTicketsFragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
+        ft.commit();
     }
+
+    private void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }

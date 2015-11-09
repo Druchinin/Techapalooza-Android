@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.consultica.techapalooza.App;
@@ -45,7 +44,12 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
         holder.hour.setText(String.valueOf(current.getHours()));
         holder.minutes.setText(min);
         holder.moon.setText(current.getAM_PM());
-        holder.line.setBackgroundResource(current.getLineColor());
+
+        if (current.isNow())
+            holder.line.setBackgroundResource(R.color.vertLineIndicatorActive);
+        else
+            holder.line.setBackgroundResource(R.color.vertLineIndicatorNormal);
+
         if (!current.getBand_name().equals(""))
             holder.title.setText(current.getBand_name());
         else holder.title.setText(current.getName());
@@ -60,24 +64,12 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
         return data.get(postition);
     }
 
-    public void changeVerticalIndicatorState(int position) {
-        if (currItemIndicator >= 0) {
-            data.get(position).setLineColor(R.color.vertLineIndicatorActive);
-            data.get(currItemIndicator).setLineColor(R.color.vertLineIndicatorNormal);
-        } else {
-            data.get(position).setLineColor(R.color.vertLineIndicatorActive);
-            currItemIndicator = position;
-        }
-
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView hour;
         private TextView minutes;
         private TextView moon;
         private FrameLayout line;
         private TextView title;
-        private ImageView arrow;
 
         public ViewHolder(View itemView) {
             super(itemView);

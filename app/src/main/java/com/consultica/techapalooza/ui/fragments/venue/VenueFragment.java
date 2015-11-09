@@ -20,25 +20,30 @@ public class VenueFragment extends Fragment {
 
     private View view;
     private MapView mapView;
-    private GoogleMap map;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_venue, container, false);
+
+        init(savedInstanceState);
+
+        return view;
+    }
+
+    private void init(Bundle savedInstanceState) {
 
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         MapsInitializer.initialize(getActivity());
 
         final LatLng THE_FORT_GARRY_HOTEL = new LatLng(49.8879446,-97.1367691);
-        map = mapView.getMap();
+        GoogleMap map = mapView.getMap();
 
         if (map != null) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(THE_FORT_GARRY_HOTEL, 15));
             map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
             map.addMarker(new MarkerOptions().position(THE_FORT_GARRY_HOTEL).title("The Fort Garry Hotel"));
         }
-        return view;
     }
 
     @Override

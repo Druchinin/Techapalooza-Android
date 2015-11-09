@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Band {
+
     private String id;
     private String name;
     private String logo;
@@ -92,26 +93,6 @@ public class Band {
             String logo;
             String description;
             String starts_at;
-        }
-
-        public String getId(int position){
-            return data.bands.get(position).id;
-        }
-
-        public String getName(int position){
-            return data.bands.get(position).name;
-        }
-
-        public String getLogo(int position){
-            return data.bands.get(position).logo;
-        }
-
-        public String getDescription(int position){
-            return data.bands.get(position).description;
-        }
-
-        public String getDate(int position){
-            return data.bands.get(position).starts_at;
         }
 
         public List<Band> getAllBands() {

@@ -18,8 +18,6 @@ public class Interceptor implements RequestInterceptor {
     public static final String PREF = "Interceptor";
     public static final String COOKIE = "connect.sid";
 
-    private String mRequestHeader;
-    private String mRequestHeaderBody;
     private String cookie;
     private static Interceptor instance;
 
@@ -31,9 +29,7 @@ public class Interceptor implements RequestInterceptor {
         return instance;
     }
 
-    private Interceptor() {
-        mRequestHeader = "Authorization";
-    }
+    private Interceptor() {}
 
     public void addCookie(Cookie cookie) {
         if (cookie.getName().equals("connect.sid")) {
@@ -49,7 +45,6 @@ public class Interceptor implements RequestInterceptor {
 
     @Override
     public void intercept(RequestInterceptor.RequestFacade facade) {
-//        facade.addHeader(mRequestHeader, mRequestHeaderBody);
         if (cookie != null) {
             facade.addHeader("Cookie", COOKIE + "=" + cookie);
         }

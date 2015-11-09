@@ -21,33 +21,43 @@ public class LineUpGalleryFragment extends Fragment {
     public static final String TAG = "com.consultica.techapalooza.fragment.LineUpGalleryFragment";
     private View view;
     private LineUpGalleryAdapter adapter;
+    private List<Band> data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_line_up_galery, container, false);
 
-        List<Band> data = DBMaster.getInstance(getActivity()).getAllBands();
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_line_up_gallery);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        adapter = new LineUpGalleryAdapter(getActivity(), data);
-        adapter.setOnItemClickListener(new LineUpGalleryAdapter.ClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Band band = adapter.getItem(position);
-
-                BandDetailsFragment fragment = new BandDetailsFragment();
-                fragment.setBand(band);
-
-                FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-                tr.replace(R.id.line_up_fragment_container, fragment, BandDetailsFragment.TAG);
-                tr.addToBackStack(BandDetailsFragment.TAG);
-                tr.commit();
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
+        setup();
 
         return view;
+    }
+
+    private void setup() {
+        data = DBMaster.getInstance(getActivity()).getAllBands();
+
+        if (data.size() > 0) {
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_line_up_gallery);
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+            adapter = new LineUpGalleryAdapter(getActivity(), data);
+            adapter.setOnItemClickListener(new LineUpGalleryAdapter.ClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    Band band = adapter.getItem(position);
+
+                    BandDetailsFragment fragment = new BandDetailsFragment();
+                    fragment.setBand(band);
+
+                    FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
+
+                    tr.replace(R.id.line_up_fragment_container, fragment, BandDetailsFragment.TAG);
+                    tr.addToBackStack(BandDetailsFragment.TAG);
+                    tr.commit();
+                }
+            });
+
+            recyclerView.setAdapter(adapter);
+
+        }
     }
 }

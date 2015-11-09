@@ -1,41 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground"
-    android:orientation="vertical">
+    android:background="@color/windowBackground">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ticket_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:layout_weight="1"/>
+        android:layout_above="@+id/fl_tickets_line" />
 
     <TextView
         fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        android:id="@+id/tv_tickets_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginRight="64dp"
-        android:layout_marginTop="8dp"
         android:text="1/1"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/tickets_main_text_size" />
+        android:textColor="#3E6682"
+        android:textSize="@dimen/tickets_main_text_size"
+        android:layout_alignBottom="@+id/fl_tickets_line"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="16dp"/>
 
 
     <TextView
         fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        android:id="@+id/tv_tickets_redeem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="bottom"
         android:text="@string/tickets_redeem_coupon"
         android:textColor="@color/textColorActive"
         android:textSize="@dimen/tickets_main_text_size"
         android:textStyle="bold"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="60dp"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"/>
 
+    <TextView
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        android:id="@+id/tv_tickets_purchase_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchase more tickets"
+        android:textColor="@color/textColorActive"
+        android:textSize="@dimen/tickets_main_text_size"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"/>
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/fl_tickets_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#3E6682"
+        android:layout_above="@+id/tv_tickets_redeem"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+</RelativeLayout>

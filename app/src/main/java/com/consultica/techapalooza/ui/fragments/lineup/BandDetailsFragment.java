@@ -20,8 +20,6 @@ public class BandDetailsFragment extends Fragment {
     private View view;
 
     private Band band;
-    private ImageView band_det_logo_image, band_det_time_icon;
-    private TextView band_det_name_tv, band_det_hour_tv, band_det_min_tv, band_det_hour_am_pm, band_det_description;
 
 
     @Override
@@ -34,14 +32,13 @@ public class BandDetailsFragment extends Fragment {
     }
 
     private void setupInfo() {
-        band_det_logo_image = (ImageView) view.findViewById(R.id.band_det_logo_image);
-        band_det_time_icon = (ImageView) view.findViewById(R.id.band_det_time_icon);
+        ImageView band_det_logo_image = (ImageView) view.findViewById(R.id.band_det_logo_image);
 
-        band_det_name_tv = (TextView) view.findViewById(R.id.band_det_name_tv);
-        band_det_hour_tv = (TextView) view.findViewById(R.id.band_det_hour_tv);
-        band_det_min_tv = (TextView) view.findViewById(R.id.band_det_min_tv);
-        band_det_hour_am_pm = (TextView) view.findViewById(R.id.band_det_hour_am_pm);
-        band_det_description = (TextView) view.findViewById(R.id.band_det_description);
+        TextView band_det_name_tv = (TextView) view.findViewById(R.id.band_det_name_tv);
+        TextView band_det_hour_tv = (TextView) view.findViewById(R.id.band_det_hour_tv);
+        TextView band_det_min_tv = (TextView) view.findViewById(R.id.band_det_min_tv);
+        TextView band_det_hour_am_pm = (TextView) view.findViewById(R.id.band_det_hour_am_pm);
+        TextView band_det_description = (TextView) view.findViewById(R.id.band_det_description);
 
         if (band != null){
             Picasso.with(getActivity()).load(LineUpGalleryAdapter.URL + band.getLogo()).into(band_det_logo_image);
