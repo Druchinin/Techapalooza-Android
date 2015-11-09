@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.database.DBMaster;
 
 
 public class LineUpFragment extends Fragment{
@@ -20,9 +21,13 @@ public class LineUpFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_line_up, container, false);
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.line_up_fragment_container, new LineUpGalleryFragment(), LineUpGalleryFragment.TAG);
-        transaction.commit();
+        if (DBMaster.getInstance(getActivity()).getAllBands().size() > 0) {
+
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.line_up_fragment_container, new LineUpGalleryFragment(), LineUpGalleryFragment.TAG);
+            transaction.commit();
+
+        }
 
         return view;
     }

@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.utils.Constants;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.TabsPagerFragmentAdapter;
@@ -31,8 +33,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private TextView tv_tabOne, tv_tabTwo, tv_tabThree, tv_tabFour, tv_tabFive;
-    private TabsPagerFragmentAdapter adapter;
     private Toolbar toolbar;
     private android.support.v4.app.FragmentManager manager;
 
@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        manager = getSupportFragmentManager();
-
         Nestlean.init(MainActivity.this, "842d9562aaf24200372231e36c22e64a");
+
+        manager = getSupportFragmentManager();
 
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 
@@ -85,55 +85,51 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.textColorActive));
 
         tabLayout.setupWithViewPager(viewPager);
+
         setupTabIcons();
 
         setCurrentTabSelected(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()));
 
         tabLayout.setOnTabSelectedListener(this);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new TabsPagerFragmentAdapter(getSupportFragmentManager());
+        TabsPagerFragmentAdapter adapter = new TabsPagerFragmentAdapter(getSupportFragmentManager());
+
         adapter.addFragment(new NewsFeedFragment(), Constants.TAB_NEWS_FEED_LABLE);
         adapter.addFragment(new ScheduleFragment(), Constants.TAB_SCHEDULE_LABLE);
         adapter.addFragment(new TicketsFragmentContainer(), Constants.TAB_TICKETS_LABLE);
         adapter.addFragment(new LineUpFragment(), Constants.TAB_LINE_UP_LABLE);
         adapter.addFragment(new VenueFragment(), Constants.TAB_VENUE_LABLE);
-        viewPager.setAdapter(adapter);
 
+        viewPager.setAdapter(adapter);
     }
 
     private void setupTabIcons() {
-        tv_tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        TextView tv_tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tv_tabOne.setText(R.string.tab_lable_news_feed);
         tv_tabOne.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[0], 0, 0);
         tabLayout.getTabAt(0).setCustomView(tv_tabOne);
 
-        tv_tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        TextView tv_tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tv_tabTwo.setText(R.string.tab_lable_schedule);
         tv_tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[1], 0, 0);
         tabLayout.getTabAt(1).setCustomView(tv_tabTwo);
 
-        tv_tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        TextView tv_tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tv_tabThree.setText(R.string.tab_lable_tickets);
         tv_tabThree.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[2], 0, 0);
         tabLayout.getTabAt(2).setCustomView(tv_tabThree);
 
-        tv_tabFour = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        TextView tv_tabFour = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tv_tabFour.setText(R.string.tab_lable_line_up);
         tv_tabFour.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[3], 0, 0);
         tabLayout.getTabAt(3).setCustomView(tv_tabFour);
 
-        tv_tabFive = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        TextView tv_tabFive = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tv_tabFive.setText(R.string.tab_lable_venue);
         tv_tabFive.setCompoundDrawablesWithIntrinsicBounds(0, tabIcons[4], 0, 0);
         tabLayout.getTabAt(4).setCustomView(tv_tabFive);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
@@ -173,8 +169,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     }
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-    }
+    public void onTabReselected(TabLayout.Tab tab) {}
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -193,10 +188,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             switch (tab.getText().toString()) {
                 case Constants.TAB_NEWS_FEED_LABLE:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.getMenu().clear();
                     break;
                 case Constants.TAB_SCHEDULE_LABLE:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     setupBackStackChangeListener(ScheduleListFragment.TAG);
+                    toolbar.getMenu().clear();
                     break;
                 case Constants.TAB_TICKETS_LABLE:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -205,12 +202,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 case Constants.TAB_LINE_UP_LABLE:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     setupBackStackChangeListener(LineUpGalleryFragment.TAG);
+                    toolbar.getMenu().clear();
                     break;
                 case Constants.TAB_VENUE_LABLE:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbar.getMenu().clear();
                     break;
-
-
             }
         }
 
@@ -235,6 +232,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 }
             }
         });
+    }
+
+    public static void hideSoftKeyboard(View view){
+        InputMethodManager imm = (InputMethodManager) App.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
 

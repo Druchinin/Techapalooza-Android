@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/windowBackground"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:padding="16dp"
+        android:background="@drawable/card_background">
+
+        <ImageView
+            android:id="@+id/iv_card_frag_card_icon"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:src="@drawable/cards_other"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            fontPath="fonts/Roboto-Light.ttf"
+            android:id="@+id/tv_card_frag_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card number"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/news_feed_item_text_size"
+            android:textAllCaps="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="8dp"/>
+        
+        <EditText
+            android:id="@+id/et_card_frag_number"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/et_rounded_backround"
+            android:layout_below="@+id/tv_card_frag_number"
+            android:layout_marginTop="8dp"
+            android:inputType="number"
+            android:hint="0000 0000 0000 0000"
+            android:textSize="20sp"
+            android:gravity="center|center_vertical"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/et_card_frag_valid_thru_month"/>
+
+        <TextView
+            fontPath="fonts/Roboto-Light.ttf"
+            android:id="@+id/tv_card_frag_exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_card_frag_number"
+            android:text="Valid thru"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/news_feed_item_text_size"
+            android:textAllCaps="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_card_reg_valid_thru_cont"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/tv_card_frag_exp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/et_rounded_backround">
+
+            <EditText
+                android:id="@+id/et_card_frag_valid_thru_month"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:background="@color/transparent"
+                android:inputType="number"
+                android:hint="MM"
+                android:textSize="20sp"
+                android:imeOptions="actionNext"
+                android:nextFocusRight="@+id/et_card_frag_valid_thru_year"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="/"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:paddingRight="2dp"
+                android:paddingLeft="2dp"
+                android:layout_marginBottom="1dp"/>
+
+            <EditText
+                android:id="@+id/et_card_frag_valid_thru_year"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:background="@color/transparent"
+                android:inputType="number"
+                android:hint="YY"
+                android:textSize="20sp"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@+id/et_card_frag_cvc"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+
+
+        </LinearLayout>
+
+
+
+        <TextView
+            fontPath="fonts/Roboto-Light.ttf"
+            android:id="@+id/tv_card_frag_cvc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_card_frag_number"
+            android:layout_toRightOf="@+id/ll_card_reg_valid_thru_cont"
+            android:text="Cvc code"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/news_feed_item_text_size"
+            android:textAllCaps="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="58dp"/>
+
+        <EditText
+            android:id="@+id/et_card_frag_cvc"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/et_rounded_backround"
+            android:layout_below="@+id/tv_card_frag_exp"
+            android:layout_toRightOf="@+id/ll_card_reg_valid_thru_cont"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="50dp"
+            android:inputType="number"
+            android:hint="0000"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:imeOptions="actionDone"/>
+
+    </RelativeLayout>
+
+    <Button
+        fontPath="fonts/Roboto-Light.ttf"
+        android:id="@+id/btn_card_frag_card_purchase"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Purchase"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_btn_style"
+        android:textAllCaps="false"
+        android:textSize="@dimen/tickets_btn_text_size"
+        android:layout_marginTop="50dp"/>
+
+</LinearLayout>

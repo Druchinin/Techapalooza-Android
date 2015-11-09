@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.database.DBMaster;
 
 public class ScheduleFragment extends Fragment {
 
@@ -25,10 +26,19 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_schedule, container, false);
 
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.schedule_container, new ScheduleListFragment(), "Schedule List");
-        ft.commit();
+        setup();
 
         return view;
+    }
+
+    private void setup() {
+
+        if (DBMaster.getInstance(getActivity()).getAllSchedule().size() > 0) {
+
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.schedule_container, new ScheduleListFragment(), "Schedule List");
+            ft.commit();
+
+        }
     }
 }

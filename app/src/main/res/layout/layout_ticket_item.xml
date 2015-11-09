@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="380dp"
+    android:background="@color/windowBackground"
     android:orientation="vertical"
-    android:background="@color/windowBackground">
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="60dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="8dp">
+        android:layout_height="380dp">
 
-    <ImageView
-        android:id="@+id/ticket_background_image"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:src="@drawable/individual_ticket" />
+        <ImageView
+            android:id="@+id/ticket_background_image"
+            android:layout_width="270dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/individual_ticket" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="46dp"
-        android:layout_centerHorizontal="true"
-        >
-
-        <TextView
-            android:id="@+id/ticket_lable"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="TECHAPALOOZA"
-            android:textSize="28sp"
-            android:textColor="#0C1301"
-            fontPath="fonts/Capture_it.ttf" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="2016"
-            android:textSize="28sp"
-            android:textColor="#426C90"
-            fontPath="fonts/Capture_it.ttf" />
+            <TextView
+                android:id="@+id/ticket_lable"
+                fontPath="fonts/Capture_it.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="TECHAPALOOZA"
+                android:textColor="#0C1301"
+                android:textSize="24sp" />
 
-    </LinearLayout>
+            <TextView
+                fontPath="fonts/Capture_it.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="2016"
+                android:textColor="#426C90"
+                android:textSize="24sp" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/ticket_qr_code"
@@ -54,8 +54,7 @@
             android:layout_height="250dp"
             android:layout_alignBottom="@+id/ticket_background_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="36dp"
-            android:src="@drawable/qrcode"/>
+            android:layout_marginBottom="16dp" />
 
     </RelativeLayout>
 

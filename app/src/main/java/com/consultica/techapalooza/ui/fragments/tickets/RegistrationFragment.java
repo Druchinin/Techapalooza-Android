@@ -1,7 +1,10 @@
 package com.consultica.techapalooza.ui.fragments.tickets;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -10,16 +13,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.Interceptor;
 import com.consultica.techapalooza.network.SignInResponse;
+import com.consultica.techapalooza.ui.MainActivity;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -38,22 +44,30 @@ public class RegistrationFragment extends Fragment {
 
     private boolean isNameValid, isEmailValid, isPswVaild;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_registration, container, false);
 
-        setupCheckImages();
-        setupInput();
+        init();
 
         return view;
     }
 
-    private void setupInput() {
+    private void init() {
         setupCheckImages();
         setupHidePasswordBtn();
 
         mEtName = (EditText) view.findViewById(R.id.reg_et_name);
+        mEtEmail = (EditText) view.findViewById(R.id.reg_et_email);
+        mEtPsw = (EditText) view.findViewById(R.id.reg_et_psw);
+        setupInput();
+
+        mBtnSignUp = (Button) view.findViewById(R.id.btn_reg_sign_up);
+        setupBtnSignUp();
+    }
+
+    private void setupInput() {
+
         mEtName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -67,6 +81,7 @@ public class RegistrationFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 if (isNameValid(s.toString())) {
                     mRegNameImageCheck.setImageResource(R.mipmap.ic_action_pass);
                     mRegNameImageCheck.setVisibility(View.VISIBLE);
@@ -79,7 +94,6 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
-        mEtEmail = (EditText) view.findViewById(R.id.reg_et_email);
         mEtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,7 +119,6 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
-        mEtPsw = (EditText) view.findViewById(R.id.reg_et_psw);
         mEtPsw.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -136,51 +149,78 @@ public class RegistrationFragment extends Fragment {
                 }
             }
         });
+    }
 
-        mBtnSignUp = (Button) view.findViewById(R.id.btn_reg_sign_up);
+    private void setupBtnSignUp() {
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNameValid && isEmailValid && isPswVaild)
-                    Client.getAPI().signUp(
-                            mEtName.getText().toString(),
-                            mEtEmail.getText().toString(),
-                            mEtPsw.getText().toString(),
-                            new Callback<SignInResponse>() {
+                if (isNameValid && isEmailValid && isPswVaild) {
 
-                                @Override
-                                public void success(SignInResponse signInResponse, Response response) {
-                                    Client.getAPI().signIn(mEtEmail.getText().toString(), mEtPsw.getText().toString(), new Callback<SignInResponse>() {
-                                        @Override
-                                        public void success(SignInResponse signInResponse, Response response) {
-                                            Log.d("LogIn", "Status: " + response.getStatus());
-
-                                            if (Interceptor.getInstance().getCookie() == null) {
-                                                Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
-                                            }
-
-
-                                            Toast.makeText(getActivity(), "Registration & Login successful", Toast.LENGTH_LONG).show();
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            Log.d("LogIn error", "Status: " + error.getMessage());
-                                        }
-                                    });
-                                    Log.d("SignInResponse", "Status: " + response.getStatus());
-
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    Log.d("SignInResponse", "Error: "+error.getMessage());
-                                    Toast.makeText(getActivity(), "Registration failed: "+error.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-
+                    hideSoftKeyboard();
+                    signIn();
+                }
             }
         });
+    }
+
+    private void signIn() {
+
+        Client.getAPI().signUp(
+                mEtName.getText().toString(),
+                mEtEmail.getText().toString(),
+                mEtPsw.getText().toString(),
+                new Callback<SignInResponse>() {
+
+                    @Override
+                    public void success(SignInResponse signInResponse, Response response) {
+                        Client.getAPI().signIn(mEtEmail.getText().toString(), mEtPsw.getText().toString(), new Callback<SignInResponse>() {
+                            @Override
+                            public void success(SignInResponse signInResponse, Response response) {
+
+                                saveCookie(response);
+                                saveCurrentUser(signInResponse);
+                                startTicketsMainFragment();
+
+                                Toast.makeText(getActivity(), "Registration successful", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.d("SignInResponse", "Error: " + error.getMessage());
+                        Toast.makeText(getActivity(), "Registration failed", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void startTicketsMainFragment() {
+        FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
+        tr.replace(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
+        tr.commit();
+    }
+
+    private void saveCookie(Response response) {
+        if (Interceptor.getInstance().getCookie() == null) {
+            Interceptor.getInstance().buildUserIdCookieFromString(response.getHeaders());
+        }
+    }
+
+    private void saveCurrentUser(SignInResponse signInResponse) {
+        SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
+        pref.edit().putString("email", signInResponse.getUserEmail())
+                .putString("id", signInResponse.getUserId()).commit();
     }
 
     private void setupHidePasswordBtn() {
@@ -203,7 +243,7 @@ public class RegistrationFragment extends Fragment {
     }
 
     private boolean isNameValid(String s) {
-        return s.length()>4 && s.length() < 32;
+        return s.length() > 2 && s.length() < 32;
     }
 
     private boolean isEmailValid(String s) {

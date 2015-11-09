@@ -9,4 +9,6 @@ public class Constants {
     public static final String TAB_LINE_UP_LABLE = "Line-up";
     public static final String TAB_VENUE_LABLE = "Venue";
 
+    public static final String STRIPE_PUBLISHABLE_KEY = "pk_test_FbziBsItWJkWNwD6St4LvF6N";
+
 }

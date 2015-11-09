@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Ticket {
 
-    private String id;
-    private String code;
-    private String date;
-    private boolean verified;
+    String id;
+    String code;
+    String date;
+    boolean verified;
 
     public String getId() {
         return id;
@@ -22,32 +22,29 @@ public class Ticket {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
-
     public class TicketResponse {
-        public Data data;
+        Data data;
 
         class Data {
             boolean canReedem;
             List<Ticket> tickets;
+        }
+
+        public List<Ticket> getTickets(){
+            return data.tickets;
+        }
+    }
+
+    public class TicketPriceResponse {
+        public Data data;
+
+        class Data {
+            int price; // in cents
+            String currency;
+        }
+
+        public int getPrice(){
+            return data.price;
         }
     }
 }
