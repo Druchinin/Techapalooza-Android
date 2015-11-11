@@ -41,7 +41,11 @@ public class BandDetailsFragment extends Fragment {
         TextView band_det_description = (TextView) view.findViewById(R.id.band_det_description);
 
         if (band != null){
-            Picasso.with(getActivity()).load(LineUpGalleryAdapter.URL + band.getLogo()).into(band_det_logo_image);
+            Picasso.with(getActivity())
+                    .load(LineUpGalleryAdapter.URL + band.getLogo())
+                    .placeholder(R.drawable.image_placeholder)
+                    .into(band_det_logo_image);
+
             band_det_name_tv.setText(band.getName());
             band_det_hour_tv.setText(band.getHours());
             band_det_min_tv.setText(band.getMin());

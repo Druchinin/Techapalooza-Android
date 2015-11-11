@@ -40,7 +40,9 @@ public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Picasso.with(App.getInstance())
                 .load(URL + data.get(position).getLogo())
+                .placeholder(R.drawable.image_placeholder)
                 .into(holder.band_list_logo_iv);
+
         holder.band_list_title_tv.setText(data.get(position).getName());
     }
 
