@@ -42,9 +42,7 @@ public class LineUpGalleryAdapter extends RecyclerView.Adapter<LineUpGalleryAdap
 
         Picasso picasso = Picasso.with(App.getInstance());
         picasso.load(URL + current.getLogo())
-                .resizeDimen(R.dimen.grid_image_item_size, R.dimen.grid_image_item_size)
-                .centerInside()
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.image_placeholder)
                 .into(holder.imageView);
     }
 

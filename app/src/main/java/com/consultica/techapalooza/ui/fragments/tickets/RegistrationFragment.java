@@ -10,9 +10,12 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,12 +46,14 @@ public class RegistrationFragment extends Fragment {
     private boolean isShownPsw = true;
 
     private boolean isNameValid, isEmailValid, isPswVaild;
+    private boolean isOpened;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_registration, container, false);
 
         init();
+        setListenerToRootView();
 
         return view;
     }
@@ -86,6 +91,7 @@ public class RegistrationFragment extends Fragment {
                     mRegNameImageCheck.setImageResource(R.mipmap.ic_action_pass);
                     mRegNameImageCheck.setVisibility(View.VISIBLE);
                     isNameValid = true;
+
                 } else {
                     mRegNameImageCheck.setImageResource(R.mipmap.ic_action_fail);
                     mRegNameImageCheck.setVisibility(View.VISIBLE);
@@ -111,6 +117,7 @@ public class RegistrationFragment extends Fragment {
                     mRegEmailImageCheck.setImageResource(R.mipmap.ic_action_pass);
                     mRegEmailImageCheck.setVisibility(View.VISIBLE);
                     isEmailValid = true;
+
                 } else {
                     mRegEmailImageCheck.setImageResource(R.mipmap.ic_action_fail);
                     mRegEmailImageCheck.setVisibility(View.VISIBLE);
@@ -137,6 +144,7 @@ public class RegistrationFragment extends Fragment {
                         mRegPswImageCheck.setImageResource(R.mipmap.ic_action_pass);
                         mRegPswImageCheck.setVisibility(View.VISIBLE);
                         isPswVaild = true;
+
                     } else {
                         mRegPswImageCheck.setImageResource(R.mipmap.ic_action_fail);
                         mRegPswImageCheck.setVisibility(View.VISIBLE);
@@ -149,9 +157,47 @@ public class RegistrationFragment extends Fragment {
                 }
             }
         });
+        mEtPsw.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    hideSoftKeyboard();
+
+                }
+
+                return false;
+            }
+        });
+    }
+
+    public void setListenerToRootView(){
+        final View activityRootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
+
+                if (heightDiff > 100) { // 99% of the time the height diff will be due to a keyboard.
+
+                    if (isOpened == false) {
+                        if (isNameValid && isEmailValid && isPswVaild)
+                            mBtnSignUp.setVisibility(View.GONE);
+                        //Do two things, make the view top visible and the editText smaller
+                    }
+                    isOpened = true;
+                } else if (isOpened == true) {
+                    if (isNameValid && isEmailValid && isPswVaild)
+                        mBtnSignUp.setVisibility(View.VISIBLE);
+                    isOpened = false;
+                }
+            }
+        });
     }
 
     private void setupBtnSignUp() {
+        mBtnSignUp.setVisibility(View.GONE);
+
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

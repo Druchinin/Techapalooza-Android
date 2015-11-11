@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.consultica.techapalooza.App;
-import com.consultica.techapalooza.utils.Constants;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.TabsPagerFragmentAdapter;
 import com.consultica.techapalooza.ui.fragments.lineup.LineUpFragment;
@@ -23,6 +23,7 @@ import com.consultica.techapalooza.ui.fragments.schedule.ScheduleListFragment;
 import com.consultica.techapalooza.ui.fragments.tickets.TicketsFragmentContainer;
 import com.consultica.techapalooza.ui.fragments.tickets.TicketsMainFragment;
 import com.consultica.techapalooza.ui.fragments.venue.VenueFragment;
+import com.consultica.techapalooza.utils.Constants;
 import com.nestlean.sdk.Nestlean;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
@@ -135,9 +137,19 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         setCurrentTabSelected(tab);
-        
+
+
+        View activityRootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+            }
+        });
+
+
         int count = manager.getBackStackEntryCount();
-        for(int i = 0; i < count; ++i) {
+        for (int i = 0; i < count; ++i) {
             manager.popBackStackImmediate();
         }
 
@@ -159,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
+
         View view = tab.getCustomView();
         TextView textView = (TextView) view.findViewById(R.id.tab);
 
@@ -169,7 +182,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     }
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {}
+    public void onTabReselected(TabLayout.Tab tab) {
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -182,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private void setupDisplayHomeAsUpEnabled(TabLayout.Tab tab){
+    private void setupDisplayHomeAsUpEnabled(TabLayout.Tab tab) {
 
         if (tab != null) {
             switch (tab.getText().toString()) {
@@ -219,6 +233,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         manager.addOnBackStackChangedListener(new android.support.v4.app.FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
+                hideSoftKeyboard();
+
                 int count = manager.getBackStackEntryCount();
                 if (count != 0) {
                     String currentFragmentTag = manager.getBackStackEntryAt(count - 1).getName();
@@ -234,9 +250,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         });
     }
 
-    public static void hideSoftKeyboard(View view){
+    public void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) App.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(this.getWindow().getDecorView().findViewById(android.R.id.content).getWindowToken(), 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        hideSoftKeyboard();
+        super.onBackPressed();
     }
 }
 
