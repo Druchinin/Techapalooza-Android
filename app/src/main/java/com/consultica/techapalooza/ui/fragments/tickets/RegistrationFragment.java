@@ -73,6 +73,13 @@ public class RegistrationFragment extends Fragment {
 
     private void setupInput() {
 
+        mEtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) mBtnSignUp.setVisibility(View.GONE);
+            }
+        });
+
         mEtName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,6 +107,12 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
+        mEtEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) mBtnSignUp.setVisibility(View.GONE);
+            }
+        });
         mEtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -123,6 +136,13 @@ public class RegistrationFragment extends Fragment {
                     mRegEmailImageCheck.setVisibility(View.VISIBLE);
                     isEmailValid = false;
                 }
+            }
+        });
+
+        mEtPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) mBtnSignUp.setVisibility(View.GONE);
             }
         });
 
@@ -157,12 +177,14 @@ public class RegistrationFragment extends Fragment {
                 }
             }
         });
+
         mEtPsw.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     hideSoftKeyboard();
-
+                    mBtnSignUp.setVisibility(View.VISIBLE);
+                    mBtnSignUp.requestFocus();
                 }
 
                 return false;
@@ -183,11 +205,13 @@ public class RegistrationFragment extends Fragment {
                     if (isOpened == false) {
                         if (isNameValid && isEmailValid && isPswVaild)
                             mBtnSignUp.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "Keyboard open", Toast.LENGTH_SHORT).show();
                         //Do two things, make the view top visible and the editText smaller
                     }
                     isOpened = true;
                 } else if (isOpened == true) {
                     if (isNameValid && isEmailValid && isPswVaild)
+                        Toast.makeText(getActivity(), "Keyboard hidden", Toast.LENGTH_SHORT).show();
                         mBtnSignUp.setVisibility(View.VISIBLE);
                     isOpened = false;
                 }

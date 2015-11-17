@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.network.MyHttpImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -38,8 +39,12 @@ public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(App.getInstance())
-                .load(URL + data.get(position).getLogo())
+
+        Picasso picasso;
+        Picasso.Builder builder= new Picasso.Builder(App.getInstance());
+        picasso = builder.downloader(new MyHttpImageLoader(App.getInstance())).build();
+
+        picasso.load(URL + data.get(position).getLogo())
                 .placeholder(R.drawable.image_placeholder)
                 .into(holder.band_list_logo_iv);
 

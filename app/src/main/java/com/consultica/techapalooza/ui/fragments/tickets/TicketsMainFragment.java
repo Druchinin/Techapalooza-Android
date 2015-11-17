@@ -71,7 +71,7 @@ public class TicketsMainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.add(R.id.fragment_tickets_container, new TicketsLoginFragment(), TicketsLoginFragment.TAG);
+                ft.replace(R.id.fragment_tickets_container, new TicketsLoginFragment(), TicketsLoginFragment.TAG);
                 ft.addToBackStack(TicketsLoginFragment.TAG);
                 ft.commit();
             }
@@ -82,7 +82,7 @@ public class TicketsMainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.add(R.id.fragment_tickets_container, new RegistrationFragment(), RegistrationFragment.TAG);
+                ft.replace(R.id.fragment_tickets_container, new RegistrationFragment(), RegistrationFragment.TAG);
                 ft.addToBackStack(RegistrationFragment.TAG);
                 ft.commit();
             }
@@ -111,7 +111,7 @@ public class TicketsMainFragment extends Fragment {
 
     private void startNoTicketsFragment() {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
+        transaction.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
         transaction.commit();
     }
 
@@ -120,7 +120,7 @@ public class TicketsMainFragment extends Fragment {
         fragment.setTickets(list);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_tickets_container, fragment, TicketsLoggedInFragment.TAG);
+        transaction.replace(R.id.fragment_tickets_container, fragment, TicketsLoggedInFragment.TAG);
         transaction.commit();
     }
 }
