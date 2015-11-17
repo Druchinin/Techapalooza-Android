@@ -1,12 +1,15 @@
 package com.consultica.techapalooza.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.TabsPagerFragmentAdapter;
+import com.consultica.techapalooza.network.Client;
+import com.consultica.techapalooza.network.SignInResponse;
 import com.consultica.techapalooza.ui.fragments.lineup.LineUpFragment;
 import com.consultica.techapalooza.ui.fragments.lineup.LineUpGalleryFragment;
 import com.consultica.techapalooza.ui.fragments.news.NewsFeedFragment;
@@ -26,6 +31,9 @@ import com.consultica.techapalooza.ui.fragments.venue.VenueFragment;
 import com.consultica.techapalooza.utils.Constants;
 import com.nestlean.sdk.Nestlean;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
@@ -68,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 
         setSupportActionBar(toolbar);
+
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -212,6 +222,24 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 case Constants.TAB_TICKETS_LABLE:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     setupBackStackChangeListener(TicketsMainFragment.TAG);
+                    Client.getAPI().getCurrentUser(new Callback<SignInResponse>() {
+                        @Override
+                        public void success(SignInResponse signInResponse, Response response) {
+                            if (signInResponse.getUserId() != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setupBtnLogout();
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
                     break;
                 case Constants.TAB_LINE_UP_LABLE:
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -259,6 +287,42 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public void onBackPressed() {
         hideSoftKeyboard();
         super.onBackPressed();
+    }
+
+    private void setupBtnLogout() {
+        if (!toolbar.getMenu().hasVisibleItems()) {
+
+            toolbar.inflateMenu(R.menu.menu_logout);
+
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+
+                    Client.getAPI().logOut(new Callback<SignInResponse>() {
+
+                        @Override
+                        public void success(SignInResponse signInResponse, Response response) {
+                            SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
+                            pref.edit().clear().commit();
+                            toolbar.getMenu().clear();
+                            if (tabLayout.getSelectedTabPosition() == 2){
+                                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
+                                transaction.commit();
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
+
+
+                    return false;
+                }
+            });
+        }
     }
 }
 

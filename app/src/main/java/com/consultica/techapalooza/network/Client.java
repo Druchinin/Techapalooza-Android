@@ -9,9 +9,14 @@ import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.News;
 import com.consultica.techapalooza.model.Schedule;
 import com.consultica.techapalooza.model.Ticket;
+import com.squareup.okhttp.OkHttpClient;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -25,7 +30,7 @@ public class Client {
     private API api;
 
     public static Client getInstance() {
-        if (instance==null) {
+        if (instance == null) {
             instance = new Client();
         }
         return instance;
@@ -36,9 +41,21 @@ public class Client {
     }
 
     private Client() {
+
+        OkHttpClient client = new OkHttpClient();
+        client.setHostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                if (hostname.equals("techapalooza"))
+                    return true;
+                return false;
+            }
+        });
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setRequestInterceptor(Interceptor.getInstance())
                 .setEndpoint(URL)
+                .setClient(new OkClient(client))
                 .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
                 .build();
 
@@ -51,16 +68,16 @@ public class Client {
         @FormUrlEncoded
         @POST("/api/users/signup")
         void signUp(
-                @Field ("name") String name,
-                @Field ("email") String email,
-                @Field ("password") String password,
+                @Field("name") String name,
+                @Field("email") String email,
+                @Field("password") String password,
                 Callback<SignInResponse> cb);
 
         @FormUrlEncoded
         @POST("/api/users/signin")
         void signIn(
-                @Field ("email") String email,
-                @Field ("password") String password,
+                @Field("email") String email,
+                @Field("password") String password,
                 Callback<SignInResponse> cb);
 
         @GET("/api/users/me")
@@ -107,4 +124,5 @@ public class Client {
         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
+
 }

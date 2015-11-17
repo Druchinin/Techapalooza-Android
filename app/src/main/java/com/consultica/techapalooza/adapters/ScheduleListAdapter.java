@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.consultica.techapalooza.App;
@@ -45,6 +46,12 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
         holder.minutes.setText(min);
         holder.moon.setText(current.getAM_PM());
 
+        if (current.getBand_Id() != null){
+            holder.arrow.setVisibility(View.VISIBLE);
+        } else {
+            holder.arrow.setVisibility(View.INVISIBLE);
+        }
+
         if (current.isNow())
             holder.line.setBackgroundResource(R.color.vertLineIndicatorActive);
         else
@@ -70,6 +77,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
         private TextView moon;
         private FrameLayout line;
         private TextView title;
+        private ImageView arrow;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -90,6 +98,9 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
             title = (TextView) itemView.findViewById(R.id.sched_list_item_title);
             title.setTypeface(myTypeface);
+
+            arrow = (ImageView) itemView.findViewById(R.id.sched_list_item_arrow);
+
         }
 
         @Override

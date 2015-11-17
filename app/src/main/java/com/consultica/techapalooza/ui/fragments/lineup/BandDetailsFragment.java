@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.LineUpGalleryAdapter;
 import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.network.MyHttpImageLoader;
 import com.squareup.picasso.Picasso;
 
 public class BandDetailsFragment extends Fragment {
@@ -41,8 +43,11 @@ public class BandDetailsFragment extends Fragment {
         TextView band_det_description = (TextView) view.findViewById(R.id.band_det_description);
 
         if (band != null){
-            Picasso.with(getActivity())
-                    .load(LineUpGalleryAdapter.URL + band.getLogo())
+            Picasso picasso;
+            Picasso.Builder builder= new Picasso.Builder(App.getInstance());
+            picasso = builder.downloader(new MyHttpImageLoader(App.getInstance())).build();
+
+            picasso.load(LineUpGalleryAdapter.URL + band.getLogo())
                     .placeholder(R.drawable.image_placeholder)
                     .into(band_det_logo_image);
 
