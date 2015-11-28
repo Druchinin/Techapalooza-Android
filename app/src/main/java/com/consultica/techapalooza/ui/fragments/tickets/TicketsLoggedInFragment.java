@@ -7,8 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +21,12 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.TicketsAdapter;
+import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.SignInResponse;
-import com.consultica.techapalooza.ui.MainActivity;
+import com.consultica.techapalooza.ui.activities.MainActivity;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.ByteMatrix;
@@ -40,20 +42,29 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class TicketsLoggedInFragment extends Fragment {
+public class TicketsLoggedInFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.TicketsLoggedInFragment";
 
     private View view;
     private List<Ticket> tickets;
     private TicketsAdapter adapter;
-    private int  totalItemCount;
-    private boolean loggedIn;
+    private int totalItemCount;
     private LinearLayoutManager manager;
+
+    private RecyclerView ticket_recycle_view;
 
     private TextView tv_tickets_count, tv_tickets_redeem, tv_tickets_purchase_more;
 
     private Toolbar actionBarToolBar;
+
+    private static TicketsLoggedInFragment instance;
+
+    public static TicketsLoggedInFragment getInstance() {
+        if (instance == null)
+            instance = new TicketsLoggedInFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,48 +76,42 @@ public class TicketsLoggedInFragment extends Fragment {
     }
 
     private void init() {
-        SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
 
         actionBarToolBar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
         tv_tickets_count = (TextView) view.findViewById(R.id.tv_tickets_count);
         tv_tickets_redeem = (TextView) view.findViewById(R.id.tv_tickets_redeem);
         tv_tickets_purchase_more = (TextView) view.findViewById(R.id.tv_tickets_purchase_more);
-
-        if (!pref.getString("email", "null").equals("null")) {
-            loggedIn = true;
-            setupBtnLogout();
-        }
+        ticket_recycle_view = (RecyclerView) view.findViewById(R.id.ticket_recycle_view);
 
         setupBtnRedeem();
         setupBtnPurchase();
         checkTickets();
     }
 
-    private void checkTickets() {
+    public void checkTickets() {
         if (tickets == null) {
 
             Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
                 @Override
                 public void success(Ticket.TicketResponse ticketResponse, Response response) {
                     tickets = ticketResponse.getTickets();
-                    setupView();
+                    if (tickets.size() >= 1)
+                        setupView();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    startNoTicketsFragment();
+
                 }
             });
 
         } else {
-            setupView();
+            if (tickets.size() >= 1)
+                setupView();
+            else {
+                TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
+            }
         }
-    }
-
-    private void startNoTicketsFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
-        transaction.commit();
     }
 
     private void setupBtnPurchase() {
@@ -159,12 +164,11 @@ public class TicketsLoggedInFragment extends Fragment {
 
                         @Override
                         public void success(SignInResponse signInResponse, Response response) {
-                            SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
-                            pref.edit().clear().commit();
-
                             actionBarToolBar.getMenu().clear();
 
-                            startTicketsMainFragment();
+                            FakeDB.getInstance(getActivity()).resetLoginAndPassword();
+
+                            TicketsMainFragment.getInstance().show(getFragmentManager());
                         }
 
                         @Override
@@ -180,41 +184,45 @@ public class TicketsLoggedInFragment extends Fragment {
         }
     }
 
-    private void startTicketsMainFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
-        transaction.commit();
-    }
-
     private void setupView() {
 
-        adapter = new TicketsAdapter(getActivity(), tickets);
+        if (!tickets.isEmpty()) {
 
-        totalItemCount = adapter.getItemCount();
+            adapter = new TicketsAdapter(getActivity(), tickets);
 
-        manager = new LinearLayoutManager(getActivity());
+            totalItemCount = adapter.getItemCount();
 
-        RecyclerView ticket_recycle_view = (RecyclerView) view.findViewById(R.id.ticket_recycle_view);
-        ticket_recycle_view.setLayoutManager(manager);
-        ticket_recycle_view.setAdapter(adapter);
+            manager = new LinearLayoutManager(getActivity());
 
-        ticket_recycle_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                tv_tickets_count.setText((manager.findFirstVisibleItemPosition() + 1) + "/" + totalItemCount);
-            }
-        });
+            ticket_recycle_view.setLayoutManager(manager);
+            ticket_recycle_view.setAdapter(adapter);
 
-        if (totalItemCount > 1) {
-            ticket_recycle_view.setScrollbarFadingEnabled(false);
+            ticket_recycle_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    tv_tickets_count.setText((manager.findFirstVisibleItemPosition() + 1) + "/" + totalItemCount);
+                }
+            });
+
+            tv_tickets_count.setText(1 + "/" + totalItemCount);
+
+            Task task = new Task();
+            task.execute();
+
+        } else {
+            TicketsLoggedInNoTicketsFragment.getInstance().show(getFragmentManager());
         }
+    }
 
-        tv_tickets_count.setText(1 + "/" + totalItemCount);
+    @Override
+    public String getName() {
+        return TicketsLoggedInFragment.class.getSimpleName();
+    }
 
-        Task task = new Task();
-        task.execute();
-
+    @Override
+    public int getContainer() {
+        return R.id.fragment_tickets_container;
     }
 
     class Task extends AsyncTask<Void, Void, Void> {
@@ -228,7 +236,7 @@ public class TicketsLoggedInFragment extends Fragment {
 
             f = new File(cacheDir, "ticket_background");
             try {
-                bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.individual_ticket);
+                bitmap = BitmapFactory.decodeResource(App.getInstance().getResources(), R.drawable.individual_ticket);
                 out = new FileOutputStream(f);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
                 out.flush();
@@ -283,5 +291,11 @@ public class TicketsLoggedInFragment extends Fragment {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public boolean hasTickets() {
+        if (tickets != null)
+            return !tickets.isEmpty();
+        return false;
     }
 }

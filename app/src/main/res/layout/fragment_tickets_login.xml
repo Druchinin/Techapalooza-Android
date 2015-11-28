@@ -93,16 +93,4 @@
         fontPath="fonts/Roboto-Light.ttf"
         />
 
-    <TextView
-        android:id="@+id/tv_tickets_forgot_psw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Forgot password?"
-        android:textColor="@color/textColorActive"
-        android:clickable="true"
-        android:textSize="20sp"
-        fontPath="fonts/Roboto-Light.ttf"
-        android:gravity="center"
-        android:layout_margin="24dp"/>
-
 </LinearLayout>

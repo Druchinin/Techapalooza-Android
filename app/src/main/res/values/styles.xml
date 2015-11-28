@@ -20,4 +20,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="SimpleActivityTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="actionMenuTextAppearance">@style/myCustomMenuTextApearance</item>
+        <item name="actionMenuTextColor">@color/textColorActive</item>
+        <item name="android:actionMenuTextColor">@color/textColorActive</item>
+    </style>
+
 </resources>

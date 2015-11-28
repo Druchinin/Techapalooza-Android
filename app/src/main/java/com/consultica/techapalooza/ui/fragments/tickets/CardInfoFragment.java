@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -61,6 +62,7 @@ public class CardInfoFragment extends Fragment {
     private Map<String, Object> tokenParams;
 
     private Handler handler;
+    int prevCountChar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,19 +104,15 @@ public class CardInfoFragment extends Fragment {
     }
 
     private void initHandler() {
-        handler = new Handler(){
+        handler = new Handler() {
             @Override
             public void dispatchMessage(Message msg) {
-                if (msg.what == 1){
-                    Toast.makeText(App.getInstance(), "Purchase successful", Toast.LENGTH_SHORT).show();
-                    FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-                    tr.replace(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
-                    tr.commit();
-                } else if (msg.what == 2){
+                if (msg.what == 1) {
+                    Toast.makeText(getActivity(), "Purchase successful", Toast.LENGTH_SHORT).show();
+                    TicketsLoggedInFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                } else if (msg.what == 2) {
                     Toast.makeText(getActivity(), "Purchase error. Please, try later...", Toast.LENGTH_SHORT).show();
-                    FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-                    tr.replace(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
-                    tr.commit();
+                    TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
                 }
             }
         };
@@ -146,7 +144,12 @@ public class CardInfoFragment extends Fragment {
                             Client.getAPI().purchaseTicket(checkout.getBand(), checkout.getNumberOfTickets(), token.getId(), new Callback<Ticket.TicketResponse>() {
                                 @Override
                                 public void success(Ticket.TicketResponse ticketResponse, Response response) {
-                                    handler.sendEmptyMessage(1);
+                                    if (!ticketResponse.getTickets().isEmpty()) {
+                                        TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
+                                        handler.sendEmptyMessage(1);
+                                    } else {
+                                        handler.sendEmptyMessage(2);
+                                    }
                                 }
 
                                 @Override
@@ -305,6 +308,9 @@ public class CardInfoFragment extends Fragment {
         });
 
         et_card_frag_number.addTextChangedListener(new TextWatcher() {
+            private static final char space = ' ';
+
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -312,13 +318,35 @@ public class CardInfoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (et_card_frag_number.getText().length() == 16)
-                    et_card_frag_valid_thru_month.requestFocus();
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                int pos = 0;
+                while (true) {
+                    if (pos >= s.length()) break;
+                    if (space == s.charAt(pos) && (((pos + 1) % 5) != 0 || pos + 1 == s.length())) {
+                        s.delete(pos, pos + 1);
+                    } else {
+                        pos++;
+                    }
+                }
 
+                pos = 4;
+                while (true) {
+                    if (pos >= s.length()) break;
+                    final char c = s.charAt(pos);
+                    // Only if its a digit where there should be a space we insert a space
+                    if ("0123456789".indexOf(c) >= 0) {
+                        s.insert(pos, "" + space);
+                    }
+                    pos += 5;
+                }
+
+                if (s.length() == 19){
+                    et_card_frag_valid_thru_month.requestFocus();
+                }
             }
         });
     }
@@ -343,4 +371,5 @@ public class CardInfoFragment extends Fragment {
 
         }
     }
+
 }

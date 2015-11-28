@@ -24,27 +24,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/ticket_lable"
-                fontPath="fonts/Capture_it.ttf"
+                android:id="@+id/ticket_lable_techapalooza"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="TECHAPALOOZA"
                 android:textColor="#0C1301"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                />
 
             <TextView
-                fontPath="fonts/Capture_it.ttf"
+                android:id="@+id/ticket_lable_2016"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:text="2016"
                 android:textColor="#426C90"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                />
 
         </LinearLayout>
 

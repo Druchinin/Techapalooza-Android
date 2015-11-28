@@ -3,11 +3,13 @@ package com.consultica.techapalooza.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
@@ -26,7 +28,7 @@ public class TicketsAdapter extends RecyclerView.Adapter<TicketsAdapter.ViewHold
     private List<Ticket> data = Collections.emptyList();
 
     public TicketsAdapter(Context context, List<Ticket> data) {
-        inflater = LayoutInflater.from(context);
+        inflater = LayoutInflater.from(App.getInstance());
         this.data = data;
     }
 
@@ -56,7 +58,6 @@ public class TicketsAdapter extends RecyclerView.Adapter<TicketsAdapter.ViewHold
 
         if (bitmap != null)
             holder.ticket_qr_code.setImageBitmap(bitmap);
-
     }
 
     @Override
@@ -72,12 +73,23 @@ public class TicketsAdapter extends RecyclerView.Adapter<TicketsAdapter.ViewHold
 
         ImageView ticket_qr_code;
         ImageView ticket_background_image;
+        TextView ticket_lable_techapalooza, ticket_lable_2016;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            Typeface myTypeface = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/Capture_it.ttf");
+
+
             ticket_background_image = (ImageView) itemView.findViewById(R.id.ticket_background_image);
             ticket_qr_code = (ImageView) itemView.findViewById(R.id.ticket_qr_code);
+
+            ticket_lable_techapalooza = (TextView) itemView.findViewById(R.id.ticket_lable_techapalooza);
+            ticket_lable_techapalooza.setTypeface(myTypeface);
+
+            ticket_lable_2016 = (TextView) itemView.findViewById(R.id.ticket_lable_2016);
+            ticket_lable_2016.setTypeface(myTypeface);
 
         }
     }

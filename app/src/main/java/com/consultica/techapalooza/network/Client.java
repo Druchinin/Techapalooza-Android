@@ -24,7 +24,7 @@ import retrofit.http.POST;
 
 public class Client {
 
-    private static final String URL = "https://techapalooza/";
+    private static final String URL = "https://techapalooza.consulti.ca";
 
     private static Client instance;
     private API api;
@@ -46,7 +46,7 @@ public class Client {
         client.setHostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
-                if (hostname.equals("techapalooza"))
+                if (hostname.equals("techapalooza.consulti.ca"))
                     return true;
                 return false;
             }

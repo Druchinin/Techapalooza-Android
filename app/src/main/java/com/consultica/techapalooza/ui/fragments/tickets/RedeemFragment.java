@@ -31,6 +31,14 @@ public class RedeemFragment extends Fragment{
     private EditText et_redeem_frag_code;
     private String band;
 
+    private static RedeemFragment instance;
+
+    public static RedeemFragment getInstance() {
+        if (instance == null)
+            instance = new RedeemFragment();
+        return instance;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_redeem_tickets, container, false);

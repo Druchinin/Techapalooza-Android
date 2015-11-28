@@ -3,8 +3,6 @@ package com.consultica.techapalooza.ui.fragments.tickets;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -25,16 +23,18 @@ import android.widget.Toast;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.Interceptor;
 import com.consultica.techapalooza.network.SignInResponse;
-import com.consultica.techapalooza.ui.MainActivity;
+import com.consultica.techapalooza.ui.activities.MainActivity;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class RegistrationFragment extends Fragment {
+public class RegistrationFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.RegistrationFragment";
 
@@ -47,6 +47,14 @@ public class RegistrationFragment extends Fragment {
 
     private boolean isNameValid, isEmailValid, isPswVaild;
     private boolean isOpened;
+
+    private static RegistrationFragment instance;
+
+    public static RegistrationFragment getInstance() {
+        if (instance == null)
+            instance = new RegistrationFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -205,13 +213,13 @@ public class RegistrationFragment extends Fragment {
                     if (isOpened == false) {
                         if (isNameValid && isEmailValid && isPswVaild)
                             mBtnSignUp.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), "Keyboard open", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), "Keyboard open", Toast.LENGTH_SHORT).show();
                         //Do two things, make the view top visible and the editText smaller
                     }
                     isOpened = true;
                 } else if (isOpened == true) {
                     if (isNameValid && isEmailValid && isPswVaild)
-                        Toast.makeText(getActivity(), "Keyboard hidden", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), "Keyboard hidden", Toast.LENGTH_SHORT).show();
                         mBtnSignUp.setVisibility(View.VISIBLE);
                     isOpened = false;
                 }
@@ -244,19 +252,37 @@ public class RegistrationFragment extends Fragment {
 
                     @Override
                     public void success(SignInResponse signInResponse, Response response) {
+
                         Client.getAPI().signIn(mEtEmail.getText().toString(), mEtPsw.getText().toString(), new Callback<SignInResponse>() {
                             @Override
                             public void success(SignInResponse signInResponse, Response response) {
 
                                 saveCookie(response);
                                 saveCurrentUser(signInResponse);
-                                startTicketsMainFragment();
+
+                                Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
+                                    @Override
+                                    public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                                        if (!ticketResponse.getTickets().isEmpty()) {
+                                            TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
+                                            TicketsLoggedInFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                                        } else {
+                                            TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                                    }
+                                });
 
                                 Toast.makeText(getActivity(), "Registration successful", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
+                                TicketsLoginFragment.getInstance().show(getActivity().getSupportFragmentManager());
                             }
                         });
 
@@ -273,12 +299,6 @@ public class RegistrationFragment extends Fragment {
     private void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    private void startTicketsMainFragment() {
-        FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-        tr.replace(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
-        tr.commit();
     }
 
     private void saveCookie(Response response) {
@@ -337,5 +357,15 @@ public class RegistrationFragment extends Fragment {
 
         mRegPswImageCheck = (ImageView) view.findViewById(R.id.reg_psw_image_check);
         mRegPswImageCheck.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public String getName() {
+        return RegistrationFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.registration_container;
     }
 }

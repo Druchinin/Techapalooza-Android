@@ -12,13 +12,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.squareup.picasso.Picasso;
 
-public class TicketsLoggedInNoTicketsFragment extends Fragment {
+public class TicketsLoggedInNoTicketsFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.TicketsLoggedInNoTicketsFragment";
 
     private View view;
+
+    private static TicketsLoggedInNoTicketsFragment instance;
+
+    public static TicketsLoggedInNoTicketsFragment getInstance() {
+        if (instance == null)
+            instance = new TicketsLoggedInNoTicketsFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,4 +76,13 @@ public class TicketsLoggedInNoTicketsFragment extends Fragment {
         tr.commit();
     }
 
+    @Override
+    public String getName() {
+        return TicketsLoggedInNoTicketsFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.fragment_tickets_container;
+    }
 }

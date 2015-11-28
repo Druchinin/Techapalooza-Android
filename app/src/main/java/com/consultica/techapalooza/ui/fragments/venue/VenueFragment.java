@@ -2,11 +2,16 @@ package com.consultica.techapalooza.ui.fragments.venue;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
+import com.consultica.techapalooza.ui.fragments.about.AboutCancerCare;
+import com.consultica.techapalooza.ui.fragments.about.AboutTechapalooza;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -14,18 +19,42 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class VenueFragment extends Fragment {
+public class VenueFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.VenueFragment";
 
     private View view;
     private MapView mapView;
 
+    private static VenueFragment instance;
+
+    public static VenueFragment getInstance() {
+        if (instance == null)
+            instance = new VenueFragment();
+        return instance;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_venue, container, false);
 
         init(savedInstanceState);
+
+        TextView btn_about_techapalooza = (TextView) view.findViewById(R.id.btn_about_techapalooza);
+        btn_about_techapalooza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutTechapalooza.getInstance().show(getActivity().getSupportFragmentManager(), true);
+            }
+        });
+
+        TextView btn_about_cancer_care = (TextView) view.findViewById(R.id.btn_about_cancer_care);
+        btn_about_cancer_care.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutCancerCare.getInstance().show(getActivity().getSupportFragmentManager(), true);
+            }
+        });
 
         return view;
     }
@@ -62,5 +91,15 @@ public class VenueFragment extends Fragment {
     public void onLowMemory() {
         mapView.onLowMemory();
         super.onLowMemory();
+    }
+
+    @Override
+    public String getName() {
+        return VenueFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.venue_container;
     }
 }

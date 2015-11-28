@@ -33,6 +33,13 @@ public class CheckoutFragment extends Fragment {
     private Checkout checkout;
     private int oneTicketPrice, count = 1;
 
+    private static CheckoutFragment instance;
+
+    public static CheckoutFragment getInstance() {
+        if (instance == null)
+            instance = new CheckoutFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +59,7 @@ public class CheckoutFragment extends Fragment {
         }
 
         ImageView checkout_logo_iv = (ImageView) view.findViewById(R.id.checkout_logo_iv);
-        Picasso.with(getActivity()).load(R.drawable.dummy_art_image).into(checkout_logo_iv);
+        Picasso.with(getActivity()).load(R.drawable.techapalooza_logo).into(checkout_logo_iv);
 
         tv_frag_checkout_count = (TextView) view.findViewById(R.id.et_frag_checkout_count);
         tv_frag_checkout_price = (TextView) view.findViewById(R.id.tv_frag_checkout_price);
@@ -82,7 +89,7 @@ public class CheckoutFragment extends Fragment {
         btn_frag_checkout_minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Integer.parseInt(tv_frag_checkout_count.getText().toString()) > 0) {
+                if (Integer.parseInt(tv_frag_checkout_count.getText().toString()) > 1) {
                     count--;
                     setupTotalPice();
                 }

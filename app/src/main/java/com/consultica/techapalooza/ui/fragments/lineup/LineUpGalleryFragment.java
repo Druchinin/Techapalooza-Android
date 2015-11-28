@@ -13,15 +13,24 @@ import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.LineUpGalleryAdapter;
 import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 
 import java.util.List;
 
-public class LineUpGalleryFragment extends Fragment {
+public class LineUpGalleryFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.LineUpGalleryFragment";
     private View view;
     private LineUpGalleryAdapter adapter;
     private List<Band> data;
+
+    private static LineUpGalleryFragment instance;
+
+    public static LineUpGalleryFragment getInstance() {
+        if (instance == null)
+            instance = new LineUpGalleryFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,5 +68,15 @@ public class LineUpGalleryFragment extends Fragment {
             recyclerView.setAdapter(adapter);
 
         }
+    }
+
+    @Override
+    public String getName() {
+        return LineUpGalleryFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.line_up_fragment_container;
     }
 }

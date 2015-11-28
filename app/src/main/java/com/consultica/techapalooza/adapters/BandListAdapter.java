@@ -1,6 +1,7 @@
 package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,9 @@ import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.network.MyHttpImageLoader;
+import com.consultica.techapalooza.utils.ImageLoader;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -19,7 +23,7 @@ import java.util.List;
 
 public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHolder> {
 
-    public static final String URL = "https://techapalooza";
+    public static final String URL = "https://techapalooza.consulti.ca";
 
     private LayoutInflater inflater;
     private List<Band> data = Collections.emptyList();
@@ -39,12 +43,11 @@ public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Band band = data.get(position);
 
-        Picasso picasso;
-        Picasso.Builder builder= new Picasso.Builder(App.getInstance());
-        picasso = builder.downloader(new MyHttpImageLoader(App.getInstance())).build();
 
-        picasso.load(URL + data.get(position).getLogo())
+        Picasso.with(App.getInstance())
+                .load(URL + band.getLogo())
                 .placeholder(R.drawable.image_placeholder)
                 .into(holder.band_list_logo_iv);
 

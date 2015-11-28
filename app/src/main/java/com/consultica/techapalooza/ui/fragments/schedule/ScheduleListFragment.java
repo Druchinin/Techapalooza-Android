@@ -14,6 +14,7 @@ import com.consultica.techapalooza.adapters.ScheduleListAdapter;
 import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.Schedule;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.consultica.techapalooza.ui.fragments.lineup.BandDetailsFragment;
 
 import java.util.Calendar;
@@ -21,13 +22,23 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ScheduleListFragment extends Fragment {
+public class ScheduleListFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.ScheduleListFragment";
 
     private View view;
     private DBMaster dbMaster;
     private ScheduleListAdapter adapter;
+
+    private List<Schedule> data;
+
+    private static ScheduleListFragment instance;
+
+    public static ScheduleListFragment getInstance() {
+        if (instance == null)
+            instance = new ScheduleListFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +52,7 @@ public class ScheduleListFragment extends Fragment {
     private void setup() {
         dbMaster = DBMaster.getInstance(getActivity());
 
-        final List<Schedule> data = dbMaster.getAllSchedule();
+        data = dbMaster.getAllSchedule();
 
         if (data.size() > 0) {
 
@@ -63,19 +74,18 @@ public class ScheduleListFragment extends Fragment {
                     if (schedule.getBand_Id() != null) {
                         Band band = dbMaster.getBand(schedule.getBand_Id());
 
-                        BandDetailsFragment fragment = new BandDetailsFragment();
-                        fragment.setBand(band);
 
-                        FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-                        tr.replace(R.id.schedule_container, fragment, BandDetailsFragment.TAG);
-                        tr.addToBackStack(BandDetailsFragment.TAG);
-                        tr.commit();
+
+                        BandDetailsFragment.getInstance().setBand(band);
+                        BandDetailsFragment.getInstance().show(getActivity().getSupportFragmentManager(), true);
+                        
                     }
                 }
             });
 
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.schedule_recycle_view);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(manager);
             recyclerView.setAdapter(adapter);
 
             setupTimer(data);
@@ -105,6 +115,16 @@ public class ScheduleListFragment extends Fragment {
         Calendar end = Schedule.getCalendarFromISO(ends_At);
 
         return current.after(start) && current.before(end);
+    }
+
+    @Override
+    public String getName() {
+        return ScheduleListFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.schedule_container;
     }
 
     class MyTimerTask extends TimerTask {

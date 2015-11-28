@@ -1,6 +1,7 @@
 package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.News;
 import com.consultica.techapalooza.network.MyHttpImageLoader;
+import com.consultica.techapalooza.utils.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -41,11 +43,15 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
         holder.date.setText(current.getDate());
         holder.text.setText(current.getContent());
 
-        Picasso picasso;
-        Picasso.Builder builder= new Picasso.Builder(App.getInstance());
-        picasso = builder.downloader(new MyHttpImageLoader(App.getInstance())).build();
 
-        picasso.load("https://techapalooza"+current.getImage()).resize(400, 250).into(holder.image);
+        Picasso.with(App.getInstance())
+                .load("https://techapalooza.consulti.ca" + current.getImage())
+                .fit()
+                .centerInside()
+                .placeholder(R.drawable.image_placeholder)
+                .into(holder.image);
+
+
     }
 
     @Override
@@ -53,7 +59,7 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
         return data.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView date;
         private ImageView image;

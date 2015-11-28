@@ -1,10 +1,10 @@
 package com.consultica.techapalooza.ui.fragments.tickets;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,22 +16,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.consultica.techapalooza.App;
+import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
-import com.consultica.techapalooza.ui.MainActivity;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.Interceptor;
 import com.consultica.techapalooza.network.SignInResponse;
-
-import java.util.List;
+import com.consultica.techapalooza.ui.activities.LoginActivity;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class TicketsLoginFragment extends Fragment {
+public class TicketsLoginFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.TicketsLoginFragment";
 
@@ -39,6 +38,14 @@ public class TicketsLoginFragment extends Fragment {
     private EditText mEmail, mEtPassword;
     private TextView mHidePass;
     private boolean isShownPsw = true;
+
+    private static TicketsLoginFragment instance;
+
+    public static TicketsLoginFragment getInstance() {
+        if (instance == null)
+            instance = new TicketsLoginFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,22 +78,6 @@ public class TicketsLoginFragment extends Fragment {
             }
         });
 
-        TextView mForgotPassword = (TextView) view.findViewById(R.id.tv_tickets_forgot_psw);
-        mForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ResetPasswordFragment resetFragment = new ResetPasswordFragment();
-
-                if (mEmail.getText().toString() != null)
-                    resetFragment.setEmailForRestore(mEmail.getText().toString());
-
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_tickets_container, resetFragment, ResetPasswordFragment.TAG);
-                ft.addToBackStack(ResetPasswordFragment.TAG);
-                ft.commit();
-            }
-        });
-
         Button btnSignIn = (Button) view.findViewById(R.id.btn_tickets_login_sign_in);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,18 +92,24 @@ public class TicketsLoginFragment extends Fragment {
 
                         saveCookie(response);
 
-                        SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
-                        pref.edit().clear().commit();
-                        pref.edit().putString("email", signInResponse.getUserEmail()).putString("id", signInResponse.getUserId()).apply();
+                        FakeDB.getInstance(getActivity()).savePassword(mEtPassword.getText().toString());
+
+                        FakeDB.getInstance(getActivity()).saveEmail(signInResponse.getUserEmail());
+                        FakeDB.getInstance(getActivity()).saveUserId(signInResponse.getUserId());
 
                         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG).show();
 
-                        checkTickets();
+                        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+                        activity.setResult(Activity.RESULT_OK);
+                        activity.finish();
+
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("LogIn error", "Status: " + error.getMessage());
+                        Toast.makeText(getActivity(), "Login error. Please check email and password", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -123,25 +120,22 @@ public class TicketsLoginFragment extends Fragment {
         Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
             @Override
             public void success(Ticket.TicketResponse ticketResponse, Response response) {
-                if (ticketResponse.getTickets().size() > 0)
-                    startTicketsLoggedFragment(ticketResponse.getTickets());
-                else startNoTicketsFragment();
+                if (!ticketResponse.getTickets().isEmpty()) {
+                    TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
+                    TicketsLoggedInFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                } else {
+                    TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                }
+//                clearBackStack();
+
             }
 
             @Override
             public void failure(RetrofitError error) {
-                startNoTicketsFragment();
+                TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                clearBackStack();
             }
         });
-    }
-
-    private void startTicketsLoggedFragment(List<Ticket> list) {
-        TicketsLoggedInFragment fragment = new TicketsLoggedInFragment();
-        fragment.setTickets(list);
-
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_tickets_container, fragment, TicketsLoggedInFragment.TAG);
-        ft.commit();
     }
 
     private void saveCookie(Response response) {
@@ -150,15 +144,25 @@ public class TicketsLoginFragment extends Fragment {
         }
     }
 
-    private void startNoTicketsFragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
-        ft.commit();
-    }
-
     private void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    @Override
+    public String getName() {
+        return TicketsLoginFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.login_container;
+    }
+
+    private void clearBackStack(){
+        FragmentManager fm = getFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
+    }
 }

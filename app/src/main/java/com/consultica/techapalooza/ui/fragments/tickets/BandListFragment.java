@@ -14,10 +14,11 @@ import com.consultica.techapalooza.adapters.BandListAdapter;
 import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.Checkout;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 
 import java.util.List;
 
-public class BandListFragment extends Fragment {
+public class BandListFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.ui.fragments.tickets.BandListFragment";
     public static final String BUNDLE_FROM = "Button";
@@ -27,6 +28,14 @@ public class BandListFragment extends Fragment {
     private DBMaster dbMaster;
     private BandListAdapter adapter;
     int buttonFrom;
+
+    private static BandListFragment instance;
+
+    public static BandListFragment getInstance() {
+        if (instance == null)
+            instance = new BandListFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,4 +99,15 @@ public class BandListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+
+
+    @Override
+    public String getName() {
+        return BandListFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.fragment_tickets_container;
+    }
 }

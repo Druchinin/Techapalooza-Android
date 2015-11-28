@@ -1,10 +1,10 @@
 package com.consultica.techapalooza.ui.fragments.tickets;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +14,14 @@ import android.widget.ImageView;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.SignInResponse;
-import com.consultica.techapalooza.ui.MainActivity;
+import com.consultica.techapalooza.ui.activities.LoginActivity;
+import com.consultica.techapalooza.ui.activities.MainActivity;
+import com.consultica.techapalooza.ui.activities.RegistrationActivity;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,11 +30,22 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class TicketsMainFragment extends Fragment {
+public class TicketsMainFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.TicketsMainFragment";
 
+    public static final int REQUEST_LOGIN = 1;
+    public static final int REQUEST_SIGN_UP = 2;
+
     private View view;
+
+    private static TicketsMainFragment instance;
+
+    public static TicketsMainFragment getInstance() {
+        if (instance == null)
+            instance = new TicketsMainFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,9 +57,12 @@ public class TicketsMainFragment extends Fragment {
     }
 
     private void init() {
-        final SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
 
-        if (!pref.getString("email", "null").equals("null")){
+        String email = FakeDB.getInstance(getActivity()).getEmail();
+        String password = FakeDB.getInstance(getActivity()).getPassword();
+
+
+        if (!email.equals("") && !password.equals("")){
 
             Client.getAPI().getCurrentUser(new Callback<SignInResponse>() {
                 @Override
@@ -70,10 +88,7 @@ public class TicketsMainFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_tickets_container, new TicketsLoginFragment(), TicketsLoginFragment.TAG);
-                ft.addToBackStack(TicketsLoginFragment.TAG);
-                ft.commit();
+                startActivityForResult(new Intent(getActivity(), LoginActivity.class), REQUEST_LOGIN);
             }
         });
 
@@ -81,10 +96,7 @@ public class TicketsMainFragment extends Fragment {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_tickets_container, new RegistrationFragment(), RegistrationFragment.TAG);
-                ft.addToBackStack(RegistrationFragment.TAG);
-                ft.commit();
+                startActivityForResult(new Intent(getActivity(), RegistrationActivity.class), REQUEST_SIGN_UP);
             }
         });
     }
@@ -110,17 +122,36 @@ public class TicketsMainFragment extends Fragment {
     }
 
     private void startNoTicketsFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
-        transaction.commit();
+        TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
     }
 
     private void startTicketsLoggedInFragment(List<Ticket> list) {
-        TicketsLoggedInFragment fragment = new TicketsLoggedInFragment();
-        fragment.setTickets(list);
+        TicketsLoggedInFragment.getInstance().setTickets(list);
+        TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+    }
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_tickets_container, fragment, TicketsLoggedInFragment.TAG);
-        transaction.commit();
+    @Override
+    public String getName() {
+        return TicketsMainFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.fragment_tickets_container;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_LOGIN){
+            if (resultCode == Activity.RESULT_OK){
+//                TicketsLoggedInFragment.getInstance().checkTickets();
+                TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+            }
+        } else if (requestCode == REQUEST_SIGN_UP) {
+            if (resultCode == Activity.RESULT_OK){
+                TicketsLoggedInFragment.getInstance().checkTickets();
+                TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+            }
+        }
     }
 }
