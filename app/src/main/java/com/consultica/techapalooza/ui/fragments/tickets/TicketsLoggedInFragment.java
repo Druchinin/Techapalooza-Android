@@ -24,6 +24,7 @@ import com.consultica.techapalooza.adapters.TicketsAdapter;
 import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
+import com.consultica.techapalooza.network.Interceptor;
 import com.consultica.techapalooza.network.SignInResponse;
 import com.consultica.techapalooza.ui.activities.MainActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
@@ -56,9 +57,10 @@ public class TicketsLoggedInFragment extends BaseFragment {
 
     private TextView tv_tickets_count, tv_tickets_redeem, tv_tickets_purchase_more;
 
-    private Toolbar actionBarToolBar;
+    private Toolbar toolbar;
 
     private static TicketsLoggedInFragment instance;
+
 
     public static TicketsLoggedInFragment getInstance() {
         if (instance == null)
@@ -77,7 +79,7 @@ public class TicketsLoggedInFragment extends BaseFragment {
 
     private void init() {
 
-        actionBarToolBar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
         tv_tickets_count = (TextView) view.findViewById(R.id.tv_tickets_count);
         tv_tickets_redeem = (TextView) view.findViewById(R.id.tv_tickets_redeem);
         tv_tickets_purchase_more = (TextView) view.findViewById(R.id.tv_tickets_purchase_more);
@@ -152,11 +154,11 @@ public class TicketsLoggedInFragment extends BaseFragment {
     }
 
     private void setupBtnLogout() {
-        if (!actionBarToolBar.getMenu().hasVisibleItems()) {
+        if (!toolbar.getMenu().hasVisibleItems()) {
 
-            actionBarToolBar.inflateMenu(R.menu.menu_logout);
+            toolbar.inflateMenu(R.menu.menu_logout);
 
-            actionBarToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
 
@@ -164,11 +166,13 @@ public class TicketsLoggedInFragment extends BaseFragment {
 
                         @Override
                         public void success(SignInResponse signInResponse, Response response) {
-                            actionBarToolBar.getMenu().clear();
+                            toolbar.getMenu().clear();
 
                             FakeDB.getInstance(getActivity()).resetLoginAndPassword();
+                            Interceptor.getInstance().clearCookie();
 
                             TicketsMainFragment.getInstance().show(getFragmentManager());
+
                         }
 
                         @Override
@@ -185,6 +189,10 @@ public class TicketsLoggedInFragment extends BaseFragment {
     }
 
     private void setupView() {
+        ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewPager);
+
+        if (viewPager.getCurrentItem() == 2)
+            setupBtnLogout();
 
         if (!tickets.isEmpty()) {
 

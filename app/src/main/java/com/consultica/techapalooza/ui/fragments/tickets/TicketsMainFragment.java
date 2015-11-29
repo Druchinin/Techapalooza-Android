@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.database.DBCreator;
 import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
@@ -144,13 +145,49 @@ public class TicketsMainFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LOGIN){
             if (resultCode == Activity.RESULT_OK){
-//                TicketsLoggedInFragment.getInstance().checkTickets();
-                TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+                Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
+                    @Override
+                    public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                        TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
+                        TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
             }
         } else if (requestCode == REQUEST_SIGN_UP) {
             if (resultCode == Activity.RESULT_OK){
-                TicketsLoggedInFragment.getInstance().checkTickets();
-                TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+
+                String email = FakeDB.getInstance(getContext()).getEmail();
+                String password = FakeDB.getInstance(getContext()).getPassword();
+
+                Client.getAPI().signIn(email, password, new Callback<SignInResponse>() {
+                    @Override
+                    public void success(SignInResponse signInResponse, Response response) {
+                        Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
+                            @Override
+                            public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                                TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
+                                TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
             }
         }
     }

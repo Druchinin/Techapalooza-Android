@@ -1,8 +1,10 @@
 package com.consultica.techapalooza.ui.fragments.tickets;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.Interceptor;
@@ -56,12 +59,15 @@ public class RegistrationFragment extends BaseFragment {
         return instance;
     }
 
+    private AppCompatActivity activity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_registration, container, false);
 
+        activity = (AppCompatActivity) getActivity();
+
         init();
-        setListenerToRootView();
 
         return view;
     }
@@ -80,13 +86,6 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     private void setupInput() {
-
-        mEtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) mBtnSignUp.setVisibility(View.GONE);
-            }
-        });
 
         mEtName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -115,12 +114,6 @@ public class RegistrationFragment extends BaseFragment {
             }
         });
 
-        mEtEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) mBtnSignUp.setVisibility(View.GONE);
-            }
-        });
         mEtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -144,13 +137,6 @@ public class RegistrationFragment extends BaseFragment {
                     mRegEmailImageCheck.setVisibility(View.VISIBLE);
                     isEmailValid = false;
                 }
-            }
-        });
-
-        mEtPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) mBtnSignUp.setVisibility(View.GONE);
             }
         });
 
@@ -191,8 +177,7 @@ public class RegistrationFragment extends BaseFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     hideSoftKeyboard();
-                    mBtnSignUp.setVisibility(View.VISIBLE);
-                    mBtnSignUp.requestFocus();
+                    signIn();
                 }
 
                 return false;
@@ -200,35 +185,8 @@ public class RegistrationFragment extends BaseFragment {
         });
     }
 
-    public void setListenerToRootView(){
-        final View activityRootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
-        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-
-                int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
-
-                if (heightDiff > 100) { // 99% of the time the height diff will be due to a keyboard.
-
-                    if (isOpened == false) {
-                        if (isNameValid && isEmailValid && isPswVaild)
-                            mBtnSignUp.setVisibility(View.GONE);
-//                        Toast.makeText(getActivity(), "Keyboard open", Toast.LENGTH_SHORT).show();
-                        //Do two things, make the view top visible and the editText smaller
-                    }
-                    isOpened = true;
-                } else if (isOpened == true) {
-                    if (isNameValid && isEmailValid && isPswVaild)
-//                        Toast.makeText(getActivity(), "Keyboard hidden", Toast.LENGTH_SHORT).show();
-                        mBtnSignUp.setVisibility(View.VISIBLE);
-                    isOpened = false;
-                }
-            }
-        });
-    }
 
     private void setupBtnSignUp() {
-        mBtnSignUp.setVisibility(View.GONE);
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,6 +201,8 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     private void signIn() {
+
+        mBtnSignUp.setEnabled(false);
 
         Client.getAPI().signUp(
                 mEtName.getText().toString(),
@@ -260,29 +220,16 @@ public class RegistrationFragment extends BaseFragment {
                                 saveCookie(response);
                                 saveCurrentUser(signInResponse);
 
-                                Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
-                                    @Override
-                                    public void success(Ticket.TicketResponse ticketResponse, Response response) {
-                                        if (!ticketResponse.getTickets().isEmpty()) {
-                                            TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
-                                            TicketsLoggedInFragment.getInstance().show(getActivity().getSupportFragmentManager());
-                                        } else {
-                                            TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
-                                    }
-                                });
-
                                 Toast.makeText(getActivity(), "Registration successful", Toast.LENGTH_LONG).show();
+
+                                activity.setResult(Activity.RESULT_OK);
+                                activity.finish();
+
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
-                                TicketsLoginFragment.getInstance().show(getActivity().getSupportFragmentManager());
+                                Toast.makeText(activity, "Sign-up failed", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -291,7 +238,9 @@ public class RegistrationFragment extends BaseFragment {
                     @Override
                     public void failure(RetrofitError error) {
                         Log.d("SignInResponse", "Error: " + error.getMessage());
-                        Toast.makeText(getActivity(), "Registration failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Sign-up failed", Toast.LENGTH_SHORT).show();
+                        activity.setResult(Activity.RESULT_CANCELED);
+                        activity.finish();
                     }
                 });
     }
@@ -308,9 +257,9 @@ public class RegistrationFragment extends BaseFragment {
     }
 
     private void saveCurrentUser(SignInResponse signInResponse) {
-        SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
-        pref.edit().putString("email", signInResponse.getUserEmail())
-                .putString("id", signInResponse.getUserId()).commit();
+        FakeDB.getInstance(activity).saveEmail(signInResponse.getUserEmail());
+        FakeDB.getInstance(activity).saveUserId(signInResponse.getUserId());
+        FakeDB.getInstance(activity).savePassword(mEtPsw.getText().toString());
     }
 
     private void setupHidePasswordBtn() {
