@@ -1,13 +1,19 @@
 package com.consultica.techapalooza.model;
 
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 public class Ticket {
 
+    @Expose
     String id;
+    @Expose
     String code;
+    @Expose
     String date;
+    @Expose
     boolean verified;
 
     public String getId() {
@@ -22,28 +28,42 @@ public class Ticket {
         return code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public class TicketResponse {
+        @Expose
         Data data;
 
         class Data {
-            boolean canReedem;
+            @Expose
+            boolean canRedeem;
+            @Expose
             List<Ticket> tickets;
         }
 
-        public List<Ticket> getTickets(){
+        public List<Ticket> getTickets() {
             return data.tickets;
+        }
+
+        public boolean canReedem() {
+            return data.canRedeem;
         }
     }
 
     public class TicketPriceResponse {
+        @Expose
         public Data data;
 
         class Data {
+            @Expose
             int price; // in cents
+            @Expose
             String currency;
         }
 
-        public int getPrice(){
+        public int getPrice() {
             return data.price;
         }
     }

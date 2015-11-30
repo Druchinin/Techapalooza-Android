@@ -14,14 +14,14 @@
         />
 
     <TextView
+        android:id="@+id/tv_title_tickets_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/tickets_tv_login_info"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/tickets_main_text_size"
-        android:layout_marginTop="18dp"
-        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+        android:layout_marginTop="18dp" />
 
     <Button
         android:id="@+id/btn_tickets_sign_in"
@@ -34,18 +34,17 @@
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:textAllCaps="false"
-        android:textSize="@dimen/tickets_btn_text_size"
-        fontPath="fonts/Roboto-Light.ttf" />
+        android:textSize="@dimen/tickets_btn_text_size" />
 
     <TextView
+        android:id="@+id/tv_sign_up_tickets_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tickets_tv_account_question"
         android:textSize="@dimen/tickets_main_text_size"
         android:textColor="@color/textColorPrimary"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="18dp"
-        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+        android:layout_marginTop="18dp" />
 
     <Button
         android:id="@+id/btn_tickets_sign_up"
@@ -58,8 +57,6 @@
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:textAllCaps="false"
-        android:textSize="@dimen/tickets_btn_text_size"
-        fontPath="fonts/Roboto-Light.ttf"
-        />
+        android:textSize="@dimen/tickets_btn_text_size" />
 
 </LinearLayout>

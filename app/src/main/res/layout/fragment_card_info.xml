@@ -23,7 +23,6 @@
             android:layout_alignParentRight="true"/>
 
         <TextView
-            fontPath="fonts/Roboto-Light.ttf"
             android:id="@+id/tv_card_frag_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +40,9 @@
             android:background="@drawable/et_rounded_backround"
             android:layout_below="@+id/tv_card_frag_number"
             android:layout_marginTop="8dp"
+            android:digits="01234 56789"
             android:inputType="number"
+            android:maxLength="19"
             android:hint="0000 0000 0000 0000"
             android:textSize="20sp"
             android:gravity="center|center_vertical"
@@ -49,7 +50,6 @@
             android:nextFocusForward="@+id/et_card_frag_valid_thru_month"/>
 
         <TextView
-            fontPath="fonts/Roboto-Light.ttf"
             android:id="@+id/tv_card_frag_exp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +114,6 @@
 
 
         <TextView
-            fontPath="fonts/Roboto-Light.ttf"
             android:id="@+id/tv_card_frag_cvc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,7 +144,6 @@
     </RelativeLayout>
 
     <Button
-        fontPath="fonts/Roboto-Light.ttf"
         android:id="@+id/btn_card_frag_card_purchase"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -154,6 +152,6 @@
         android:background="@drawable/rounded_btn_style"
         android:textAllCaps="false"
         android:textSize="@dimen/tickets_btn_text_size"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>

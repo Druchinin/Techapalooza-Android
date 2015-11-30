@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 public class DBCreator extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "db_techapalooza";
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 6;
 
     static String SCRIPT_CREATE_TBL_SCHEDULE = " CREATE TABLE " + Schedule.TABLE_SCHEDULE + " ("
             + Schedule._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -36,8 +36,20 @@ public class DBCreator extends SQLiteOpenHelper {
             + News.NEWS_DATE + " TEXT, "
             + News.NEWS_IMAGE + " TEXT" + ");";
 
+    static String SCRIPT_CREATE_TBL_TICKETS = " CREATE TABLE " + Ticket.TABLE_TICKETS + " ("
+            + Ticket._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Ticket.TICKET_ID + " TEXT, "
+            + Ticket.TICKET_CODE + " TEXT" + ");";
+
+
     public DBCreator(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+    }
+
+    public static class Ticket implements BaseColumns {
+        public static final String TABLE_TICKETS = "t_tickets";
+        public static final String TICKET_ID = "ticket_id";
+        public static final String TICKET_CODE = "ticket_code";
     }
 
     public static class News implements BaseColumns {
@@ -74,6 +86,7 @@ public class DBCreator extends SQLiteOpenHelper {
         db.execSQL(SCRIPT_CREATE_TBL_SCHEDULE);
         db.execSQL(SCRIPT_CREATE_TBL_BANDS);
         db.execSQL(SCRIPT_CREATE_TBL_NEWS);
+        db.execSQL(SCRIPT_CREATE_TBL_TICKETS);
     }
 
     @Override
@@ -86,5 +99,8 @@ public class DBCreator extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + News.TABLE_NEWS + ";");
         db.execSQL(SCRIPT_CREATE_TBL_NEWS);
+
+        db.execSQL("DROP TABLE IF EXISTS " + Ticket.TABLE_TICKETS+ ";");
+        db.execSQL(SCRIPT_CREATE_TBL_TICKETS);
     }
 }

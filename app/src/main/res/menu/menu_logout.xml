@@ -6,6 +6,7 @@
         android:title="Logout"
         android:orderInCategory="1"
         app:showAsAction="ifRoom"
-        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf" />
+        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
+        />
 
 </menu>

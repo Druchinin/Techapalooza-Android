@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.News;
 import com.consultica.techapalooza.model.Schedule;
+import com.consultica.techapalooza.model.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,38 @@ public class DBMaster {
         cv.put(DBCreator.News.NEWS_IMAGE, news.getImage());
 
         return database.insert(DBCreator.News.TABLE_NEWS, null, cv);
+    }
+
+    public long insertTicket(Ticket ticket) {
+        ContentValues cv = new ContentValues();
+        cv.put(DBCreator.Ticket.TICKET_ID, ticket.getId());
+        cv.put(DBCreator.Ticket.TICKET_CODE, ticket.getCode());
+
+        return database.insert(DBCreator.Ticket.TABLE_TICKETS, null, cv);
+    }
+
+    public List<Ticket> getAllTickets(){
+        String query = "SELECT "
+                + DBCreator.Ticket.TICKET_ID+ ", "
+                + DBCreator.Ticket.TICKET_CODE
+                + " FROM " + DBCreator.Ticket.TABLE_TICKETS + ";";
+
+        Cursor cursor = database.rawQuery(query, null);
+        cursor.moveToFirst();
+
+        List<Ticket> list = new ArrayList<>();
+
+        while (!cursor.isAfterLast()){
+            Ticket ticket = new Ticket();
+            ticket.setId(cursor.getString(0));
+            ticket.setCode(cursor.getString(1));
+
+            list.add(ticket);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return list;
     }
 
     public List<News> getAllNews(){
@@ -201,6 +234,11 @@ public class DBMaster {
     public void clearBands() {
         database.execSQL("DROP TABLE IF EXISTS " + DBCreator.Bands.TABLE_BANDS + ";");
         database.execSQL(DBCreator.SCRIPT_CREATE_TBL_BANDS);
+    }
+
+    public void clearTickets() {
+        database.execSQL("DROP TABLE IF EXISTS " + DBCreator.Ticket.TABLE_TICKETS + ";");
+        database.execSQL(DBCreator.SCRIPT_CREATE_TBL_TICKETS);
     }
 
 }

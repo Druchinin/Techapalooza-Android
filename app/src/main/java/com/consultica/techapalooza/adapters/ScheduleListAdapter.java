@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Schedule;
+import com.consultica.techapalooza.utils.FontFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
             super(itemView);
             itemView.setOnClickListener(this);
 
-            Typeface myTypeface = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/PT_Sans-Narrow-Web-Regular.ttf");
+            Typeface myTypeface = FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG);
 
             hour = (TextView) itemView.findViewById(R.id.sched_list_item_hour);
             hour.setTypeface(myTypeface);

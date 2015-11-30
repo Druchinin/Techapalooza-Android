@@ -8,11 +8,9 @@
         android:id="@+id/ticket_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:layout_above="@+id/fl_tickets_line" />
 
     <TextView
-        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
         android:id="@+id/tv_tickets_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +26,6 @@
 
 
     <TextView
-        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
         android:id="@+id/tv_tickets_redeem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +41,6 @@
         android:clickable="true"/>
 
     <TextView
-        fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
         android:id="@+id/tv_tickets_purchase_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#3E6682"
-        android:layout_above="@+id/tv_tickets_redeem"
+        android:layout_above="@+id/tv_tickets_purchase_more"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>

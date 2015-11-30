@@ -13,6 +13,7 @@
         android:layout_marginTop="1dp" >
 
         <TextView
+            android:id="@+id/reg_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -21,9 +22,7 @@
             android:layout_gravity="center_vertical"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_margin="16dp"
-            android:id="@+id/reg_tv_name"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+            android:layout_margin="16dp" />
 
         <EditText
             android:id="@+id/reg_et_name"
@@ -56,15 +55,14 @@
         android:layout_marginTop="1dp">
 
         <TextView
+            android:id="@+id/reg_tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:layout_gravity="center_vertical"
             android:text="Email"
             android:textColor="#3F6C95"
-            android:textSize="@dimen/reg_lable_text_size"
-            android:id="@+id/reg_tv_email"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+            android:textSize="@dimen/reg_lable_text_size" />
 
         <EditText
             android:id="@+id/reg_et_email"
@@ -97,14 +95,14 @@
         android:layout_marginTop="1dp">
 
         <TextView
+            android:id="@+id/reg_tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Password"
             android:textColor="#3F6C95"
             android:textSize="@dimen/reg_lable_text_size"
-            android:layout_margin="16dp"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+            android:layout_margin="16dp" />
 
         <EditText
             android:id="@+id/reg_et_psw"
@@ -125,8 +123,7 @@
             android:layout_gravity="center_vertical"
             android:text="HIDE"
             android:textSize="16sp"
-            android:clickable="true"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf" />
+            android:clickable="true" />
 
         <ImageView
             android:id="@+id/reg_psw_image_check"
@@ -150,7 +147,6 @@
         android:paddingRight="70dp"
         android:textAllCaps="false"
         android:textSize="@dimen/tickets_btn_text_size"
-        fontPath="fonts/Roboto-Light.ttf"
         android:layout_margin="16dp"/>
 
 </LinearLayout>

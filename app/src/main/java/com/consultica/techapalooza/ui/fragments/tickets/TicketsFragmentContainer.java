@@ -1,20 +1,15 @@
 package com.consultica.techapalooza.ui.fragments.tickets;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.SignInResponse;
-import com.consultica.techapalooza.ui.MainActivity;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -24,6 +19,14 @@ public class TicketsFragmentContainer extends Fragment {
 
     private String currentUserEmail;
     private String currentUserId;
+
+    private static TicketsFragmentContainer instance;
+
+    public static TicketsFragmentContainer getInstance() {
+        if (instance == null)
+            instance = new TicketsFragmentContainer();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,47 +39,30 @@ public class TicketsFragmentContainer extends Fragment {
 
     private void init() {
 
-        SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
+        String email = FakeDB.getInstance(getActivity()).getEmail();
+        String password = FakeDB.getInstance(getActivity()).getPassword();
 
-        if (isNetworkConnected()) {
+        Client.getAPI().signIn(email, password, new Callback<SignInResponse>() {
+            @Override
+            public void success(SignInResponse signInResponse, Response response) {
+                if (signInResponse.getUserId() != null){
+                    FakeDB.getInstance(getActivity()).saveUserId(signInResponse.getUserId());
 
-            if (!pref.getString("email", "null").equals("null")) {
-
-                currentUserEmail = pref.getString("email", "null");
-                currentUserId = pref.getString("id", "null");
-
-                Client.getAPI().getCurrentUser(new Callback<SignInResponse>() {
-                    @Override
-                    public void success(SignInResponse signInResponse, Response response) {
-                        if (signInResponse.getUserId().equals(currentUserId)
-                                && signInResponse.getUserEmail().equals(currentUserEmail)) {
-
-                            startTicketsMainFragment();
-                        }
+                    if (TicketsLoggedInFragment.getInstance().hasTickets()) {
+                        TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+                    } else {
+                        TicketsLoggedInNoTicketsFragment.getInstance().show(getFragmentManager());
                     }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-
-                    }
-                });
-            } else {
-                startTicketsMainFragment();
+                } else {
+                    TicketsMainFragment.getInstance().show(getFragmentManager());
+                }
             }
 
-        } else {
-            startTicketsMainFragment();
-        }
-    }
+            @Override
+            public void failure(RetrofitError error) {
+                TicketsMainFragment.getInstance().show(getFragmentManager());
+            }
+        });
 
-    private void startTicketsMainFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
-        transaction.commit();
-    }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
     }
 }

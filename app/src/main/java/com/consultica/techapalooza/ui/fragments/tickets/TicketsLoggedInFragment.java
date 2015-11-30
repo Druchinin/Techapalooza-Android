@@ -1,30 +1,40 @@
 package com.consultica.techapalooza.ui.fragments.tickets;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.TicketsAdapter;
+import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
+import com.consultica.techapalooza.network.Interceptor;
 import com.consultica.techapalooza.network.SignInResponse;
-import com.consultica.techapalooza.ui.MainActivity;
+import com.consultica.techapalooza.ui.activities.PurchaseActivity;
+import com.consultica.techapalooza.ui.fragments.BaseFragment;
+import com.consultica.techapalooza.utils.FontFactory;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.ByteMatrix;
@@ -34,95 +44,108 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class TicketsLoggedInFragment extends Fragment {
+public class TicketsLoggedInFragment extends BaseFragment {
 
     public static final String TAG = "com.consultica.techapalooza.fragment.TicketsLoggedInFragment";
+    private static final int REQUEST_PURCHASE = 1;
 
     private View view;
     private List<Ticket> tickets;
     private TicketsAdapter adapter;
-    private int  totalItemCount;
-    private boolean loggedIn;
+    private int totalItemCount;
     private LinearLayoutManager manager;
+
+    private RecyclerView ticket_recycle_view;
 
     private TextView tv_tickets_count, tv_tickets_redeem, tv_tickets_purchase_more;
 
-    private Toolbar actionBarToolBar;
+    private AppCompatActivity activity;
+
+    private Toolbar toolbar;
+
+    private Typeface typeface;
+
+    private static TicketsLoggedInFragment instance;
+    private boolean canRedeem;
+
+
+    public static TicketsLoggedInFragment getInstance() {
+        if (instance == null)
+            instance = new TicketsLoggedInFragment();
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_tickets_logged_in, container, false);
 
-        init();
+        activity = (AppCompatActivity) getActivity();
+        toolbar = (Toolbar) activity.findViewById(R.id.main_toolbar);
+        typeface = FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG);
+
+        setupViews();
 
         return view;
     }
 
-    private void init() {
-        SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
+    private void setupViews() {
 
-        actionBarToolBar = (Toolbar) getActivity().findViewById(R.id.main_toolbar);
         tv_tickets_count = (TextView) view.findViewById(R.id.tv_tickets_count);
-        tv_tickets_redeem = (TextView) view.findViewById(R.id.tv_tickets_redeem);
-        tv_tickets_purchase_more = (TextView) view.findViewById(R.id.tv_tickets_purchase_more);
+        tv_tickets_count.setTypeface(typeface);
 
-        if (!pref.getString("email", "null").equals("null")) {
-            loggedIn = true;
-            setupBtnLogout();
+        tv_tickets_redeem = (TextView) view.findViewById(R.id.tv_tickets_redeem);
+        tv_tickets_redeem.setTypeface(typeface);
+
+        if (!FakeDB.getInstance(getActivity()).getCanRedeem()) {
+            tv_tickets_redeem.setVisibility(View.GONE);
         }
+
+        tv_tickets_purchase_more = (TextView) view.findViewById(R.id.tv_tickets_purchase_more);
+        tv_tickets_purchase_more.setTypeface(typeface);
 
         setupBtnRedeem();
         setupBtnPurchase();
         checkTickets();
     }
 
-    private void checkTickets() {
+    public void checkTickets() {
         if (tickets == null) {
 
             Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
                 @Override
                 public void success(Ticket.TicketResponse ticketResponse, Response response) {
                     tickets = ticketResponse.getTickets();
-                    setupView();
+                    if (tickets.size() >= 1)
+                        setupRecycleView();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    startNoTicketsFragment();
                 }
             });
 
         } else {
-            setupView();
+            if (tickets.size() >= 1)
+                setupRecycleView();
+            else {
+                TicketsLoggedInNoTicketsFragment.getInstance().show(getActivity().getSupportFragmentManager());
+            }
         }
-    }
-
-    private void startNoTicketsFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_tickets_container, new TicketsLoggedInNoTicketsFragment(), TicketsLoggedInNoTicketsFragment.TAG);
-        transaction.commit();
     }
 
     private void setupBtnPurchase() {
         tv_tickets_purchase_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-                Bundle bundle = new Bundle();
-                bundle.putInt(BandListFragment.BUNDLE_FROM, R.id.tv_tickets_purchase_more);
-
-                BandListFragment fragment = new BandListFragment();
-                fragment.setArguments(bundle);
-
-                tr.replace(R.id.fragment_tickets_container, fragment, BandListFragment.TAG);
-                tr.addToBackStack(BandListFragment.TAG);
-                tr.commit();
+                startActivityForResult(new Intent(getActivity(), PurchaseActivity.class).putExtra("what", PurchaseActivity.WHAT_PURCHASE),
+                        REQUEST_PURCHASE);
             }
         });
     }
@@ -131,27 +154,20 @@ public class TicketsLoggedInFragment extends Fragment {
         tv_tickets_redeem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-
-                Bundle bundle = new Bundle();
-                bundle.putInt(BandListFragment.BUNDLE_FROM, R.id.tv_tickets_redeem);
-
-                BandListFragment fragment = new BandListFragment();
-                fragment.setArguments(bundle);
-
-                tr.replace(R.id.fragment_tickets_container, fragment, BandListFragment.TAG);
-                tr.addToBackStack(BandListFragment.TAG);
-                tr.commit();
+                startActivityForResult(new Intent(getActivity(), PurchaseActivity.class).putExtra("what", PurchaseActivity.WHAT_REDEEM),
+                        REQUEST_PURCHASE);
             }
         });
     }
 
     private void setupBtnLogout() {
-        if (!actionBarToolBar.getMenu().hasVisibleItems()) {
+        SpannableStringBuilder title = new SpannableStringBuilder("Logout");
+        title.setSpan(typeface, 0, title.length(), 0);
 
-            actionBarToolBar.inflateMenu(R.menu.menu_logout);
+        if (!toolbar.getMenu().hasVisibleItems()) {
 
-            actionBarToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            toolbar.inflateMenu(R.menu.menu_logout);
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
 
@@ -159,12 +175,13 @@ public class TicketsLoggedInFragment extends Fragment {
 
                         @Override
                         public void success(SignInResponse signInResponse, Response response) {
-                            SharedPreferences pref = App.getInstance().getSharedPreferences(MainActivity.USER_PREF, Context.MODE_PRIVATE);
-                            pref.edit().clear().commit();
+                            toolbar.getMenu().clear();
 
-                            actionBarToolBar.getMenu().clear();
+                            FakeDB.getInstance(getActivity()).resetLoginAndPassword();
+                            Interceptor.getInstance().clearCookie();
 
-                            startTicketsMainFragment();
+                            TicketsMainFragment.getInstance().show(getFragmentManager());
+
                         }
 
                         @Override
@@ -180,41 +197,68 @@ public class TicketsLoggedInFragment extends Fragment {
         }
     }
 
-    private void startTicketsMainFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_tickets_container, new TicketsMainFragment(), TicketsMainFragment.TAG);
-        transaction.commit();
-    }
+    private void setupRecycleView() {
+        ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewPager);
 
-    private void setupView() {
-
-        adapter = new TicketsAdapter(getActivity(), tickets);
-
-        totalItemCount = adapter.getItemCount();
-
-        manager = new LinearLayoutManager(getActivity());
-
-        RecyclerView ticket_recycle_view = (RecyclerView) view.findViewById(R.id.ticket_recycle_view);
-        ticket_recycle_view.setLayoutManager(manager);
-        ticket_recycle_view.setAdapter(adapter);
-
-        ticket_recycle_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                tv_tickets_count.setText((manager.findFirstVisibleItemPosition() + 1) + "/" + totalItemCount);
-            }
-        });
-
-        if (totalItemCount > 1) {
-            ticket_recycle_view.setScrollbarFadingEnabled(false);
+        if (FakeDB.getInstance(getActivity()).getCanRedeem()) {
+            tv_tickets_redeem.setVisibility(View.VISIBLE);
+        } else {
+            tv_tickets_redeem.setVisibility(View.GONE);
         }
 
-        tv_tickets_count.setText(1 + "/" + totalItemCount);
+        if (viewPager.getCurrentItem() == 2)
+            setupBtnLogout();
 
-        Task task = new Task();
-        task.execute();
+        if (!tickets.isEmpty()) {
 
+            ticket_recycle_view = (RecyclerView) view.findViewById(R.id.ticket_recycle_view);
+            adapter = new TicketsAdapter(getActivity(), tickets);
+
+            totalItemCount = adapter.getItemCount();
+
+            manager = new LinearLayoutManager(getActivity());
+
+            ticket_recycle_view.setLayoutManager(manager);
+            ticket_recycle_view.setAdapter(adapter);
+
+            ticket_recycle_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    tv_tickets_count.setText((manager.findFirstVisibleItemPosition() + 1) + "/" + totalItemCount);
+                }
+            });
+
+            tv_tickets_count.setText(1 + "/" + totalItemCount);
+
+            Task task = new Task();
+            task.execute();
+
+        } else {
+            TicketsLoggedInNoTicketsFragment.getInstance().show(getFragmentManager());
+        }
+    }
+
+    @Override
+    public String getName() {
+        return TicketsLoggedInFragment.class.getSimpleName();
+    }
+
+    @Override
+    public int getContainer() {
+        return R.id.fragment_tickets_container;
+    }
+
+    public void setCanRedeem(boolean canReedem) {
+        if (tv_tickets_redeem != null) {
+            if (canReedem) {
+                tv_tickets_redeem.setVisibility(View.VISIBLE);
+            } else {
+                tv_tickets_redeem.setVisibility(View.GONE);
+            }
+        } else {
+            this.canRedeem = canReedem;
+        }
     }
 
     class Task extends AsyncTask<Void, Void, Void> {
@@ -228,7 +272,7 @@ public class TicketsLoggedInFragment extends Fragment {
 
             f = new File(cacheDir, "ticket_background");
             try {
-                bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.individual_ticket);
+                bitmap = BitmapFactory.decodeResource(App.getInstance().getResources(), R.drawable.individual_ticket);
                 out = new FileOutputStream(f);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
                 out.flush();
@@ -283,5 +327,38 @@ public class TicketsLoggedInFragment extends Fragment {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public boolean hasTickets() {
+        if (tickets != null)
+            return !tickets.isEmpty();
+        return false;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_PURCHASE){
+                Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
+                    @Override
+                    public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                        FakeDB.getInstance(getActivity()).saveCanRedeem(ticketResponse.canReedem());
+                        tickets = ticketResponse.getTickets();
+
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setupRecycleView();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+            }
+        }
     }
 }

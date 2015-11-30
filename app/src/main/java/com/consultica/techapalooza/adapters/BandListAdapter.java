@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Band;
-import com.consultica.techapalooza.network.MyHttpImageLoader;
+import com.consultica.techapalooza.utils.FontFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHolder> {
 
-    public static final String URL = "https://techapalooza";
+    public static final String URL = "https://techapalooza.consulti.ca";
 
     private LayoutInflater inflater;
     private List<Band> data = Collections.emptyList();
@@ -39,12 +39,11 @@ public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Band band = data.get(position);
 
-        Picasso picasso;
-        Picasso.Builder builder= new Picasso.Builder(App.getInstance());
-        picasso = builder.downloader(new MyHttpImageLoader(App.getInstance())).build();
 
-        picasso.load(URL + data.get(position).getLogo())
+        Picasso.with(App.getInstance())
+                .load(URL + band.getLogo())
                 .placeholder(R.drawable.image_placeholder)
                 .into(holder.band_list_logo_iv);
 
@@ -69,7 +68,9 @@ public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHo
             itemView.setOnClickListener(this);
 
             band_list_logo_iv = (ImageView) itemView.findViewById(R.id.band_list_logo_iv);
+
             band_list_title_tv = (TextView) itemView.findViewById(R.id.band_list_title_tv);
+            band_list_title_tv.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
 
         }
 

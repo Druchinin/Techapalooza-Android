@@ -1,11 +1,12 @@
 package com.consultica.techapalooza.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Band {
+public class Band implements Serializable{
 
     private String id;
     private String name;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.News;
-import com.consultica.techapalooza.network.MyHttpImageLoader;
+import com.consultica.techapalooza.utils.FontFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -41,11 +41,15 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
         holder.date.setText(current.getDate());
         holder.text.setText(current.getContent());
 
-        Picasso picasso;
-        Picasso.Builder builder= new Picasso.Builder(App.getInstance());
-        picasso = builder.downloader(new MyHttpImageLoader(App.getInstance())).build();
 
-        picasso.load("https://techapalooza"+current.getImage()).resize(400, 250).into(holder.image);
+        Picasso.with(App.getInstance())
+                .load("https://techapalooza.consulti.ca" + current.getImage())
+                .fit()
+                .centerInside()
+                .placeholder(R.drawable.image_placeholder)
+                .into(holder.image);
+
+
     }
 
     @Override
@@ -53,7 +57,7 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
         return data.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView date;
         private ImageView image;
@@ -63,9 +67,16 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.art_tv_title);
+            title.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
+
             date = (TextView) itemView.findViewById(R.id.art_tv_date);
+            date.setTypeface(FontFactory.getTypeface(FontFactory.FONT_TRADE_GOTHIC_LT_CN18));
+
             image = (ImageView) itemView.findViewById(R.id.art_iv_image);
+
             text = (TextView) itemView.findViewById(R.id.art_tv_text);
+            text.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_LIGHT));
+
         }
     }
 

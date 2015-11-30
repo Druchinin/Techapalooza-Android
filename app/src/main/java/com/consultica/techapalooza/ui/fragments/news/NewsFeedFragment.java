@@ -24,6 +24,14 @@ public class NewsFeedFragment extends Fragment {
     private NewsRecycleViewAdapter adapter;
     private DBMaster dbMaster;
 
+    private static NewsFeedFragment instance;
+
+    public static NewsFeedFragment getInstance() {
+        if (instance == null)
+            instance = new NewsFeedFragment();
+        return instance;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_news_feed, container, false);
@@ -41,7 +49,8 @@ public class NewsFeedFragment extends Fragment {
 
         if (data.size() > 0) {
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(manager);
             adapter = new NewsRecycleViewAdapter(getActivity(), data);
             recyclerView.setAdapter(adapter);
 
