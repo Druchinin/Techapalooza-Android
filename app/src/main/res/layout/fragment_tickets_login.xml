@@ -13,15 +13,14 @@
         android:layout_marginTop="1dp">
 
         <TextView
-            android:id="@+id/reg_tv_name"
+            android:id="@+id/tv_tickets_login_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Email"
             android:textColor="#3F6C95"
             android:textSize="@dimen/reg_lable_text_size"
-            android:layout_margin="16dp"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"/>
+            android:layout_margin="16dp" />
 
         <EditText
             android:id="@+id/reg_et_name"
@@ -49,7 +48,6 @@
             android:textColor="#3F6C95"
             android:textSize="@dimen/reg_lable_text_size"
             android:layout_margin="16dp"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
             />
 
         <EditText
@@ -72,8 +70,7 @@
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
             android:layout_marginRight="16dp"
-            android:clickable="true"
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf" />
+            android:clickable="true" />
 
     </LinearLayout>
 
@@ -87,10 +84,7 @@
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:textAllCaps="false"
-        android:textStyle="bold"
         android:textSize="@dimen/tickets_btn_text_size"
-        android:layout_marginTop="16dp"
-        fontPath="fonts/Roboto-Light.ttf"
-        />
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

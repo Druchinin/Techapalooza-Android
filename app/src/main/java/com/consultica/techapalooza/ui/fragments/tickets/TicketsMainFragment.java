@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
@@ -23,6 +25,7 @@ import com.consultica.techapalooza.ui.activities.LoginActivity;
 import com.consultica.techapalooza.ui.activities.MainActivity;
 import com.consultica.techapalooza.ui.activities.RegistrationActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
+import com.consultica.techapalooza.utils.FontFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,6 +43,10 @@ public class TicketsMainFragment extends BaseFragment {
 
     private View view;
 
+    private Typeface typeface;
+
+    private TextView tv_title_tickets_main, tv_sign_up_tickets_main;
+
     private static TicketsMainFragment instance;
 
     public static TicketsMainFragment getInstance() {
@@ -52,6 +59,8 @@ public class TicketsMainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_tickets_main, container, false);
 
+        typeface = FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG);
+
         init();
 
         return view;
@@ -59,9 +68,14 @@ public class TicketsMainFragment extends BaseFragment {
 
     private void init() {
 
+        tv_title_tickets_main = (TextView) view.findViewById(R.id.tv_title_tickets_main);
+        tv_title_tickets_main.setTypeface(typeface);
+
+        tv_sign_up_tickets_main = (TextView) view.findViewById(R.id.tv_sign_up_tickets_main);
+        tv_sign_up_tickets_main.setTypeface(typeface);
+
         String email = FakeDB.getInstance(getActivity()).getEmail();
         String password = FakeDB.getInstance(getActivity()).getPassword();
-
 
         if (!email.equals("") && !password.equals("")){
 
@@ -86,6 +100,7 @@ public class TicketsMainFragment extends BaseFragment {
         Picasso.with(getActivity()).load(R.drawable.tickets_outline_icon).into(fragment_tickets_main_logo);
 
         Button btnLogin = (Button) view.findViewById(R.id.btn_tickets_sign_in);
+        btnLogin.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_LIGHT));
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +109,7 @@ public class TicketsMainFragment extends BaseFragment {
         });
 
         Button btnSignUp = (Button) view.findViewById(R.id.btn_tickets_sign_up);
+        btnSignUp.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_LIGHT));
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +164,7 @@ public class TicketsMainFragment extends BaseFragment {
                 Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
                     @Override
                     public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                        TicketsLoggedInFragment.getInstance().setCanRedeem(ticketResponse.canReedem());
                         TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
                         TicketsLoggedInFragment.getInstance().show(getFragmentManager());
                     }
@@ -170,6 +187,9 @@ public class TicketsMainFragment extends BaseFragment {
                         Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
                             @Override
                             public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                                FakeDB.getInstance(getContext()).saveCanRedeem(ticketResponse.canReedem());
+
+                                TicketsLoggedInFragment.getInstance().setCanRedeem(ticketResponse.canReedem());
                                 TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
                                 TicketsLoggedInFragment.getInstance().show(getFragmentManager());
                             }

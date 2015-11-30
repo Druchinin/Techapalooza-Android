@@ -38,13 +38,17 @@ public class Ticket {
 
         class Data {
             @Expose
-            boolean canReedem;
+            boolean canRedeem;
             @Expose
             List<Ticket> tickets;
         }
 
-        public List<Ticket> getTickets(){
+        public List<Ticket> getTickets() {
             return data.tickets;
+        }
+
+        public boolean canReedem() {
+            return data.canRedeem;
         }
     }
 
@@ -59,7 +63,7 @@ public class Ticket {
             String currency;
         }
 
-        public int getPrice(){
+        public int getPrice() {
             return data.price;
         }
     }

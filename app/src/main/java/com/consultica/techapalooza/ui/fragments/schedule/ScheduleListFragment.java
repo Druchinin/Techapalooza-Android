@@ -1,5 +1,6 @@
 package com.consultica.techapalooza.ui.fragments.schedule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import com.consultica.techapalooza.adapters.ScheduleListAdapter;
 import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.Schedule;
+import com.consultica.techapalooza.ui.activities.BandDetailsActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.consultica.techapalooza.ui.fragments.lineup.BandDetailsFragment;
 
@@ -74,11 +76,10 @@ public class ScheduleListFragment extends BaseFragment {
                     if (schedule.getBand_Id() != null) {
                         Band band = dbMaster.getBand(schedule.getBand_Id());
 
+//                        Intent intent = new Intent(getActivity(), BandDetailsActivity.class);
+//                        intent.putExtra("band", band);
 
-
-                        BandDetailsFragment.getInstance().setBand(band);
-                        BandDetailsFragment.getInstance().show(getActivity().getSupportFragmentManager(), true);
-                        
+                        startActivity(new Intent(getActivity(), BandDetailsActivity.class).putExtra("band", band));
                     }
                 }
             });

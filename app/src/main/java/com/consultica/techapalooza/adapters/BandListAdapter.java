@@ -1,7 +1,6 @@
 package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,7 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Band;
-import com.consultica.techapalooza.network.MyHttpImageLoader;
-import com.consultica.techapalooza.utils.ImageLoader;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
+import com.consultica.techapalooza.utils.FontFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -72,7 +68,9 @@ public class BandListAdapter extends RecyclerView.Adapter<BandListAdapter.ViewHo
             itemView.setOnClickListener(this);
 
             band_list_logo_iv = (ImageView) itemView.findViewById(R.id.band_list_logo_iv);
+
             band_list_title_tv = (TextView) itemView.findViewById(R.id.band_list_title_tv);
+            band_list_title_tv.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
 
         }
 

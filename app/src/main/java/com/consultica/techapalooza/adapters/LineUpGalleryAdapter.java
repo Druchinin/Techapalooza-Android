@@ -1,8 +1,6 @@
 package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +10,6 @@ import android.widget.ImageView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Band;
-import com.consultica.techapalooza.network.MyHttpImageLoader;
-import com.consultica.techapalooza.utils.ImageLoader;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;

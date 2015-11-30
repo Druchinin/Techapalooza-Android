@@ -1,7 +1,6 @@
 package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,7 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.News;
-import com.consultica.techapalooza.network.MyHttpImageLoader;
-import com.consultica.techapalooza.utils.ImageLoader;
+import com.consultica.techapalooza.utils.FontFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -69,9 +67,16 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.art_tv_title);
+            title.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
+
             date = (TextView) itemView.findViewById(R.id.art_tv_date);
+            date.setTypeface(FontFactory.getTypeface(FontFactory.FONT_TRADE_GOTHIC_LT_CN18));
+
             image = (ImageView) itemView.findViewById(R.id.art_iv_image);
+
             text = (TextView) itemView.findViewById(R.id.art_tv_text);
+            text.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_LIGHT));
+
         }
     }
 

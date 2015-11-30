@@ -8,8 +8,9 @@
 
     <ImageView
         android:id="@+id/checkout_logo_iv"
-        android:layout_width="match_parent"
-        android:layout_height="180dp" />
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center_horizontal"/>
 
     <RelativeLayout
         android:id="@+id/rl_frag_checkout_amount_container"
@@ -22,17 +23,21 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/rounded_btn_style"
             android:text="+"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/et_frag_checkout_count"
+            android:id="@+id/tv_frag_checkout_count"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_toLeftOf="@+id/btn_frag_checkout_plus"
+            android:layout_toStartOf="@+id/btn_frag_checkout_plus"
             android:background="@drawable/et_rounded_backround"
             android:text="1"
             android:textSize="24sp"
@@ -44,18 +49,19 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@+id/et_frag_checkout_count"
+            android:layout_marginEnd="16dp"
+            android:layout_toLeftOf="@+id/tv_frag_checkout_count"
+            android:layout_toStartOf="@+id/tv_frag_checkout_count"
             android:background="@drawable/rounded_btn_style"
             android:text="-"
             android:textSize="24sp" />
 
 
         <TextView
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
             android:id="@+id/tv_frag_checkout_tickets"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:gravity="center_vertical|right"
+            android:gravity="center_vertical|end"
             android:text="Tickets:"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/tickets_main_text_size" />
@@ -72,27 +78,26 @@
 
 
         <TextView
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
             android:id="@+id/tv_frag_checkout_price"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/fl_frag_checkout_line"
-            android:layout_gravity="center_vertical|right"
+            android:layout_gravity="center_vertical|end"
             android:layout_marginRight="8dp"
-            android:gravity="center_vertical|right"
-            android:text="$500"
+            android:layout_marginEnd="8dp"
+            android:text="$"
+            android:gravity="center_vertical|end"
             android:textColor="@color/textColorPrimary"
             android:textSize="24sp" />
 
-
         <TextView
-            fontPath="fonts/PT_Sans-Narrow-Web-Regular.ttf"
             android:id="@+id/tv_frag_checkout_total"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_below="@+id/fl_frag_checkout_line"
-            android:gravity="center_vertical|right"
+            android:gravity="center_vertical|end"
             android:text="Total:"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/tickets_main_text_size" />
@@ -106,7 +111,6 @@
     </RelativeLayout>
 
     <Button
-        fontPath="fonts/Roboto-Light.ttf"
         android:id="@+id/btn_frag_checkout"
         android:layout_width="200dp"
         android:layout_height="wrap_content"

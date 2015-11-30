@@ -1,5 +1,6 @@
 package com.consultica.techapalooza.ui.fragments.lineup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.LineUpGalleryAdapter;
 import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.Band;
+import com.consultica.techapalooza.ui.activities.BandDetailsActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
 
 import java.util.List;
@@ -54,14 +56,7 @@ public class LineUpGalleryFragment extends BaseFragment {
                 public void onItemClick(int position, View v) {
                     Band band = adapter.getItem(position);
 
-                    BandDetailsFragment fragment = new BandDetailsFragment();
-                    fragment.setBand(band);
-
-                    FragmentTransaction tr = getActivity().getSupportFragmentManager().beginTransaction();
-
-                    tr.replace(R.id.line_up_fragment_container, fragment, BandDetailsFragment.TAG);
-                    tr.addToBackStack(BandDetailsFragment.TAG);
-                    tr.commit();
+                    startActivity(new Intent(getActivity(), BandDetailsActivity.class).putExtra("band", band));
                 }
             });
 
