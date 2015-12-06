@@ -110,14 +110,21 @@ public class Client {
                 Callback<Ticket.TicketResponse> cb);
 
         @FormUrlEncoded
+        @POST("/api/tickets/purchase")
+        void purchaseTicketWithoutBand(
+                @Field("numberOfTickets")int numberOfTickets,
+                @Field("token") String stripeToken,
+                Callback<Ticket.TicketResponse> callback);
+
+        @FormUrlEncoded
         @POST("/api/tickets/redeem")
         void redeemPromoCode(
-                @Field("band") String band,
                 @Field("code") String code,
                 Callback<Ticket.TicketResponse> cb);
 
         @GET("/api/news")
         void getNews(Callback<News.NewsResponse> cb);
+
     }
 
     public static boolean isNetworkConnected() {

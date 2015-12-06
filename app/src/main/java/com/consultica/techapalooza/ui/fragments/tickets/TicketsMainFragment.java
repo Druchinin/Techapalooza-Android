@@ -100,7 +100,7 @@ public class TicketsMainFragment extends BaseFragment {
         Picasso.with(getActivity()).load(R.drawable.tickets_outline_icon).into(fragment_tickets_main_logo);
 
         Button btnLogin = (Button) view.findViewById(R.id.btn_tickets_sign_in);
-        btnLogin.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_LIGHT));
+        btnLogin.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_REGULAR));
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +109,7 @@ public class TicketsMainFragment extends BaseFragment {
         });
 
         Button btnSignUp = (Button) view.findViewById(R.id.btn_tickets_sign_up);
-        btnSignUp.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_LIGHT));
+        btnSignUp.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_REGULAR));
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

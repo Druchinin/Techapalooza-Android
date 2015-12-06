@@ -15,6 +15,8 @@ public class Ticket {
     String date;
     @Expose
     boolean verified;
+    @Expose
+    int ticketId;
 
     public String getId() {
         return id;
@@ -30,6 +32,14 @@ public class Ticket {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getTicketId() {
+        return ticketId+"";
+    }
+
+    public void setTicketId(int ticketId) {
+        this.ticketId = ticketId;
     }
 
     public class TicketResponse {
