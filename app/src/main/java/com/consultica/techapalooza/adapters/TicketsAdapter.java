@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.Ticket;
+import com.consultica.techapalooza.utils.FontFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,6 +59,8 @@ public class TicketsAdapter extends RecyclerView.Adapter<TicketsAdapter.ViewHold
 
         if (bitmap != null)
             holder.ticket_qr_code.setImageBitmap(bitmap);
+
+        holder.tv_ticket_id.setText(data.get(position).getTicketId());
     }
 
     @Override
@@ -73,7 +76,7 @@ public class TicketsAdapter extends RecyclerView.Adapter<TicketsAdapter.ViewHold
 
         ImageView ticket_qr_code;
         ImageView ticket_background_image;
-        TextView ticket_lable_techapalooza, ticket_lable_2016;
+        TextView ticket_lable_techapalooza, ticket_lable_2016, tv_ticket_id;
 
 
         public ViewHolder(View itemView) {
@@ -81,6 +84,8 @@ public class TicketsAdapter extends RecyclerView.Adapter<TicketsAdapter.ViewHold
 
             Typeface myTypeface = Typeface.createFromAsset(App.getInstance().getAssets(), "fonts/Capture_it.ttf");
 
+            tv_ticket_id = (TextView) itemView.findViewById(R.id.tv_ticket_id);
+            tv_ticket_id.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_MONO_REGULAR));
 
             ticket_background_image = (ImageView) itemView.findViewById(R.id.ticket_background_image);
             ticket_qr_code = (ImageView) itemView.findViewById(R.id.ticket_qr_code);

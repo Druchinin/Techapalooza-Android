@@ -49,6 +49,7 @@ public class DBMaster {
         ContentValues cv = new ContentValues();
         cv.put(DBCreator.Ticket.TICKET_ID, ticket.getId());
         cv.put(DBCreator.Ticket.TICKET_CODE, ticket.getCode());
+        cv.put(DBCreator.Ticket.TICKET_id, ticket.getTicketId());
 
         return database.insert(DBCreator.Ticket.TABLE_TICKETS, null, cv);
     }
@@ -56,7 +57,8 @@ public class DBMaster {
     public List<Ticket> getAllTickets(){
         String query = "SELECT "
                 + DBCreator.Ticket.TICKET_ID+ ", "
-                + DBCreator.Ticket.TICKET_CODE
+                + DBCreator.Ticket.TICKET_CODE+ ", "
+                + DBCreator.Ticket.TICKET_id
                 + " FROM " + DBCreator.Ticket.TABLE_TICKETS + ";";
 
         Cursor cursor = database.rawQuery(query, null);
@@ -68,6 +70,7 @@ public class DBMaster {
             Ticket ticket = new Ticket();
             ticket.setId(cursor.getString(0));
             ticket.setCode(cursor.getString(1));
+            ticket.setTicketId(cursor.getInt(2));
 
             list.add(ticket);
             cursor.moveToNext();

@@ -63,6 +63,7 @@ public class TicketsLoggedInNoTicketsFragment extends BaseFragment {
 
         ImageView no_tickets_logo = (ImageView) view.findViewById(R.id.no_tickets_logo);
         Button no_tickets_purchase = (Button) view.findViewById(R.id.no_tickets_purchase);
+        no_tickets_purchase.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_REGULAR));
 
         no_tickets_redeem_coupon = (TextView) view.findViewById(R.id.no_tickets_redeem_coupon);
         no_tickets_redeem_coupon.setTypeface(typeface);
@@ -78,7 +79,6 @@ public class TicketsLoggedInNoTicketsFragment extends BaseFragment {
         no_tickets_purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: start PurchaseActivity with intent "what"
                 startActivityForResult(new Intent(getActivity(), PurchaseActivity.class).putExtra("what", PurchaseActivity.WHAT_PURCHASE), REQUEST_PURCHASE);
             }
         });
@@ -86,7 +86,6 @@ public class TicketsLoggedInNoTicketsFragment extends BaseFragment {
         no_tickets_redeem_coupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: start PurchaseActivity with intent "what"
                 startActivityForResult(new Intent(getActivity(), PurchaseActivity.class).putExtra("what", PurchaseActivity.WHAT_REDEEM), REQUEST_PURCHASE);
             }
         });

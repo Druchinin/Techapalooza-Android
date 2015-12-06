@@ -33,11 +33,13 @@
 
         <activity
             android:name=".ui.activities.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"/>
 
         <activity
             android:name=".ui.activities.RegistrationActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"/>
 
         <activity android:name=".ui.activities.BandDetailsActivity"
             android:screenOrientation="portrait" />

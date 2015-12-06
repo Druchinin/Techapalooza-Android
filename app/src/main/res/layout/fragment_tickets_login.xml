@@ -28,7 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@color/colorWhite"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/et_tickets_login_password"/>
 
     </LinearLayout>
 

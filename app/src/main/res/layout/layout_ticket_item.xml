@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="340dp"
+    android:layout_height="360dp"
     android:background="@color/windowBackground"
     android:orientation="vertical"
     android:layout_marginTop="8dp"
@@ -18,6 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/individual_ticket" />
 
         <LinearLayout
@@ -50,11 +51,23 @@
 
         <ImageView
             android:id="@+id/ticket_qr_code"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
             android:layout_alignBottom="@+id/ticket_background_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_ticket_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ticket id"
+            android:textColor="@color/textColorBlack"
+            android:layout_alignRight="@+id/ticket_background_image"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="38dp"
+            android:layout_marginRight="32dp"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
