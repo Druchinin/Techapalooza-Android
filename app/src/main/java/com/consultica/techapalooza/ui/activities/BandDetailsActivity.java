@@ -39,7 +39,7 @@ public class BandDetailsActivity extends AppCompatActivity {
             textView.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
 
             if (band != null){
-                textView.setText(band.getName());
+                textView.setText("Band");
 
                 BandDetailsFragment.getInstance().setBand(band);
                 BandDetailsFragment.getInstance().show(getSupportFragmentManager());

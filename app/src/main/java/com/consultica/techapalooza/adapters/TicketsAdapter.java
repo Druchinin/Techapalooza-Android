@@ -60,7 +60,7 @@ public class TicketsAdapter extends RecyclerView.Adapter<TicketsAdapter.ViewHold
         if (bitmap != null)
             holder.ticket_qr_code.setImageBitmap(bitmap);
 
-        holder.tv_ticket_id.setText(data.get(position).getTicketId());
+        holder.tv_ticket_id.setText("#" + data.get(position).getTicketId());
     }
 
     @Override

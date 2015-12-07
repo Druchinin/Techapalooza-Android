@@ -217,15 +217,13 @@ public class SplashActivity extends AppCompatActivity {
             public void dispatchMessage(Message msg) {
                 if (msg.what == 1) {
                     if (hasNews && hasSchedule && hasBands) {
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        finish();
+                        startMainActivity();
                     } else {
                         if (attempts < 3) {
                             handler.sendEmptyMessageDelayed(1, 1000);
                             attempts++;
                         } else {
-                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                            finish();
+                            startMainActivity();
                         }
                     }
                 }
@@ -236,6 +234,12 @@ public class SplashActivity extends AppCompatActivity {
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
+    }
+
+    private void startMainActivity(){
+        Intent i = new Intent(SplashActivity.this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(i);
     }
 
 }
