@@ -75,6 +75,8 @@ public class TicketsLoggedInFragment extends BaseFragment {
     private static TicketsLoggedInFragment instance;
     private boolean canRedeem;
 
+    private int tempCounter;
+
 
     public static TicketsLoggedInFragment getInstance() {
         if (instance == null)
@@ -225,7 +227,13 @@ public class TicketsLoggedInFragment extends BaseFragment {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
-                    tv_tickets_count.setText((manager.findFirstVisibleItemPosition() + 1) + "/" + totalItemCount);
+
+                    if (manager.findLastCompletelyVisibleItemPosition() >= 0){
+                        tempCounter = manager.findLastCompletelyVisibleItemPosition() + 1;
+                    }
+
+                    tv_tickets_count.setText(tempCounter + "/" + totalItemCount);
+
                 }
             });
 
