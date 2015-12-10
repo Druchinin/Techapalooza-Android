@@ -30,7 +30,7 @@
     <ImageView
         android:id="@+id/art_iv_image"
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@string/dummy_image" />
@@ -45,5 +45,18 @@
         android:layout_marginRight="8dp"
         android:textSize="@dimen/news_feed_item_text_size"
         android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/art_btn_learn_more"
+        android:text="Learn More"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_btn_style"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/tickets_btn_text_size"
+        android:layout_marginBottom="24dp"/>
 
 </LinearLayout>

@@ -40,6 +40,7 @@ public class DBMaster {
         cv.put(DBCreator.News.NEWS_TITLE, news.getTitle());
         cv.put(DBCreator.News.NEWS_CONTENT, news.getContent());
         cv.put(DBCreator.News.NEWS_DATE, news.getDate());
+        cv.put(DBCreator.News.NEWS_URL, news.getUrl());
         cv.put(DBCreator.News.NEWS_IMAGE, news.getImage());
 
         return database.insert(DBCreator.News.TABLE_NEWS, null, cv);
@@ -86,6 +87,7 @@ public class DBMaster {
                 + DBCreator.News.NEWS_TITLE + ", "
                 + DBCreator.News.NEWS_CONTENT + ", "
                 + DBCreator.News.NEWS_DATE + ", "
+                + DBCreator.News.NEWS_URL + ", "
                 + DBCreator.News.NEWS_IMAGE
                 + " FROM " + DBCreator.News.TABLE_NEWS + ";";
 
@@ -100,7 +102,8 @@ public class DBMaster {
             news.setTitle(cursor.getString(1));
             news.setContent(cursor.getString(2));
             news.setDate(cursor.getString(3));
-            news.setImage(cursor.getString(4));
+            news.setUrl(cursor.getString(4));
+            news.setImage(cursor.getString(5));
 
             list.add(news);
             cursor.moveToNext();
