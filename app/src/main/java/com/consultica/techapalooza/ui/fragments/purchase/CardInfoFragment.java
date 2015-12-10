@@ -244,11 +244,14 @@ public class CardInfoFragment extends BaseFragment {
                                                 }
                                             });
                                         }
+                                    } else {
+                                        handler.sendEmptyMessage(3);
                                     }
                                 } else {
                                     handler.sendEmptyMessage(3);
                                 }
                             } catch (AuthenticationException | InvalidRequestException | APIConnectionException | CardException | APIException e) {
+                                handler.sendEmptyMessage(3);
                                 e.printStackTrace();
                             }
 

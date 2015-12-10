@@ -1,10 +1,13 @@
 package com.consultica.techapalooza.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,14 +19,19 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ForkJoinTask;
 
 public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleViewAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<News> data = Collections.emptyList();
+    private Context context;
+
+    String tempUrl;
 
     public NewsRecycleViewAdapter(Context context, List<News> data) {
         inflater = LayoutInflater.from(context);
+        this.context = context;
         this.data = data;
     }
 
@@ -36,7 +44,7 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        News current = data.get(position);
+        final News current = data.get(position);
         holder.title.setText(current.getTitle());
         holder.date.setText(current.getDate());
         holder.text.setText(current.getContent());
@@ -49,6 +57,20 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
                 .placeholder(R.drawable.image_placeholder)
                 .into(holder.image);
 
+        String url = current.getUrl();
+
+        if (url != null && !url.equals("")){
+            tempUrl = url;
+            holder.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tempUrl));
+                    context.startActivity(browserIntent);
+                }
+            });
+        } else {
+            holder.btn.setVisibility(View.GONE);
+        }
 
     }
 
@@ -62,6 +84,7 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
         private TextView date;
         private ImageView image;
         private TextView text;
+        private Button btn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -77,6 +100,8 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
             text = (TextView) itemView.findViewById(R.id.art_tv_text);
             text.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_LIGHT));
 
+            btn = (Button) itemView.findViewById(R.id.art_btn_learn_more);
+            btn.setTypeface(FontFactory.getTypeface(FontFactory.FONT_ROBOTO_REGULAR));
         }
     }
 

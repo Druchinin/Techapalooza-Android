@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 public class DBCreator extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "db_techapalooza";
-    public static final int DB_VERSION = 7;
+    public static final int DB_VERSION = 8;
 
     static String SCRIPT_CREATE_TBL_SCHEDULE = " CREATE TABLE " + Schedule.TABLE_SCHEDULE + " ("
             + Schedule._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -34,6 +34,7 @@ public class DBCreator extends SQLiteOpenHelper {
             + News.NEWS_TITLE + " TEXT, "
             + News.NEWS_CONTENT + " TEXT, "
             + News.NEWS_DATE + " TEXT, "
+            + News.NEWS_URL + " TEXT, "
             + News.NEWS_IMAGE + " TEXT" + ");";
 
     static String SCRIPT_CREATE_TBL_TICKETS = " CREATE TABLE " + Ticket.TABLE_TICKETS + " ("
@@ -60,6 +61,7 @@ public class DBCreator extends SQLiteOpenHelper {
         public static final String NEWS_TITLE = "news_title";
         public static final String NEWS_CONTENT = "news_content";
         public static final String NEWS_DATE = "news_date";
+        public static final String NEWS_URL = "news_url";
         public static final String NEWS_IMAGE = "news_image";
     }
 

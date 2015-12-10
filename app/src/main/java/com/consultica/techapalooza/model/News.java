@@ -1,14 +1,16 @@
 package com.consultica.techapalooza.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 public class News {
-
     public String id;
     public String title;
     public String content;
     public String date;
     public String image;
+    public String url;
 
     public String getId() {
         return id;
@@ -48,6 +50,14 @@ public class News {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public class NewsResponse {
