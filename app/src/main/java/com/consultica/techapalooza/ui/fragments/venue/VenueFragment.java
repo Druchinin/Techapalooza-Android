@@ -3,8 +3,6 @@ package com.consultica.techapalooza.ui.fragments.venue;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,9 @@ import android.widget.TextView;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.ui.activities.AboutActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
+import com.consultica.techapalooza.ui.fragments.about.AboutApp;
 import com.consultica.techapalooza.ui.fragments.about.AboutCancerCare;
+import com.consultica.techapalooza.ui.fragments.about.AboutConsultica;
 import com.consultica.techapalooza.ui.fragments.about.AboutTechapalooza;
 import com.consultica.techapalooza.utils.FontFactory;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -67,6 +67,8 @@ public class VenueFragment extends BaseFragment {
         TextView tv_MB_R3C_0R3_text = (TextView) view.findViewById(R.id.tv_MB_R3C_0R3_text);
         TextView btn_about_techapalooza = (TextView) view.findViewById(R.id.btn_about_techapalooza);
         TextView btn_about_cancer_care = (TextView) view.findViewById(R.id.btn_about_cancer_care);
+        TextView btn_about_consultica = (TextView) view.findViewById(R.id.btn_about_consultica);
+        TextView btn_about_app = (TextView) view.findViewById(R.id.btn_about_app);
 
         tv_open.setTypeface(typeface);
         tv_00.setTypeface(typeface);
@@ -80,6 +82,8 @@ public class VenueFragment extends BaseFragment {
         tv_MB_R3C_0R3_text.setTypeface(typeface);
         btn_about_techapalooza.setTypeface(typeface);
         btn_about_cancer_care.setTypeface(typeface);
+        btn_about_consultica.setTypeface(typeface);
+        btn_about_app.setTypeface(typeface);
 
         btn_about_techapalooza.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +96,20 @@ public class VenueFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AboutActivity.class).putExtra("what", AboutCancerCare.class.getSimpleName()));
+            }
+        });
+
+        btn_about_consultica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AboutActivity.class).putExtra("what", AboutConsultica.class.getSimpleName()));
+            }
+        });
+
+        btn_about_app.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AboutActivity.class).putExtra("what", AboutApp.class.getSimpleName()));
             }
         });
     }
