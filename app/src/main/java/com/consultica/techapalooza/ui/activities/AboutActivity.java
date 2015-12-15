@@ -8,7 +8,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.ui.fragments.about.AboutApp;
 import com.consultica.techapalooza.ui.fragments.about.AboutCancerCare;
+import com.consultica.techapalooza.ui.fragments.about.AboutConsultica;
 import com.consultica.techapalooza.ui.fragments.about.AboutTechapalooza;
 import com.consultica.techapalooza.utils.FontFactory;
 
@@ -44,6 +46,14 @@ public class AboutActivity extends AppCompatActivity {
                 } else if (intent.getStringExtra("what").equals(AboutCancerCare.class.getSimpleName())){
                     AboutCancerCare.getInstance().show(getSupportFragmentManager());
                     textView.setText("About Cancer Care");
+                    textView.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
+                } else if (intent.getStringExtra("what").equals(AboutConsultica.class.getSimpleName())){
+                    AboutConsultica.getInstance().show(getSupportFragmentManager());
+                    textView.setText("About Consultica");
+                    textView.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
+                } else if (intent.getStringExtra("what").equals(AboutApp.class.getSimpleName())){
+                    AboutApp.getInstance().show(getSupportFragmentManager());
+                    textView.setText("About The App");
                     textView.setTypeface(FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG));
                 }
             }

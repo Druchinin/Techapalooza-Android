@@ -2,8 +2,7 @@ package com.consultica.techapalooza.ui.fragments.lineup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,9 +53,14 @@ public class LineUpGalleryFragment extends BaseFragment {
             adapter.setOnItemClickListener(new LineUpGalleryAdapter.ClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
+
                     Band band = adapter.getItem(position);
 
-                    startActivity(new Intent(getActivity(), BandDetailsActivity.class).putExtra("band", band));
+                    if (!hasProblems(band)) {
+                        startActivity(new Intent(getActivity(), BandDetailsActivity.class).putExtra("band", band));
+                    } else {
+                        Snackbar.make(view, "Can't open details.", Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -73,5 +77,20 @@ public class LineUpGalleryFragment extends BaseFragment {
     @Override
     public int getContainer() {
         return R.id.line_up_fragment_container;
+    }
+
+    private boolean hasProblems(Band band){
+        boolean problem = false;
+
+        if (band == null)
+            problem = true;
+        else if (band.getName() == null || band.getName().equals(""))
+            problem = true;
+        else if (band.getDate() == null || band.getDate().equals(""))
+            problem = true;
+        else if (band.getDescription() == null || band.getDescription().equals(""))
+            problem = true;
+
+        return problem;
     }
 }
