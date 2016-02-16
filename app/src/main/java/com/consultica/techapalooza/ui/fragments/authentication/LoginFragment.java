@@ -16,14 +16,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.R;
+import com.consultica.techapalooza.database.FakeDB;
+import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.Interceptor;
 import com.consultica.techapalooza.network.SignInResponse;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
+import com.consultica.techapalooza.ui.fragments.tickets.TicketsLoggedInFragment;
 import com.consultica.techapalooza.utils.DialogFactory;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -113,6 +120,14 @@ public class LoginFragment extends BaseFragment {
                     public void success(SignInResponse signInResponse, Response response) {
                         Log.d("LogIn", "Status: " + response.getStatus());
 
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Email", mEmail.getText().toString());
+                        Nestlean.event("Account Login", bundle);
+
+                        Map<String, String> map = new HashMap<>();
+                        map.put("Email", mEmail.getText().toString());
+                        FlurryAgent.logEvent("Account Login", map);
+
                         saveCookie(response);
 
                         FakeDB.getInstance(getActivity()).savePassword(mEtPassword.getText().toString());
@@ -120,14 +135,34 @@ public class LoginFragment extends BaseFragment {
                         FakeDB.getInstance(getActivity()).saveEmail(signInResponse.getUserEmail());
                         FakeDB.getInstance(getActivity()).saveUserId(signInResponse.getUserId());
 
-                        DialogFactory.hideProgressDialog();
+                        Client.getAPI().getTicketsList(new Callback<Ticket.TicketResponse>() {
+                            @Override
+                            public void success(Ticket.TicketResponse ticketResponse, Response response) {
+                                TicketsLoggedInFragment.getInstance().setCanRedeem(ticketResponse.canReedem());
+                                TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
 
-                        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG).show();
+                                DialogFactory.hideProgressDialog();
 
-                        AppCompatActivity activity = (AppCompatActivity) getActivity();
+                                Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG).show();
 
-                        activity.setResult(Activity.RESULT_OK);
-                        activity.finish();
+                                AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+                                activity.setResult(Activity.RESULT_OK);
+                                activity.finish();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                DialogFactory.hideProgressDialog();
+
+                                Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_LONG).show();
+
+                                AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+                                activity.setResult(Activity.RESULT_OK);
+                                activity.finish();
+                            }
+                        });
 
                     }
 

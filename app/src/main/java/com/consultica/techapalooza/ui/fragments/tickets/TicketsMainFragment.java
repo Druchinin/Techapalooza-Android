@@ -1,9 +1,7 @@
 package com.consultica.techapalooza.ui.fragments.tickets;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,21 +12,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
-import com.consultica.techapalooza.database.DBCreator;
 import com.consultica.techapalooza.database.FakeDB;
 import com.consultica.techapalooza.model.Ticket;
 import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.network.SignInResponse;
 import com.consultica.techapalooza.ui.activities.LoginActivity;
-import com.consultica.techapalooza.ui.activities.MainActivity;
 import com.consultica.techapalooza.ui.activities.RegistrationActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -62,6 +61,9 @@ public class TicketsMainFragment extends BaseFragment {
         typeface = FontFactory.getTypeface(FontFactory.FONT_SANS_NARROW_WEB_REG);
 
         init();
+
+        Nestlean.event("Tickets");
+        FlurryAgent.logEvent("Tickets");
 
         return view;
     }
@@ -105,6 +107,8 @@ public class TicketsMainFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getActivity(), LoginActivity.class), REQUEST_LOGIN);
+                Nestlean.event("TicketsLogin");
+                FlurryAgent.logEvent("TicketsLogin");
             }
         });
 
@@ -114,6 +118,9 @@ public class TicketsMainFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getActivity(), RegistrationActivity.class), REQUEST_SIGN_UP);
+
+                Nestlean.event("TicketsSignUp");
+                FlurryAgent.logEvent("TicketsSignUp");
             }
         });
     }
@@ -178,7 +185,7 @@ public class TicketsMainFragment extends BaseFragment {
         } else if (requestCode == REQUEST_SIGN_UP) {
             if (resultCode == Activity.RESULT_OK){
 
-                String email = FakeDB.getInstance(getContext()).getEmail();
+                final String email = FakeDB.getInstance(getContext()).getEmail();
                 String password = FakeDB.getInstance(getContext()).getPassword();
 
                 Client.getAPI().signIn(email, password, new Callback<SignInResponse>() {
@@ -192,6 +199,18 @@ public class TicketsMainFragment extends BaseFragment {
                                 TicketsLoggedInFragment.getInstance().setCanRedeem(ticketResponse.canReedem());
                                 TicketsLoggedInFragment.getInstance().setTickets(ticketResponse.getTickets());
                                 TicketsLoggedInFragment.getInstance().show(getFragmentManager());
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("User", email);
+                                bundle.putString("TicketsCount", String.valueOf(ticketResponse.getTickets().size()));
+                                Nestlean.event("TicketsPerUser", bundle);
+
+                                Map<String, String> map = new HashMap<>();
+                                map.put("User", email);
+                                map.put("TicketsCount", String.valueOf(ticketResponse.getTickets().size()));
+                                FlurryAgent.logEvent("TicketsPerUser", map);
+
+                                ticketResponse.getTickets().size();
                             }
 
                             @Override

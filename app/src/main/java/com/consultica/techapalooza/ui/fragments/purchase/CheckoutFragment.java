@@ -157,6 +157,7 @@ public class CheckoutFragment extends BaseFragment {
 
             tv_frag_checkout_count.setText(count + "");
             tv_frag_checkout_price.setText("$" + nf.format(total));
+            checkout.setTotalPrice(nf.format(total));
 
         } catch (NumberFormatException e) {
             e.printStackTrace();

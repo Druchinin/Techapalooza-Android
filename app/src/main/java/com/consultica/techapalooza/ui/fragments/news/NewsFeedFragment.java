@@ -12,6 +12,8 @@ import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.adapters.NewsRecycleViewAdapter;
 import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.News;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
 
 import java.util.List;
 
@@ -53,6 +55,10 @@ public class NewsFeedFragment extends Fragment {
             recyclerView.setLayoutManager(manager);
             adapter = new NewsRecycleViewAdapter(getActivity(), data);
             recyclerView.setAdapter(adapter);
+
+
+            Nestlean.event("News Feed");
+            FlurryAgent.logEvent("News Feed");
 
         } else {
             recyclerView.setVisibility(View.GONE);

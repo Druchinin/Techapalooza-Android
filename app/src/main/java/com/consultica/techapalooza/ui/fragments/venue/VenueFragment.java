@@ -16,12 +16,14 @@ import com.consultica.techapalooza.ui.fragments.about.AboutCancerCare;
 import com.consultica.techapalooza.ui.fragments.about.AboutConsultica;
 import com.consultica.techapalooza.ui.fragments.about.AboutTechapalooza;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.nestlean.sdk.Nestlean;
 
 public class VenueFragment extends BaseFragment {
 
@@ -89,6 +91,9 @@ public class VenueFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AboutActivity.class).putExtra("what", AboutTechapalooza.class.getSimpleName()));
+
+                Nestlean.event("VenueAboutTechapalooza");
+                FlurryAgent.logEvent("VenueAboutTechapalooza");
             }
         });
 
@@ -96,6 +101,8 @@ public class VenueFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AboutActivity.class).putExtra("what", AboutCancerCare.class.getSimpleName()));
+                Nestlean.event("VenueAboutCancerCare");
+                FlurryAgent.logEvent("VenueAboutCancerCare");
             }
         });
 
@@ -103,6 +110,8 @@ public class VenueFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AboutActivity.class).putExtra("what", AboutConsultica.class.getSimpleName()));
+                Nestlean.event("VenueAboutConsultica");
+                FlurryAgent.logEvent("VenueAboutConsultica");
             }
         });
 
@@ -110,6 +119,8 @@ public class VenueFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AboutActivity.class).putExtra("what", AboutApp.class.getSimpleName()));
+                Nestlean.event("VenueAboutTheApp");
+                FlurryAgent.logEvent("VenueAboutTheApp");
             }
         });
     }
@@ -128,6 +139,10 @@ public class VenueFragment extends BaseFragment {
             map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
             map.addMarker(new MarkerOptions().position(THE_FORT_GARRY_HOTEL).title("The Fort Garry Hotel"));
         }
+
+        Nestlean.event("Venue");
+        FlurryAgent.logEvent("Venue");
+
     }
 
     @Override

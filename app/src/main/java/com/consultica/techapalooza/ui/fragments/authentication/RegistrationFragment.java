@@ -30,6 +30,11 @@ import com.consultica.techapalooza.network.SignInResponse;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.consultica.techapalooza.utils.DialogFactory;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -233,6 +238,14 @@ public class RegistrationFragment extends BaseFragment {
                         Client.getAPI().signIn(mEtEmail.getText().toString(), mEtPsw.getText().toString(), new Callback<SignInResponse>() {
                             @Override
                             public void success(SignInResponse signInResponse, Response response) {
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("Email", mEtEmail.getText().toString());
+                                Nestlean.event("Account Login", bundle);
+
+                                Map<String, String> map = new HashMap<>();
+                                map.put("Email", mEtEmail.getText().toString());
+                                FlurryAgent.logEvent("Account Login", map);
 
                                 saveCookie(response);
                                 saveCurrentUser(signInResponse);
