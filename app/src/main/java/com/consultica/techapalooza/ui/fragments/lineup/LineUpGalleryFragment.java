@@ -15,8 +15,12 @@ import com.consultica.techapalooza.database.DBMaster;
 import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.ui.activities.BandDetailsActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LineUpGalleryFragment extends BaseFragment {
 
@@ -58,6 +62,13 @@ public class LineUpGalleryFragment extends BaseFragment {
 
                     if (!hasProblems(band)) {
                         startActivity(new Intent(getActivity(), BandDetailsActivity.class).putExtra("band", band));
+                        Bundle bundle = new Bundle();
+                        bundle.putString("band", band.getName());
+                        Nestlean.event("LineUpBandClick", bundle);
+
+                        Map<String, String> map = new HashMap<>();
+                        map.put("band", band.getName());
+                        FlurryAgent.logEvent("LineUpBandClick", map);
                     } else {
                         Snackbar.make(view, "Can't open details.", Snackbar.LENGTH_SHORT).show();
                     }
@@ -65,6 +76,9 @@ public class LineUpGalleryFragment extends BaseFragment {
             });
 
             recyclerView.setAdapter(adapter);
+
+            Nestlean.event("LineUp");
+            FlurryAgent.logEvent("LineUp");
 
         }
     }

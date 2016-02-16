@@ -30,6 +30,8 @@ import com.consultica.techapalooza.network.Client;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
 import com.consultica.techapalooza.utils.DialogFactory;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
 import com.squareup.picasso.Picasso;
 import com.stripe.android.model.Card;
 import com.stripe.exception.APIConnectionException;
@@ -178,6 +180,18 @@ public class CardInfoFragment extends BaseFragment {
         btn_card_frag_card_purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("Band", checkout.getBand());
+                bundle.putString("TicketsCount", String.valueOf(checkout.getNumberOfTickets()));
+                bundle.putString("TotalPrice", checkout.getTotalPrice());
+                Nestlean.event("Tickets Purchase", bundle);
+
+                Map<String, String> map = new HashMap<>();
+                map.put("Band", checkout.getBand());
+                map.put("TicketsCount", String.valueOf(checkout.getNumberOfTickets()));
+                map.put("TotalPrice", checkout.getTotalPrice());
+                FlurryAgent.logEvent("Tickets Purchase", map);
 
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

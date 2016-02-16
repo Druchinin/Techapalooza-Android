@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.consultica.techapalooza.network.MyHttpImageLoader;
 import com.consultica.techapalooza.utils.Constants;
-import com.squareup.picasso.OkHttpDownloader;
+import com.flurry.android.FlurryAgent;
 import com.squareup.picasso.Picasso;
 import com.stripe.Stripe;
 
@@ -27,6 +27,15 @@ public class App extends Application{
         initCalligraphy();
         initStripe();
         initPicasso();
+        initFlurry();
+    }
+
+    private void initFlurry() {
+        // configure Flurry
+        FlurryAgent.setLogEnabled(false);
+
+        // init Flurry
+        FlurryAgent.init(this, "JS4TJHQT5TN2KM6Y8GBD");
     }
 
     private void initPicasso() {

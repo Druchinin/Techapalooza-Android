@@ -3,6 +3,7 @@ package com.consultica.techapalooza.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,14 @@ import com.consultica.techapalooza.App;
 import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.model.News;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ForkJoinTask;
+import java.util.Map;
 
 public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleViewAdapter.ViewHolder> {
 
@@ -66,6 +70,14 @@ public class NewsRecycleViewAdapter extends RecyclerView.Adapter<NewsRecycleView
                 public void onClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tempUrl));
                     context.startActivity(browserIntent);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("web", tempUrl);
+                    Nestlean.event("web", bundle);
+
+                    Map<String, String> map = new HashMap<>();
+                    map.put("web", tempUrl);
+                    FlurryAgent.logEvent("web", map);
                 }
             });
         } else {

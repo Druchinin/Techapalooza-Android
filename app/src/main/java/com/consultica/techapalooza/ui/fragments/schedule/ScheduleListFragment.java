@@ -2,8 +2,6 @@ package com.consultica.techapalooza.ui.fragments.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,10 +15,13 @@ import com.consultica.techapalooza.model.Band;
 import com.consultica.techapalooza.model.Schedule;
 import com.consultica.techapalooza.ui.activities.BandDetailsActivity;
 import com.consultica.techapalooza.ui.fragments.BaseFragment;
-import com.consultica.techapalooza.ui.fragments.lineup.BandDetailsFragment;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,8 +77,13 @@ public class ScheduleListFragment extends BaseFragment {
                     if (schedule.getBand_Id() != null) {
                         Band band = dbMaster.getBand(schedule.getBand_Id());
 
-//                        Intent intent = new Intent(getActivity(), BandDetailsActivity.class);
-//                        intent.putExtra("band", band);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("band", band.getName());
+                        Nestlean.event("ScheduleBandClick", bundle);
+
+                        Map<String, String> map = new HashMap<>();
+                        map.put("band", band.getName());
+                        FlurryAgent.logEvent("ScheduleBandClick", map);
 
                         startActivity(new Intent(getActivity(), BandDetailsActivity.class).putExtra("band", band));
                     }
@@ -88,6 +94,9 @@ public class ScheduleListFragment extends BaseFragment {
             LinearLayoutManager manager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(manager);
             recyclerView.setAdapter(adapter);
+
+            Nestlean.event("Schedule");
+            FlurryAgent.logEvent("Schedule");
 
             setupTimer(data);
         }

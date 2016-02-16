@@ -1,7 +1,6 @@
 package com.consultica.techapalooza.ui.activities;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -37,6 +36,7 @@ import com.consultica.techapalooza.ui.fragments.venue.VenueFragment;
 import com.consultica.techapalooza.ui.fragments.venue.VenueFragmentContainer;
 import com.consultica.techapalooza.utils.Constants;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
 import com.nestlean.sdk.Nestlean;
 
 import java.util.List;
@@ -324,6 +324,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                         public void success(SignInResponse signInResponse, Response response) {
                             FakeDB.getInstance(MainActivity.this).resetLoginAndPassword();
                             Interceptor.getInstance().clearCookie();
+
+                            Nestlean.event("Account Logout");
+                            FlurryAgent.logEvent("Account Logout");
 
                             toolbar.getMenu().clear();
                             if (tabLayout.getSelectedTabPosition() == 2) {

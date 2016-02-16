@@ -11,6 +11,8 @@ import com.consultica.techapalooza.R;
 import com.consultica.techapalooza.ui.fragments.purchase.BandListFragment;
 import com.consultica.techapalooza.ui.fragments.purchase.RedeemFragment;
 import com.consultica.techapalooza.utils.FontFactory;
+import com.flurry.android.FlurryAgent;
+import com.nestlean.sdk.Nestlean;
 
 public class PurchaseActivity extends AppCompatActivity {
 
@@ -22,6 +24,9 @@ public class PurchaseActivity extends AppCompatActivity {
         setTheme(R.style.AppThemeDefault);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
+
+        Nestlean.event("PurchaseScreen");
+        FlurryAgent.logEvent("PurchaseScreen");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.purchase_toolbar);
         setSupportActionBar(toolbar);
@@ -44,9 +49,14 @@ public class PurchaseActivity extends AppCompatActivity {
                 if (what.equals(WHAT_PURCHASE)) {
                     textView.setText("Purchase Tickets");
                     BandListFragment.getInstance().show(getSupportFragmentManager());
+                    Nestlean.event("PurchaseScreen");
+                    FlurryAgent.logEvent("PurchaseScreen");
+
                 } else if (what.equals(WHAT_REDEEM)) {
                     textView.setText("Input redeem code");
                     RedeemFragment.getInstance().show(getSupportFragmentManager());
+                    Nestlean.event("RedeemCodeScreen");
+                    FlurryAgent.logEvent("RedeemCodeScreen");
                 }
             }
         }

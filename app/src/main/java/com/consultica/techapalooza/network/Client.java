@@ -99,7 +99,8 @@ public class Client {
         void getTicketPrice(Callback<Ticket.TicketPriceResponse> cb);
 
         @GET("/api/tickets")
-        void getTicketsList(Callback<Ticket.TicketResponse> cb);
+        void getTicketsList(
+                Callback<Ticket.TicketResponse> cb);
 
         @FormUrlEncoded
         @POST("/api/tickets/purchase")

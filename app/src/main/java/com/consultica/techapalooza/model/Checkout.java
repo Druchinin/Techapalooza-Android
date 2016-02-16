@@ -6,6 +6,7 @@ public class Checkout implements Serializable {
 
     private String band;
     private int numberOfTickets;
+    private String totalPrice;
 
     public String getBand() {
         return band;
@@ -23,4 +24,11 @@ public class Checkout implements Serializable {
         this.numberOfTickets = numberOfTickets;
     }
 
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
 }
